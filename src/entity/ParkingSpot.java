@@ -1,6 +1,6 @@
 package entity;
 
-import Review;
+import Review.java;
 
 class ParkingSpot {
     private final String streetAddress;
