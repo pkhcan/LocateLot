@@ -22,18 +22,17 @@ class ParkingLot {
 
     }
 
-    public <T> getEntryReview() {
+    public String getEntryReview() {
         if (easeOfEntryReviews.isEmpty()) {
-            return "null";
-        }
-        else {
+            return "No reviews yet";
+        } else {
             int count = easeOfEntryReviews.size();
             int sum = 0;
-            for (int i = 0; i < count; i++) {
-                sum += easeOfEntryReviews.get(i);
+            for (Integer review : easeOfEntryReviews) {
+                sum += review;
             }
-            int avg = sum / count;
-            return avg;
+            return String.valueOf((float) sum / count);
+        }
     }
 
     public String getAddress() {return streetAddress; }
