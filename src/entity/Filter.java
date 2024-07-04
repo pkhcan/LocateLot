@@ -4,5 +4,5 @@ import ParkingSpot.java
 
 public interface Filter {
 
-    Array<ParkingSpot> filter();
+    Array<ParkingLot> filter();
 }

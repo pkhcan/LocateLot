@@ -1,1 +1,3 @@
-# interface?
+package entity;
+
+

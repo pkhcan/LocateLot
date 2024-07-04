@@ -2,7 +2,7 @@ package entity;
 
 import Review.java;
 
-class ParkingSpot {
+class ParkingLot {
     private final String streetAddress;
     private final String linkToWebsite;
     private final Array<float> latitudeLongitude;
@@ -13,10 +13,12 @@ class ParkingSpot {
     * Requires: xxxxx
     * @param streetAddress
     */
-    ParkingSpot(String streetAddress) {
+    ParkingLot(String streetAddress) {
         * TODO IMPLEMENT
 
     }
+
+
 
     public String getAddress() {return streetAddress; }
 
