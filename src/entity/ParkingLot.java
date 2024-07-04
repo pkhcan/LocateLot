@@ -35,6 +35,20 @@ class ParkingLot {
         }
     }
 
+    public String getFindingReview() {
+        if (easeOfFindingReviews.isEmpty()) {
+            return "No reviews yet";
+        } else {
+            int count = easeOfFindingReviews.size();
+            int sum = 0;
+            for (Integer review : easeOfFindingReviews) {
+                sum += review;
+            }
+            return String.valueOf((float) sum / count);
+        }
+    }
+
+
     public String getAddress() {return streetAddress; }
 
     public String getWebsiteLink() {return linkToWebsite; }
