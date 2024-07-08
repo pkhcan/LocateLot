@@ -3,6 +3,7 @@ package use_case.FilterByEOF;
 import java.time.LocalTime;
 
 public class EOFInputData {
+
     final private int minimumEOFRating;
     final private LocalTime time;
 

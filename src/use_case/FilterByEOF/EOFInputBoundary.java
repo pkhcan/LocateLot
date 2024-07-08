@@ -3,5 +3,6 @@ import java.time.LocalTime;
 
 public interface EOFInputBoundary {
 
+
     public void filter(EOFInputData eofInputData);
 }

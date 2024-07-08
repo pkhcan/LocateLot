@@ -4,7 +4,6 @@ import entity.ParkingLot;
 import java.util.ArrayList;
 
 public class FilterOutputData {
-
     private final ParkingLot[] filteredParkingLots;
 
     /**

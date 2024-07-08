@@ -3,6 +3,7 @@ package use_case.FilterByPrice;
 import java.time.LocalTime;
 
 public class FilterByPriceData {
+
     final float min;
     final float max;
     final LocalTime time;

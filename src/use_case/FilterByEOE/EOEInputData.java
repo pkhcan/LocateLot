@@ -7,5 +7,6 @@ public class EOEInputData{
         this.minimumEOERating = minimumEOERating;
     }
 
+
     public int getMinimumEOERating() {return minimumEOERating;}
 }

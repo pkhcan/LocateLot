@@ -3,6 +3,7 @@ package use_case.SubmitReview;
 import com.sun.jdi.InvalidTypeException;
 
 public class ReviewInputData {
+
     private final int reviewID;
     private final String reviewType;
     private final int rating;
