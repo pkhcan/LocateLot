@@ -8,26 +8,26 @@ public class Review {
      */
 
     private final int value;
-    private final String type;
+//    private final String type;
 
     /**
      *
      * @param value
-     * @param type
+//     * @param type
      */
 
 
-    Review(int value, String type) {
+    Review(int value) {
         this.value = value;
-        this.type = type;
+//        this.type = type;
     }
 
     public int getValue() {
         return this.value;
     }
 
-    public String getType() {
-        return this.type;
-    }
+//    public String getType() {
+//        return this.type;
+//    }
 }
 
