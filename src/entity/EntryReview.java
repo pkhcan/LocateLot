@@ -9,4 +9,5 @@ public class EntryReview extends Review {
     EntryReview(int value, String type) {
         super(value, type);
     }
+
 }
