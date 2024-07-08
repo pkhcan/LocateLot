@@ -4,10 +4,10 @@ public class EntryReview extends Review {
 
     /**
      * @param value
-     * @param type
+//     * @param type
      */
-    EntryReview(int value, String type) {
-        super(value, type);
+    EntryReview(int value) {
+        super(value);
     }
 
 }
