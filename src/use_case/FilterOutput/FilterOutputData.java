@@ -18,14 +18,14 @@ public class FilterOutputData {
     /**
      * @return an array of ParkingLots in sorted order.
      */
-    public ParkingLot[] getFilteredParkingLots() {return sortPL(this.filteredParkingLots);}
+    public ParkingLot[] getFilteredParkingLots() {return sortPL();}
 
     /**
      *
-     * @param parkingLots an unsorted array of parking lots
-     * @return a sorted version of the given list of parking lots
+     * @return a sorted version of the list of parking lots
      */
-    private ParkingLot[] sortPL(ParkingLot[] parkingLots) {
-
+    private ParkingLot[] sortPL() {
+        // TODO - not implemented
+        return this.filteredParkingLots;
     }
 }
