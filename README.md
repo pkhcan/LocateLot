@@ -7,7 +7,7 @@ Domain:
 The domain for our project is smart parking solutions. 
 The purpose of this domain deals with optimizing the search for parking spaces 
 within local areas by integrating location services and real-time data to 
-enhance user experience and efficiency.
+enhance user experience and efficiency. e
 
 Software Specification:
 The program allows users to locate parking spaces closest to their current location or a specified address. The results can be filtered based on proximity, cost, or availability. The user can also access information about the parking space including location and address, type (garage, surface), pricing, availability (whether it is open), a link to the parking company’s website (if applicable), and reviews regarding ease of entry and locating the space. The program will guide the users to the selected space or redirect them to another platform that does (Google Maps, Apple Maps). The program can also be extended in the future to locate/display other features such as washrooms and drinking water access.
