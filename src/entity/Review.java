@@ -1,5 +1,7 @@
 package entity;
 
+import java.util.Map;
+
 public class Review {
     /**
      * each type is easeOfEntry ("Entry") or easeOfFinding ("Find")
@@ -28,3 +30,4 @@ public class Review {
         return this.type;
     }
 }
+

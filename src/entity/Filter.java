@@ -1,6 +1,6 @@
 package entity;
 
-import ParkingSpot.java
+import ParkingLot.java;
 
 public interface Filter {
 

@@ -1,6 +1,5 @@
 package entity;
 
-import Review.java;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -52,8 +51,6 @@ class ParkingLot {
     public String getAddress() {return streetAddress; }
 
     public String getWebsiteLink() {return linkToWebsite; }
-
-    public Array<Review> getReviews() {return reviews; }
 
     public HashMap<String, String> getRates() {return timesToRates; }
 
