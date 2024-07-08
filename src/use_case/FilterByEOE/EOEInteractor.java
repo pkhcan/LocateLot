@@ -6,6 +6,7 @@ public class EOEInteractor implements EOEInputBoundary{
 
 
     @Override
-    public void filter(EOEInputData eoeInputData) {
+    public void filter(int minimumEOERating) {
+
     }
 }
