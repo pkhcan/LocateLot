@@ -9,4 +9,5 @@ public class FindingReview extends Review {
     FindingReview(int value, String type) {
         super(value, type);
     }
+
 }
