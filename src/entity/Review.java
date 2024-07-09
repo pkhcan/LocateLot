@@ -1,33 +1,37 @@
 package entity;
 
-import java.util.Map;
-
 public class Review {
     /**
      * each type is easeOfEntry ("Entry") or easeOfFinding ("Find")
      */
 
-    private final int value;
-//    private final String type;
+    private int value;
+    private String type;
 
     /**
-     *
      * @param value
-//     * @param type
      */
 
 
     Review(int value) {
         this.value = value;
-//        this.type = type;
+        this.type = type;
     }
 
     public int getValue() {
         return this.value;
     }
 
-//    public String getType() {
-//        return this.type;
-//    }
-}
+    public void setValue(int value) {
+        this.value = value;
+    }
 
+    public String getType() {
+        return this.type;
+    }
+
+    public void setType(String value) {
+        this.type = value;
+    }
+
+}
