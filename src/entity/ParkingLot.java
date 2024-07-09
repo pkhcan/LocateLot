@@ -16,9 +16,12 @@ public class ParkingLot {
     * Requires: xxxxx
     * @param streetAddress
     */
-    ParkingLot(String streetAddress) {
+    ParkingLot(String streetAddress, String linkToWebsite, float[] latitudeLongitude, HashMap<String, String> timesToRates) {
         this.streetAddress = streetAddress;
 
+        this.linkToWebsite = linkToWebsite;
+        this.latitudeLongitude = latitudeLongitude;
+        this.timesToRates = timesToRates;
     }
 
     public String getEntryReview() {

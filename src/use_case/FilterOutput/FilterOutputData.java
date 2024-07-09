@@ -26,5 +26,6 @@ public class FilterOutputData {
      */
     private ParkingLot[] sortPL(ParkingLot[] parkingLots) {
 
+        return parkingLots;
     }
 }

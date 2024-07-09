@@ -1,9 +1,8 @@
 package entity;
 
-import ParkingLot.java;
+import entity.ParkingLot;
 
 public interface Filter {
 
-    Array<ParkingLot> filter();
 
 }
