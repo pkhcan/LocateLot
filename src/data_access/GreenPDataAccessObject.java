@@ -18,6 +18,7 @@ public class GreenPDataAccessObject {
         JSONObject jsonObject = (JSONObject) obj;
 
     }
+}
         // an array of all carparks/parkinglots within the JSON file
         // JSONArray jsonArray = (JSONArray) jsonObject.get("carparks");
 
