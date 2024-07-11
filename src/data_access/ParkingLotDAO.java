@@ -56,7 +56,7 @@ public class ParkingLotDAO implements GreenPDAO {
     }
 
     public ArrayList<ParkingLot> getParkingLots() {
-            // TODO: Implement method (should only be one line lol)
+        // TODO: Implement method (should only be one line lol)
     }
 
     @Override
