@@ -9,7 +9,7 @@ public class GUI extends JFrame {
     private JPanel GUIPanel;
     private JTextField textFieldAddress;
     private JButton buttonSubmitAddress;
-//    ^^ replace with the API search box and button ??
+//    ^^ replace with the API search box and button ?
 
     public GUI () {
         setContentPane(GUIPanel);
