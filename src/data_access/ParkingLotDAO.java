@@ -21,7 +21,7 @@ public class ParkingLotDAO implements GreenPDAO {
         this.parkingLots = new ArrayList<>();
     }
 
-    public void parseFile() throws IOException, ParseException {
+    private void parseFile() throws IOException {
         try {
             JSONParser parser = new JSONParser();
             FileReader reader = new FileReader("src/external_data/GreenPSourceData.json");
@@ -48,15 +48,15 @@ public class ParkingLotDAO implements GreenPDAO {
 
         } catch (FileNotFoundException e) {
             throw new FileNotFoundException(e.getMessage());
-        } catch (ParseException e) {
-            throw new ParseException(e.getMessage(), 0);
         } catch (org.json.simple.parser.ParseException e) {
             throw new RuntimeException(e);
         }
     }
 
+    @Override
     public ArrayList<ParkingLot> getParkingLots() {
         // TODO: Implement method (should only be one line lol)
+        return null;
     }
 
     @Override
@@ -65,7 +65,8 @@ public class ParkingLotDAO implements GreenPDAO {
         return null;
     }
 
-    public ArrayList<ParkingLot> getParkingLotsRadius (double radius) {
+    @Override
+    public ArrayList<ParkingLot> getParkingLotsRadius(float radius) {
         // TODO: Implement method (should iterate through parkingLots)
         return null;
     }
