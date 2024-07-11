@@ -4,10 +4,10 @@ package entity;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-class ParkingLot {
+public class ParkingLot {
     private final String streetAddress;
     private final String linkToWebsite;
-    private final ArrayList<Float> latitudeLongitude;
+    private final float[] latitudeLongitude;
     private final HashMap<String, String> timesToRates;
     public ArrayList<Integer> easeOfFindingReviews;
     public ArrayList<Integer> easeOfEntryReviews;
