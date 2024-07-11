@@ -57,4 +57,6 @@ public class ParkingLot {
 
     public HashMap<String, String> getRates() {return timesToRates; }
 
+    // TODO: Add setter methods to be accessed by ParkingLotFactory
+
 }
