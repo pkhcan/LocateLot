@@ -20,6 +20,11 @@ public class GUI extends JFrame {
         setLocationRelativeTo(null);
         setVisible(true);
 
+
+        /*
+        * edit to display list of options or to display filter choices
+         */
+
         buttonSubmitAddress.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -27,6 +32,7 @@ public class GUI extends JFrame {
 
             }
         });
+
     }
 
     public static void main(String[] args) {
