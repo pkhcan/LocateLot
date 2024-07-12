@@ -32,16 +32,14 @@ public class ParkingLotDAO implements GreenPDAO {
                 JSONObject parkingLot = (JSONObject) jsonArray.get(i);
                 String id = parkingLot.get("id").toString();
                 String website = parkingLot.get("slug").toString();
-                List<String> latLong = new ArrayList<>();
-                latLong.add(parkingLot.get("latitude").toString());
-                latLong.add(parkingLot.get("longitude").toString());
-                String address = parkingLot.get("address").toString();
+                float[] latLong = {0, 0};
+                String streetAddress = parkingLot.get("address").toString();
                 String halfHourlyRate = parkingLot.get("rate_half_hour").toString();
                 HashMap<String, String> timesToRates = new HashMap<>();
                 // TODO: Create this hashmap
 
                 ParkingLotFactory parkingLotFactory = new ParkingLotFactory();
-                ParkingLot newParkingLot = parkingLotFactory.createParkingLot(id, website, latLong, address, timesToRates);
+                ParkingLot newParkingLot = parkingLotFactory.createParkingLot(id, website, latLong, streetAddress, timesToRates);
                 parkingLots.add(newParkingLot);
 
             }
