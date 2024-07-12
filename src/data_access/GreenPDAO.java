@@ -9,17 +9,13 @@ import java.util.ArrayList;
 
 public interface GreenPDAO {
 
-    private void parseFile() throws IOException, ParseException {
-
-    }
-
     // List of all ParkingLot objects
-    ArrayList<ParkingLot> getParkingLots();
+    public ArrayList<ParkingLot> getParkingLots();
 
     // Potentially filter here instead
-    ArrayList<ParkingLot> getParkingLotsPrice(double price);
+    public ArrayList<ParkingLot> getParkingLotsPrice(double price);
 
-    ArrayList<ParkingLot> getParkingLotsRadius(float radius);
+    public ArrayList<ParkingLot> getParkingLotsRadius(float radius);
     // How can we determine lat long of radius? Do we have live location?
 
 
