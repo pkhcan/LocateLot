@@ -1,17 +1,20 @@
 package app.gui;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class GUI extends JFrame {
 
     private JPanel GUIPanel;
     private JTextField textFieldAddress;
-    private JButton buttonSubmitAddress;
-    private JButton proximityButton;
-    private JButton priceButton;
-    private JButton typeButton;
-    private JButton availabilityButton;
+    private JButton submitButton;
     private JButton radiusButton;
+    private JButton availabilityButton;
+    private JButton priceButton;
+    private JButton easeOfEntryButton;
+    private JButton proximityButton;
+    private JButton typeButton;
     //    ^^ replace with the API search box and button ?
 
     public GUI () {
@@ -24,19 +27,93 @@ public class GUI extends JFrame {
         setVisible(true);
 
 
-//        /*
-//        * edit to display list of options or to display filter choices
-//         */
-//
-//        buttonSubmitAddress.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                JOptionPane.showMessageDialog(GUI.this, "Received.");
-//
-//            }
-//        });
+        /*
+        * currently returns "received." when submit is pressed
+        * edit to autocomplete address
+         */
+        submitButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(GUI.this, "Received.");
+            }
+        });
 
+
+        /*
+        * action performed button for proximity search
+        * must return parking lots sorted by closest first
+         */
+        proximityButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("TODO");
+            }
+        });
+
+
+        /*
+        * radius button - opens a screen requiring user input for custom radius
+        * will return parkinglots within the radius sorted by default (proximity)
+         */
+        radiusButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("TODO");
+            }
+        });
+
+
+        /*
+        * action performed button for price
+        * returns list of parking lots within the default radius sorted from lowest to highest price
+        *
+         */
+        priceButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("TODO");
+            }
+        });
+
+
+        /*
+        * action performed button for ease of entry reviews
+        * returns list of parking lots within the default radius sorted from best to worst (+ unrated) reviews
+         */
+        easeOfEntryButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("TODO");
+            }
+        });
+
+
+        /*
+        * action performed for availability button
+        * sorts the parking lots within the default radius by availability
+         */
+        availabilityButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("TODO");
+            }
+        });
+
+
+        /*
+        * action performed for type button
+        * must make user choose between "surface" or "garage"
+        * final results include only the chosen option
+         */
+        typeButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("TODO");
+            }
+        });
     }
+
+
 
     public static void main(String[] args) {
 
