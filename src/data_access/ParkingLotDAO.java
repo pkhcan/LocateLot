@@ -1,4 +1,5 @@
 package data_access;
+import com.google.maps.model.GeocodingResult;
 import entity.ParkingLot;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -7,18 +8,17 @@ import org.json.simple.parser.JSONParser;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 
 public class ParkingLotDAO implements GreenPDAO {
 
     private ArrayList<ParkingLot> parkingLots;
 
-    public void JSONParkingLotDAO() {
+    public ParkingLotDAO() throws IOException {
         this.parkingLots = new ArrayList<>();
+        parseFile();
     }
 
     private void parseFile() throws IOException {
@@ -32,7 +32,9 @@ public class ParkingLotDAO implements GreenPDAO {
                 JSONObject parkingLot = (JSONObject) jsonArray.get(i);
                 String id = parkingLot.get("id").toString();
                 String website = parkingLot.get("slug").toString();
-                float[] latLong = {0, 0};
+                float[] latLong = { Float.parseFloat(parkingLot.get("lat").toString()),
+                        Float.parseFloat(parkingLot.get("lng").toString())
+                };
                 String streetAddress = parkingLot.get("address").toString();
                 String halfHourlyRate = parkingLot.get("rate_half_hour").toString();
                 HashMap<String, String> timesToRates = new HashMap<>();
@@ -53,8 +55,7 @@ public class ParkingLotDAO implements GreenPDAO {
 
     @Override
     public ArrayList<ParkingLot> getParkingLots() {
-        // TODO: Implement method (should only be one line lol)
-        return null;
+        return this.parkingLots;
     }
 
     @Override
@@ -67,5 +68,35 @@ public class ParkingLotDAO implements GreenPDAO {
     public ArrayList<ParkingLot> getParkingLotsRadius(float radius) {
         // TODO: Implement method (should iterate through parkingLots)
         return null;
+    }
+
+    public ParkingLot getClosestParkingLot(double latitude, double longitude) {
+        if(this.parkingLots == null || this.parkingLots.isEmpty()) return null;
+        ParkingLot closest = null;
+        double smallestDistance = Double.MAX_VALUE;
+
+        for(ParkingLot parkingLot : this.parkingLots) {
+            float[] latLong = parkingLot.getLatitudeLongitude();
+            double distance = Math.hypot(latLong[0] - latitude, latLong[1] - longitude);
+
+            if(distance < smallestDistance) {
+                smallestDistance = distance;
+                closest = parkingLot;
+            }
+        }
+
+        return closest;
+    }
+
+    public ParkingLot getClosestParkingLot(String address) {
+        try {
+            GeocodingResult[] result = GeoApiDAO.getLatitudeLongitude(address);
+            return getClosestParkingLot(result[0].geometry.location.lat, result[0].geometry.location.lng);
+        }
+        catch(Exception e) {
+            System.out.println("Error getting closest parking lot");
+            System.out.println(e.getMessage());
+            return null;
+        }
     }
 }

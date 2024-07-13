@@ -66,6 +66,10 @@ public class ParkingLot {
 
     public HashMap<String, String> getRates() {return timesToRates; }
 
+    public float[] getLatitudeLongitude() {
+        return this.latitudeLongitude;
+    }
+
     public void setId (String id) {
         this.ID = id;
     }
