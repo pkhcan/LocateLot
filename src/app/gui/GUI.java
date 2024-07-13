@@ -1,37 +1,40 @@
 package app.gui;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class GUI extends JFrame {
 
     private JPanel GUIPanel;
     private JTextField textFieldAddress;
     private JButton buttonSubmitAddress;
+    private JButton proximityButton;
+    private JButton priceButton;
+    private JButton typeButton;
+    private JButton availabilityButton;
+    private JButton radiusButton;
     //    ^^ replace with the API search box and button ?
 
     public GUI () {
         setContentPane(GUIPanel);
         setTitle("LocateLot!");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setSize(900, 600);
+        setSize(900, 400);
         // set location for map here?
         setLocationRelativeTo(null);
         setVisible(true);
 
 
-        /*
-        * edit to display list of options or to display filter choices
-         */
-
-        buttonSubmitAddress.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(GUI.this, "Received.");
-
-            }
-        });
+//        /*
+//        * edit to display list of options or to display filter choices
+//         */
+//
+//        buttonSubmitAddress.addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                JOptionPane.showMessageDialog(GUI.this, "Received.");
+//
+//            }
+//        });
 
     }
 
