@@ -1,19 +1,29 @@
 package app.gui;
 
+import com.google.maps.FindPlaceFromTextRequest;
+import com.google.maps.model.AutocompletePrediction;
+import com.google.maps.model.FindPlaceFromText;
 import com.google.maps.model.GeocodingResult;
+import com.google.maps.model.PlacesSearchResult;
+import data_access.AutoCompletionObject;
 import data_access.GeoApiDAO;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 
 public class GUI extends JFrame {
 
     private JPanel GUIPanel;
     private JTextField textFieldAddress;
     private JButton buttonSubmitAddress;
+    private JButton noiceButton;
+    private JScrollPane buttonsScrollPane;
+    private JPanel buttonsPanel;
 //    ^^ replace with the API search box and button ?
 
     public GUI () {
@@ -24,6 +34,10 @@ public class GUI extends JFrame {
         // set location for map here?
         setLocationRelativeTo(null);
         setVisible(true);
+
+        // to fix a null exception caused by IntelliJ's GUI creator
+        buttonsPanel.setLayout(new BoxLayout(buttonsPanel, BoxLayout.Y_AXIS));
+
 
 
         /*
@@ -41,16 +55,47 @@ public class GUI extends JFrame {
         textFieldAddress.addKeyListener(new KeyAdapter() {
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                    GeocodingResult[] results;
+//                    GeocodingResult[] results;
                     try{
-                        results = GeoApiDAO.getLatitudeLongitude(textFieldAddress.getText());
-                        textFieldAddress.setText(results[0].formattedAddress);
+//                        results = GeoApiDAO.getLatitudeLongitude(textFieldAddress.getText());
+//                        textFieldAddress.setText(results[0].formattedAddress);
+
+
+                        AutoCompletionObject autoCompletionObject = new AutoCompletionObject();
+
+                        AutocompletePrediction[] results;
+                        results = autoCompletionObject.getListOfPredictions(textFieldAddress.getText());
+                        ArrayList<JButton> buttonsArrayList = new ArrayList<JButton>();
+
+                        for (AutocompletePrediction result : results) {
+                            System.out.println("--  ");
+                            JButton b = new JButton(result.description);
+
+                            b.setAlignmentX(Component.CENTER_ALIGNMENT);
+                            b.setMaximumSize(new Dimension(Integer.MAX_VALUE, b.getMinimumSize().height));
+                            buttonsPanel.add(b);
+                            buttonsPanel.revalidate(); buttonsPanel.repaint();
+
+                            buttonsArrayList.add(b);
+                        }
                     }
                     catch (Exception ex){
                         textFieldAddress.setText("err");
+                        System.out.println(ex.getMessage());
                     }
 
                 }
+            }
+        });
+
+        noiceButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JButton b = new JButton("1");
+                b.setAlignmentX(Component.CENTER_ALIGNMENT);
+                b.setMaximumSize(new Dimension(Integer.MAX_VALUE, b.getMinimumSize().height));
+                buttonsPanel.add(b);
+                buttonsPanel.revalidate(); buttonsPanel.repaint();
             }
         });
     }
