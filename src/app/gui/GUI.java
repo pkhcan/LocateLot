@@ -1,8 +1,15 @@
 package app.gui;
 
+import com.google.maps.model.AutocompletePrediction;
+import data_access.AutoCompletionObject;
+
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 
 public class GUI extends JFrame {
 
@@ -15,6 +22,7 @@ public class GUI extends JFrame {
     private JButton easeOfEntryButton;
     private JButton proximityButton;
     private JButton typeButton;
+    private JPanel buttonsPanel;
     //    ^^ replace with the API search box and button ?
 
     public GUI () {
@@ -27,8 +35,48 @@ public class GUI extends JFrame {
         setVisible(true);
 
 
+        /**
+         *
+         */
+        textFieldAddress.addKeyListener(new KeyAdapter() {
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+//                    GeocodingResult[] results;
+                    try{
+//                        results = GeoApiDAO.getLatitudeLongitude(textFieldAddress.getText());
+//                        textFieldAddress.setText(results[0].formattedAddress);
+
+
+                        AutoCompletionObject autoCompletionObject = new AutoCompletionObject();
+
+                        AutocompletePrediction[] results;
+                        results = autoCompletionObject.getListOfPredictions(textFieldAddress.getText());
+                        ArrayList<JButton> buttonsArrayList = new ArrayList<JButton>();
+
+                        for (AutocompletePrediction result : results) {
+                            System.out.println("--  ");
+                            JButton b = new JButton(result.description);
+
+                            b.setAlignmentX(Component.CENTER_ALIGNMENT);
+                            b.setMaximumSize(new Dimension(Integer.MAX_VALUE, b.getMinimumSize().height));
+                            buttonsPanel.add(b);
+                            buttonsPanel.revalidate(); buttonsPanel.repaint();
+
+                            buttonsArrayList.add(b);
+                        }
+                    }
+                    catch (Exception ex){
+                        textFieldAddress.setText("err");
+                        System.out.println(ex.getMessage());
+                    }
+
+                }
+            }
+        });
+
+
         /*
-        * currently returns "received." when submit is pressed
+         * currently returns "received." when submit is pressed
         * edit to autocomplete address
          */
         submitButton.addActionListener(new ActionListener() {
