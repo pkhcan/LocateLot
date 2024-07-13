@@ -1,8 +1,13 @@
 package app.gui;
 
+import com.google.maps.model.GeocodingResult;
+import data_access.GeoApiDAO;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class GUI extends JFrame {
 
@@ -33,11 +38,27 @@ public class GUI extends JFrame {
             }
         });
 
+        textFieldAddress.addKeyListener(new KeyAdapter() {
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    GeocodingResult[] results;
+                    try{
+                        results = GeoApiDAO.getLatitudeLongitude(textFieldAddress.getText());
+                        textFieldAddress.setText(results[0].formattedAddress);
+                    }
+                    catch (Exception ex){
+                        textFieldAddress.setText("err");
+                    }
+
+                }
+            }
+        });
     }
 
     public static void main(String[] args) {
 
         new GUI();
+
     }
 
 
