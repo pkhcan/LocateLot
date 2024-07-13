@@ -5,10 +5,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class ParkingLot {
-    private final String streetAddress;
-    private final String linkToWebsite;
-    private final float[] latitudeLongitude;
-    private final HashMap<String, String> timesToRates;
+    private String ID;
+    private String streetAddress;
+    private String linkToWebsite;
+    private float[] latitudeLongitude;
+    private HashMap<String, String> timesToRates;
     public ArrayList<Integer> easeOfFindingReviews;
     public ArrayList<Integer> easeOfEntryReviews;
 
@@ -16,12 +17,20 @@ public class ParkingLot {
     * Requires: xxxxx
     * @param streetAddress
     */
-    ParkingLot(String streetAddress, String linkToWebsite, float[] latitudeLongitude, HashMap<String, String> timesToRates) {
+    public ParkingLot(String ID, String streetAddress, String linkToWebsite, float[] latitudeLongitude, HashMap<String, String> timesToRates) {
+        this.ID = ID;
         this.streetAddress = streetAddress;
-
         this.linkToWebsite = linkToWebsite;
         this.latitudeLongitude = latitudeLongitude;
         this.timesToRates = timesToRates;
+    }
+
+    public ParkingLot(String streetAddress){
+        this.ID = null;
+        this.linkToWebsite = "";
+        this.latitudeLongitude = new float[2];
+        this.timesToRates = new HashMap<>();
+        this.streetAddress = streetAddress;
     }
 
     public String getEntryReview() {
@@ -56,5 +65,33 @@ public class ParkingLot {
     public String getWebsiteLink() {return linkToWebsite; }
 
     public HashMap<String, String> getRates() {return timesToRates; }
+
+    public float[] getLatitudeLongitude() {
+        return this.latitudeLongitude;
+    }
+
+    public void setId (String id) {
+        this.ID = id;
+    }
+
+
+    public void setWebsite(String website) {
+        this.linkToWebsite = website;
+    }
+
+
+    public void setLatLong(float[] LatLong) {
+        this.latitudeLongitude = LatLong;
+    }
+
+
+    public void setAddress(String streetAddress) {
+        this.streetAddress = streetAddress;
+    }
+
+
+    public void setTimestoRates(HashMap<String, String> timesToRates) {
+        this.timesToRates = timesToRates;
+    }
 
 }
