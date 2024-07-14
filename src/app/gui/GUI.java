@@ -4,6 +4,8 @@ import com.google.maps.model.AutocompletePrediction;
 import data_access.AutoCompletionObject;
 
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -24,6 +26,7 @@ public class GUI extends JFrame {
     private JButton typeButton;
     private JPanel buttonsPanel;
     //    ^^ replace with the API search box and button ?
+    private final AutoCompletionObject autoCompletionObject = new AutoCompletionObject();
 
     public GUI () {
         setContentPane(GUIPanel);
@@ -35,44 +38,21 @@ public class GUI extends JFrame {
         setVisible(true);
 
 
-        /**
-         *
-         */
-        textFieldAddress.addKeyListener(new KeyAdapter() {
-            public void keyPressed(KeyEvent e) {
-                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-//                    GeocodingResult[] results;
-                    try{
-//                        results = GeoApiDAO.getLatitudeLongitude(textFieldAddress.getText());
-//                        textFieldAddress.setText(results[0].formattedAddress);
+        // to fix a null exception caused by IntelliJ's GUI creator
+        buttonsPanel.setLayout(new BoxLayout(buttonsPanel, BoxLayout.Y_AXIS));
 
-
-                        AutoCompletionObject autoCompletionObject = new AutoCompletionObject();
-
-                        AutocompletePrediction[] results;
-                        results = autoCompletionObject.getListOfPredictions(textFieldAddress.getText());
-                        ArrayList<JButton> buttonsArrayList = new ArrayList<JButton>();
-
-                        for (AutocompletePrediction result : results) {
-                            System.out.println("--  ");
-                            JButton b = new JButton(result.description);
-
-                            b.setAlignmentX(Component.CENTER_ALIGNMENT);
-                            b.setMaximumSize(new Dimension(Integer.MAX_VALUE, b.getMinimumSize().height));
-                            buttonsPanel.add(b);
-                            buttonsPanel.revalidate(); buttonsPanel.repaint();
-
-                            buttonsArrayList.add(b);
-                        }
-                    }
-                    catch (Exception ex){
-                        textFieldAddress.setText("err");
-                        System.out.println(ex.getMessage());
-                    }
-
-                }
+        textFieldAddress.getDocument().addDocumentListener(new DocumentListener() {
+            public void changedUpdate(DocumentEvent e) {
+                updateSuggestedAddresses();
             }
-        });
+            public void removeUpdate(DocumentEvent e) {
+                updateSuggestedAddresses();
+            }
+            public void insertUpdate(DocumentEvent e) {
+                updateSuggestedAddresses();
+            }});
+
+
 
 
         /*
@@ -166,6 +146,33 @@ public class GUI extends JFrame {
     public static void main(String[] args) {
 
         new GUI();
+    }
+
+    private void updateSuggestedAddresses() {
+
+        try{
+            buttonsPanel.removeAll();
+
+            AutocompletePrediction[] results;
+            results = autoCompletionObject.getListOfPredictions(textFieldAddress.getText());
+            ArrayList<JButton> buttonsArrayList = new ArrayList<JButton>();
+
+            for (AutocompletePrediction result : results) {
+                JButton b = new JButton(result.description);
+
+                b.setAlignmentX(Component.CENTER_ALIGNMENT);
+                b.setMaximumSize(new Dimension(Integer.MAX_VALUE, b.getMinimumSize().height));
+                buttonsPanel.add(b);
+                buttonsPanel.revalidate(); buttonsPanel.repaint();
+
+                buttonsArrayList.add(b);
+            }
+        }
+        catch (Exception ex){
+            textFieldAddress.setText("err");
+            System.out.println(ex.getMessage());
+        }
+
     }
 
 
