@@ -4,8 +4,11 @@ import java.util.UUID;
 
 public class SessionTokenGen {
 
+    /**
+     * Generate a random UUID (Universally Unique Identifier) for SessionToken
+     * @return session token in String
+     */
     public static String generateSessionToken() {
-        // Generate a random UUID (Universally Unique Identifier)
         UUID uuid = UUID.randomUUID();
         return uuid.toString();
     }

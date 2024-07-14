@@ -13,10 +13,21 @@ public class AutoCompletionObject {
     private static GeoApiContext CONTEXT = new GeoApiContext.Builder().apiKey(API_KEY).build();
     private final String sessionToken;
 
+    /**
+     * An object to keep track of the search results for address auto-completion and its SessionToken
+     */
     public AutoCompletionObject() {
         sessionToken = SessionTokenGen.generateSessionToken();
     }
 
+    /**
+     * Return the array of the predictions matching the address
+     * @param address The partially-complete/complete address
+     * @return A list of predictions
+     * @throws IOException
+     * @throws InterruptedException
+     * @throws ApiException
+     */
     public AutocompletePrediction[] getListOfPredictions(String address) throws
             IOException, InterruptedException, ApiException {
         PlaceAutocompleteRequest response = PlacesApi.placeAutocomplete(

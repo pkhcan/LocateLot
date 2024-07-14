@@ -9,15 +9,12 @@ import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
 public class GUI extends JFrame {
 
     private JPanel GUIPanel;
     private JTextField textFieldAddress;
-    private JButton submitButton;
     private JButton radiusButton;
     private JButton availabilityButton;
     private JButton priceButton;
@@ -41,30 +38,16 @@ public class GUI extends JFrame {
         // to fix a null exception caused by IntelliJ's GUI creator
         buttonsPanel.setLayout(new BoxLayout(buttonsPanel, BoxLayout.Y_AXIS));
 
+        // Listener to detect changes in the textFieldBox, when the user inputs an address
         textFieldAddress.getDocument().addDocumentListener(new DocumentListener() {
             public void changedUpdate(DocumentEvent e) {
                 updateSuggestedAddresses();
             }
             public void removeUpdate(DocumentEvent e) {
-                updateSuggestedAddresses();
             }
             public void insertUpdate(DocumentEvent e) {
                 updateSuggestedAddresses();
             }});
-
-
-
-
-        /*
-         * currently returns "received." when submit is pressed
-        * edit to autocomplete address
-         */
-        submitButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(GUI.this, "Received.");
-            }
-        });
 
 
         /*
@@ -148,13 +131,17 @@ public class GUI extends JFrame {
         new GUI();
     }
 
+    // Private void; updates the panel corresponding to suggested address buttons
     private void updateSuggestedAddresses() {
 
         try{
             buttonsPanel.removeAll();
 
+            // An array to store the results of the search
             AutocompletePrediction[] results;
             results = autoCompletionObject.getListOfPredictions(textFieldAddress.getText());
+
+            // For later implementation when we ask for the LatLng of the place
             ArrayList<JButton> buttonsArrayList = new ArrayList<JButton>();
 
             for (AutocompletePrediction result : results) {
@@ -169,8 +156,7 @@ public class GUI extends JFrame {
             }
         }
         catch (Exception ex){
-            textFieldAddress.setText("err");
-            System.out.println(ex.getMessage());
+            textFieldAddress.setText("Search Failed ;(");
         }
 
     }
