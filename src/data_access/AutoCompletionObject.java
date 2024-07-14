@@ -9,7 +9,7 @@ import com.google.maps.model.AutocompletePrediction;
 import java.io.IOException;
 
 public class AutoCompletionObject {
-    private static final String API_KEY = "AIzaSyDvtiMZ_9jDUQlxr7cmDqH8HU45kVCJtkM";
+    private static final String API_KEY = "";
     private static GeoApiContext CONTEXT = new GeoApiContext.Builder().apiKey(API_KEY).build();
     private final String sessionToken;
 
