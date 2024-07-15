@@ -78,7 +78,7 @@ public class ParkingLotDAO implements GreenPDAO {
         double smallestDistance = Double.MAX_VALUE;
 
         for(ParkingLot parkingLot : this.parkingLots) {
-            float[] latLong = parkingLot.getLatitudeLongitude();
+            double[] latLong = parkingLot.getLatitudeLongitude();
             double distance = Math.hypot(latLong[0] - latitude, latLong[1] - longitude);
 
             if(distance < smallestDistance) {
