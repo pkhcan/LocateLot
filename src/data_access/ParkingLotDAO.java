@@ -1,6 +1,7 @@
 package data_access;
 import com.google.maps.model.GeocodingResult;
 import entity.ParkingLot;
+import entity.ParkingLotFactory;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -10,6 +11,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 
 public class ParkingLotDAO implements GreenPDAO {
@@ -87,6 +89,17 @@ public class ParkingLotDAO implements GreenPDAO {
 
         return closest;
     }
+
+//    public ArrayList<ParkingLot> getClosestParkingLotsWithinRadius(double latitude, double longitude, double radius) {
+//        if (this.parkingLots == null || this.parkingLots.isEmpty()) return null;
+//        List<ParkingLot> closestParkingLots = new ArrayList<>();
+//        List<ParkingLot> copiedParkingLots = (ArrayList<ParkingLot>) this.parkingLots.clone();
+//        for(ParkingLot parkingLot : copiedParkingLots) {
+//            ParkingLot closest =
+//        }
+//
+//
+//    }
 
     public ParkingLot getClosestParkingLot(String address) {
         try {

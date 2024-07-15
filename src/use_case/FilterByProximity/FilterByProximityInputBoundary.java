@@ -2,5 +2,5 @@ package use_case.FilterByProximity;
 
 public interface FilterByProximityInputBoundary {
 
-    public void filter(int radius);
+    FilterByProximityOutputData execute(FilterByProximityInputData filterByProximityInputData);
 }
