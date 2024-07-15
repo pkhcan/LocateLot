@@ -9,9 +9,9 @@ public class FilterByRadiusInputData {
 
     private final int radius;
     private List<ParkingLot> parkingLots;
-    private final float[] latLong;
+    private final double[] latLong;
 
-    public FilterByRadiusInputData(int radius, float[] latLong, ArrayList<ParkingLot> parkingLots) {
+    public FilterByRadiusInputData(int radius, double[] latLong, ArrayList<ParkingLot> parkingLots) {
         /**
          * If user input does not specify radius (default int = 0) let the default radius be 3km.
          */
@@ -30,7 +30,7 @@ public class FilterByRadiusInputData {
         return parkingLots;
     }
 
-    public float[] getLatLong() {
+    public double[] getLatLong() {
         return latLong;
     }
 

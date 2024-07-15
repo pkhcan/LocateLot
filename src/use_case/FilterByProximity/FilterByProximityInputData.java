@@ -7,19 +7,19 @@ import java.util.List;
 
 public class FilterByProximityInputData {
 
-    private float[] latLong;
+    private double[] latLong;
     // private List<ParkingLot> parkingLots;
 
-    public FilterByProximityInputData(float[] latLong) {
+    public FilterByProximityInputData(double[] latLong) {
         // this.parkingLots = parkingLotDAO.getParkingLots();
-        this.latLong = latLong; // I think we're using floats some places and doubles other places...
+        this.latLong = latLong;
     }
 
 //    public List<ParkingLot> getParkingLots() {
 //        return this.parkingLots;
 //    }
 
-    public float[] getLatLong() {
+    public double[] getLatLong() {
         return this.latLong;
     }
 

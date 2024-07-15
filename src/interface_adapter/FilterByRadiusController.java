@@ -21,7 +21,7 @@ public class FilterByRadiusController {
         this.filterByProximityInteractor = filterByProximityInteractor;
     }
 
-    public void execute(int radius, float[] latLong) {
+    public void execute(int radius, double[] latLong) {
         FilterByProximityInputData filterByProximityInputData = new FilterByProximityInputData(latLong);
         FilterByProximityOutputData filterByProximityOutputData =
                 filterByProximityInteractor.execute(filterByProximityInputData);

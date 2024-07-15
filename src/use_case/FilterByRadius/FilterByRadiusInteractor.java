@@ -27,10 +27,10 @@ public class FilterByRadiusInteractor implements FilterByRadiusInputBoundary {
     @Override
     public void execute(FilterByRadiusInputData filterByRadiusInputData) {
         int radius = filterByRadiusInputData.getRadius();
-        float[] latLong = filterByRadiusInputData.getLatLong();
+        double[] latLong = filterByRadiusInputData.getLatLong();
 
         for (ParkingLot parkingLot : filterByRadiusInputData.getParkingLots()) {
-            float[] latLongLot = parkingLot.getLatitudeLongitude();
+            double[] latLongLot = parkingLot.getLatitudeLongitude();
             double distance = Math.hypot(latLong[0] - latLongLot[0], latLong[1] - latLongLot[1]);
             if (distance <= radius) {
                 filteredByRadius.add(parkingLot);

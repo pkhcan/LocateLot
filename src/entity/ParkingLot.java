@@ -8,7 +8,7 @@ public class ParkingLot {
     private String ID;
     private String streetAddress;
     private String linkToWebsite;
-    private float[] latitudeLongitude;
+    private double[] latitudeLongitude;
     private HashMap<String, String> timesToRates;
     public ArrayList<Integer> easeOfFindingReviews;
     public ArrayList<Integer> easeOfEntryReviews;
@@ -17,7 +17,7 @@ public class ParkingLot {
     * Requires: xxxxx
     * @param streetAddress
     */
-    public ParkingLot(String ID, String streetAddress, String linkToWebsite, float[] latitudeLongitude, HashMap<String, String> timesToRates) {
+    public ParkingLot(String ID, String streetAddress, String linkToWebsite, double[] latitudeLongitude, HashMap<String, String> timesToRates) {
         this.ID = ID;
         this.streetAddress = streetAddress;
         this.linkToWebsite = linkToWebsite;
@@ -28,7 +28,7 @@ public class ParkingLot {
     public ParkingLot(String streetAddress){
         this.ID = null;
         this.linkToWebsite = "";
-        this.latitudeLongitude = new float[2];
+        this.latitudeLongitude = new double[2];
         this.timesToRates = new HashMap<>();
         this.streetAddress = streetAddress;
     }
@@ -42,7 +42,7 @@ public class ParkingLot {
             for (Integer review : easeOfEntryReviews) {
                 sum += review;
             }
-            return String.valueOf((float) sum / count);
+            return String.valueOf((double) sum / count);
         }
     }
 
@@ -55,7 +55,7 @@ public class ParkingLot {
             for (Integer review : easeOfFindingReviews) {
                 sum += review;
             }
-            return String.valueOf((float) sum / count);
+            return String.valueOf((double) sum / count);
         }
     }
 
@@ -66,7 +66,7 @@ public class ParkingLot {
 
     public HashMap<String, String> getRates() {return timesToRates; }
 
-    public float[] getLatitudeLongitude() {
+    public double[] getLatitudeLongitude() {
         return this.latitudeLongitude;
     }
 
@@ -80,7 +80,7 @@ public class ParkingLot {
     }
 
 
-    public void setLatLong(float[] LatLong) {
+    public void setLatLong(double[] LatLong) {
         this.latitudeLongitude = LatLong;
     }
 
