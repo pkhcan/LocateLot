@@ -30,7 +30,7 @@ public class FilterByProximityInteractor implements FilterByProximityInputBounda
     @Override
     public FilterByProximityOutputData execute(FilterByProximityInputData filterByProximityInputData) {
         // TODO: Prepare Fail View?
-        List<ParkingLot> parkingLots = (ArrayList<ParkingLot>) parkingLotDAO.getParkingLots();
+        List<ParkingLot> parkingLots = parkingLotDAO.getParkingLots();
         // input data should get parkingLots from a new DAO instance so that the getClosest method from DAO can work
 
         while (!parkingLots.isEmpty()) {
