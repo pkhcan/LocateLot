@@ -1,12 +1,16 @@
 package use_case.FilterByEOE;
 
-public class EOEInputData{
-    final private int minimumEOERating;
 
-    public EOEInputData(int minimumEOERating) {
-        this.minimumEOERating = minimumEOERating;
+
+public class EOEInputData {
+    final private String address;
+
+
+    public EOEInputData(String address) {
+        this.address = address;
     }
 
-
-    public int getMinimumEOERating() {return minimumEOERating;}
+    public String getAddress() {
+        return this.address;
+    }
 }

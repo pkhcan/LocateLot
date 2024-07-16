@@ -3,6 +3,11 @@ package app.gui;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import use_case.FilterByEOE.EOEInputData;
+import use_case.FilterByEOE.EOEInteractor;
+import use_case.FilterByEOE.EOEOutputData;
+import entity.ParkingLot;
+import use_case.FilterByEOE.EOEPresenter;
 
 public class GUI extends JFrame {
 
@@ -17,7 +22,7 @@ public class GUI extends JFrame {
     private JButton typeButton;
     //    ^^ replace with the API search box and button ?
 
-    public GUI () {
+    public GUI() {
         setContentPane(GUIPanel);
         setTitle("LocateLot!");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -28,8 +33,8 @@ public class GUI extends JFrame {
 
 
         /*
-        * currently returns "received." when submit is pressed
-        * edit to autocomplete address
+         * currently returns "received." when submit is pressed
+         * edit to autocomplete address
          */
         submitButton.addActionListener(new ActionListener() {
             @Override
@@ -40,8 +45,8 @@ public class GUI extends JFrame {
 
 
         /*
-        * action performed button for proximity search
-        * must return parking lots sorted by closest first
+         * action performed button for proximity search
+         * must return parking lots sorted by closest first
          */
         proximityButton.addActionListener(new ActionListener() {
             @Override
@@ -52,8 +57,8 @@ public class GUI extends JFrame {
 
 
         /*
-        * radius button - opens a screen requiring user input for custom radius
-        * will return parkinglots within the radius sorted by default (proximity)
+         * radius button - opens a screen requiring user input for custom radius
+         * will return parkinglots within the radius sorted by default (proximity)
          */
         radiusButton.addActionListener(new ActionListener() {
             @Override
@@ -64,9 +69,9 @@ public class GUI extends JFrame {
 
 
         /*
-        * action performed button for price
-        * returns list of parking lots within the default radius sorted from lowest to highest price
-        *
+         * action performed button for price
+         * returns list of parking lots within the default radius sorted from lowest to highest price
+         *
          */
         priceButton.addActionListener(new ActionListener() {
             @Override
@@ -77,20 +82,39 @@ public class GUI extends JFrame {
 
 
         /*
-        * action performed button for ease of entry reviews
-        * returns list of parking lots within the default radius sorted from best to worst (+ unrated) reviews
+         * action performed button for ease of entry reviews
+         * returns list of parking lots within the default radius sorted from best to worst (+ unrated) reviews
          */
         easeOfEntryButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("TODO");
+                // Step 1: Create EOEInputData with the address from the text field
+                String address = textFieldAddress.getText();
+                EOEInputData inputData = new EOEInputData(address);
+
+                // Create the presenter
+                EOEPresenter presenter = new EOEPresenter(GUI.this);
+
+                // Create the interactor with the presenter
+                EOEInteractor interactor = new EOEInteractor(presenter);
+
+                // Execute the interactor
+                interactor.execute(inputData);
+//
+//                // Get sorted ParkingLot objects from EOEOutputData
+//                // Assuming the EOEOutputBoundary.present method saves the output data somewhere accessible
+//                ParkingLot[] sortedParkingLots = EOEOutputData.getSortedParkingLots();
+//
+//                updateParkingLotList(sortedParkingLots);
             }
         });
 
 
+
+
         /*
-        * action performed for availability button
-        * sorts the parking lots within the default radius by availability
+         * action performed for availability button
+         * sorts the parking lots within the default radius by availability
          */
         availabilityButton.addActionListener(new ActionListener() {
             @Override
@@ -101,9 +125,9 @@ public class GUI extends JFrame {
 
 
         /*
-        * action performed for type button
-        * must make user choose between "surface" or "garage"
-        * final results include only the chosen option
+         * action performed for type button
+         * must make user choose between "surface" or "garage"
+         * final results include only the chosen option
          */
         typeButton.addActionListener(new ActionListener() {
             @Override
@@ -113,72 +137,17 @@ public class GUI extends JFrame {
         });
     }
 
+    public void updateParkingLotList(ParkingLot[] parkingLots) {
+        // Update the GUI with the sorted parking lots
+        // For simplicity, let's print them to the console
+        for (ParkingLot lot : parkingLots) {
+            System.out.println(lot);
+        }
+    }
 
 
     public static void main(String[] args) {
 
         new GUI();
     }
-
-
-//        SwingUtilities.invokeLater(() -> {
-//            JFrame frame = new JFrame("LocateLot GUI App");
-//            frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-//            frame.setSize(850, 300);
-//
-//            CardLayout cardLayout = new CardLayout();
-//            JPanel cardPanel = new JPanel(cardLayout);
-
-//            JPanel defaultCard = createDefaultCard();
-//            JPanel getGradeCard = createGetGradeCard(frame, getGradeUseCase);
-//            JPanel logGradeCard = createLogGradeCard(frame, logGradeUseCase);
-//            JPanel formTeamCard = createFormTeamCard(frame, formTeamUseCase);
-//            JPanel joinTeamCard = createJoinTeamCard(frame, joinTeamUseCase);
-//            JPanel manageTeamCard = createManageTeamCard(frame, leaveTeamUseCase, getAverageGradeUseCase);
-
-//            cardPanel.add(defaultCard, "DefaultCard");
-//            cardPanel.add(getGradeCard, "GetGradeCard");
-//            cardPanel.add(logGradeCard, "LogGradeCard");
-//            cardPanel.add(formTeamCard, "FormTeamCard");
-//            cardPanel.add(joinTeamCard, "JoinTeamCard");
-//            cardPanel.add(manageTeamCard, "ManageTeamCard");
-
-//            JButton getGradeButton = new JButton("Get Grade");
-//            getGradeButton.addActionListener(e -> cardLayout.show(cardPanel, "GetGradeCard"));
-//
-//            JButton logGradeButton = new JButton("Log Grade");
-//            logGradeButton.addActionListener(e -> cardLayout.show(cardPanel, "LogGradeCard"));
-//
-//            JButton formTeamButton = new JButton("Form a team");
-//            formTeamButton.addActionListener(e -> cardLayout.show(cardPanel, "FormTeamCard"));
-//
-//            JButton joinTeamButton = new JButton("Join a team");
-//            joinTeamButton.addActionListener(e -> cardLayout.show(cardPanel, "JoinTeamCard"));
-//
-//            JButton manageTeamButton = new JButton("My Team");
-//            manageTeamButton.addActionListener(e -> cardLayout.show(cardPanel, "ManageTeamCard"));
-
-    // MARK HERE
-//            JButton filterButton = new JButton("Filter by");
-//            filterButton.addActionListener(e -> cardLayout.show(cardPanel, "filterOptions"));
-//
-//            JPanel buttonPanel = new JPanel();
-//            buttonPanel.add(filterButton);
-
-//            buttonPanel.add(getGradeButton);
-//            buttonPanel.add(logGradeButton);
-//            buttonPanel.add(formTeamButton);
-//            buttonPanel.add(joinTeamButton);
-//            buttonPanel.add(manageTeamButton);
-
-    // MARK HERE TOO
-//            frame.getContentPane().add(cardPanel, BorderLayout.CENTER);
-//            frame.getContentPane().add(buttonPanel, BorderLayout.SOUTH);
-//
-//            frame.setVisible(true);
-
-//        });
-//    }
-//
-//    }
 }
