@@ -7,7 +7,7 @@ import use_case.FilterByEOE.EOEInputData;
 import use_case.FilterByEOE.EOEInteractor;
 import use_case.FilterByEOE.EOEOutputData;
 import entity.ParkingLot;
-import use_case.FilterByEOE.EOEPresenter;
+import interface_adapter.EOEPresenter;
 
 public class GUI extends JFrame {
 
