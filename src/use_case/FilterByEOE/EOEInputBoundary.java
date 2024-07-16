@@ -4,4 +4,5 @@ public interface EOEInputBoundary {
 
 
     void execute(EOEInputData eoeInputData);
+
 }

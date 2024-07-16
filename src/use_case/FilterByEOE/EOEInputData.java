@@ -13,4 +13,5 @@ public class EOEInputData {
     public String getAddress() {
         return this.address;
     }
+
 }

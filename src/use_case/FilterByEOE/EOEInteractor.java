@@ -25,6 +25,7 @@ public class EOEInteractor implements EOEInputBoundary{
     public void execute(EOEInputData eoeInputData) {
         // receive output code from default proximity filter (identical ratings are sorted further by proximity)
         // Assume FilterOutputData.getFilteredParkingLots() gives us the parking lots to be sorted:
+        // TODO - include code from proximity use case to fetch the parking lots viable within radius
         ParkingLot[] parkingLots = FilterOutputData.getFilteredParkingLots();
 
         Filter entryFilter = new EOEFilter();
