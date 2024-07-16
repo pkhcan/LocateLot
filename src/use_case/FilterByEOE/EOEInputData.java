@@ -3,6 +3,7 @@ package use_case.FilterByEOE;
 
 
 public class EOEInputData {
+
     final private String address;
 
 
