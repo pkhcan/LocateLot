@@ -4,6 +4,8 @@ import entity.Filter;
 import entity.ParkingLot;
 import entity.EOEFilter;
 
+import use_case.FilterOutput.OutputBoundary;
+import use_case.FilterOutput.OutputData;
 import use_case.FilterOutput.FilterOutputData;
 
 /**
@@ -11,14 +13,14 @@ import use_case.FilterOutput.FilterOutputData;
  */
 public class EOEInteractor implements EOEInputBoundary{
 
-    private final EOEOutputBoundary outputBoundary;
+    private final OutputBoundary outputBoundary;
 
     /**
      * Constructs an {@code EOEInteractor} with the specified output boundary.
      *
      * @param outputBoundary the output boundary for presenting EOE output data
      */
-    public EOEInteractor(EOEOutputBoundary outputBoundary) {
+    public EOEInteractor(OutputBoundary outputBoundary) {
         this.outputBoundary = outputBoundary;
     }
 
@@ -38,13 +40,13 @@ public class EOEInteractor implements EOEInputBoundary{
         // receive output code from default proximity filter (identical ratings are sorted further by proximity)
         // Assume FilterOutputData.getFilteredParkingLots() gives us the parking lots to be sorted:
         // TODO - include code from proximity use case to fetch the parking lots viable within radius
-        ParkingLot[] parkingLots = FilterOutputData.getFilteredParkingLots();
+        ParkingLot[] parkingLots = OutputData.getSortedParkingLots();
 
         Filter entryFilter = new EOEFilter();
         entryFilter.filter(parkingLots);
 
         // Prepare output data
-        EOEOutputData outputData = new EOEOutputData(parkingLots);
+        OutputData outputData = new OutputData(parkingLots);
 
         // Present output data
         outputBoundary.present(outputData);

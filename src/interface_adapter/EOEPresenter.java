@@ -5,13 +5,13 @@ import app.gui.GUI;
 
 import entity.ParkingLot;
 
-import use_case.FilterByEOE.EOEOutputBoundary;
-import use_case.FilterByEOE.EOEOutputData;
+import use_case.FilterOutput.OutputBoundary;
+import use_case.FilterOutput.OutputData;
 
 /**
  * Presenter class that presents Ease of Entry (EOE) output data to a GUI.
  */
-public class EOEPresenter implements EOEOutputBoundary {
+public class EOEPresenter implements OutputBoundary {
 
     private final GUI gui;
 
@@ -30,7 +30,7 @@ public class EOEPresenter implements EOEOutputBoundary {
      * @param outputData the output data containing sorted parking lots to present
      */
     @Override
-    public void present(EOEOutputData outputData) {
+    public void present(OutputData outputData) {
         ParkingLot[] sortedParkingLots = outputData.getSortedParkingLots();
         gui.updateParkingLotList(sortedParkingLots);
 
