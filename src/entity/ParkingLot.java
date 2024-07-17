@@ -23,6 +23,8 @@ public class ParkingLot {
         this.linkToWebsite = linkToWebsite;
         this.latitudeLongitude = latitudeLongitude;
         this.timesToRates = timesToRates;
+        this.easeOfFindingReviews = new ArrayList<>();
+        this.easeOfEntryReviews = new ArrayList<>();
     }
 
     public ParkingLot(String streetAddress){
@@ -31,6 +33,8 @@ public class ParkingLot {
         this.latitudeLongitude = new float[2];
         this.timesToRates = new HashMap<>();
         this.streetAddress = streetAddress;
+        this.easeOfFindingReviews = new ArrayList<>();
+        this.easeOfEntryReviews = new ArrayList<>();
     }
 
     public String getEntryReview() {
