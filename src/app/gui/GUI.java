@@ -1,7 +1,7 @@
 package app.gui;
 
 import com.google.maps.model.AutocompletePrediction;
-import data_access.AutoCompletionObject;
+import data_access.AutoCompletionDAO;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -23,7 +23,7 @@ public class GUI extends JFrame {
     private JButton typeButton;
     private JPanel buttonsPanel;
     //    ^^ replace with the API search box and button ?
-    private final AutoCompletionObject autoCompletionObject = new AutoCompletionObject();
+    private final AutoCompletionDAO autoCompletionDAO = new AutoCompletionDAO();
 
     public GUI () {
         setContentPane(GUIPanel);
@@ -139,7 +139,7 @@ public class GUI extends JFrame {
 
             // An array to store the results of the search
             AutocompletePrediction[] results;
-            results = autoCompletionObject.getListOfPredictions(textFieldAddress.getText());
+            results = autoCompletionDAO.getListOfPredictions(textFieldAddress.getText());
 
             // For later implementation when we ask for the LatLng of the place
             ArrayList<JButton> buttonsArrayList = new ArrayList<JButton>();

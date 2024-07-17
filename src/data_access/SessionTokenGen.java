@@ -2,7 +2,7 @@ package data_access;
 import java.util.UUID;
 
 
-public class SessionTokenGen {
+class SessionTokenGen {
 
     /**
      * Generate a random UUID (Universally Unique Identifier) for SessionToken

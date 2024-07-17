@@ -8,7 +8,7 @@ import com.google.maps.model.AutocompletePrediction;
 
 import java.io.IOException;
 
-public class AutoCompletionObject {
+public class AutoCompletionDAO {
     private static final String API_KEY = "";
     private static GeoApiContext CONTEXT = new GeoApiContext.Builder().apiKey(API_KEY).build();
     private final String sessionToken;
@@ -16,7 +16,7 @@ public class AutoCompletionObject {
     /**
      * An object to keep track of the search results for address auto-completion and its SessionToken
      */
-    public AutoCompletionObject() {
+    public AutoCompletionDAO() {
         sessionToken = SessionTokenGen.generateSessionToken();
     }
 
