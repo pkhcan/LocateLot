@@ -6,7 +6,7 @@ package use_case.FilterOutput;
 public interface OutputBoundary {
 
     /**
-     * Presents the EOE output data.
+     * Presents the output data.
      *
      * @param outputData the output data containing results to present
      */
