@@ -156,7 +156,7 @@ public class GUI extends JFrame {
             }
         }
         catch (Exception ex){
-            textFieldAddress.setText("Search Failed ;(");
+            buttonsPanel.removeAll();
         }
 
     }
