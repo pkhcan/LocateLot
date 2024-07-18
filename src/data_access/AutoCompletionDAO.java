@@ -10,16 +10,14 @@ import java.io.IOException;
 
 public class AutoCompletionDAO {
 //    private static final String API_KEY = "";
-    private static final String API_KEY = System.getenv("API_TOKEN");
+    private static final String API_KEY = System.getenv("API_KEY");
     private static GeoApiContext CONTEXT = new GeoApiContext.Builder().apiKey(API_KEY).build();
     private final String sessionToken;
 
     /**
      * An object to keep track of the search results for address auto-completion and its SessionToken
      */
-    public AutoCompletionDAO() {
-        sessionToken = SessionTokenGen.generateSessionToken();
-    }
+    public AutoCompletionDAO() {sessionToken = SessionTokenGen.generateSessionToken();}
 
     /**
      * Return the array of the predictions matching the address
