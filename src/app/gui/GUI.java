@@ -1,25 +1,41 @@
 package app.gui;
 
+import com.google.maps.model.AutocompletePrediction;
+import data_access.AutoCompletionDAO;
+
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import use_case.FilterByEOE.EOEInputData;
+import use_case.FilterByEOE.EOEInteractor;
+import entity.ParkingLot;
+import interface_adapter.EOEPresenter;
+
+import java.util.ArrayList;
+
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
+
 
 public class GUI extends JFrame {
 
     private JPanel GUIPanel;
     private JTextField textFieldAddress;
-    private JButton submitButton;
     private JButton radiusButton;
     private JButton availabilityButton;
     private JButton priceButton;
     private JButton easeOfEntryButton;
     private JButton proximityButton;
     private JButton typeButton;
+    private JPanel buttonsPanel;
     //    ^^ replace with the API search box and button ?
+    private final AutoCompletionDAO autoCompletionDAO = new AutoCompletionDAO();
 
-    public GUI () {
+
+    public GUI() {
 
         setContentPane(GUIPanel);
         setTitle("Locate Lot");
@@ -34,21 +50,24 @@ public class GUI extends JFrame {
         setVisible(true);
 
 
-        /*
-        * currently returns "received." when submit is pressed
-        * edit to autocomplete address
-         */
-        submitButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(GUI.this, "Received.");
+        // to fix a null exception caused by IntelliJ's GUI creator
+        buttonsPanel.setLayout(new BoxLayout(buttonsPanel, BoxLayout.Y_AXIS));
+
+        // Listener to detect changes in the textFieldBox, when the user inputs an address
+        textFieldAddress.getDocument().addDocumentListener(new DocumentListener() {
+            public void changedUpdate(DocumentEvent e) {
+                updateSuggestedAddresses();
             }
-        });
+            public void removeUpdate(DocumentEvent e) {
+            }
+            public void insertUpdate(DocumentEvent e) {
+                updateSuggestedAddresses();
+            }});
 
 
         /*
-        * action performed button for proximity search
-        * must return parking lots sorted by closest first
+         * action performed button for proximity search
+         * must return parking lots sorted by closest first
          */
         proximityButton.addActionListener(new ActionListener() {
             @Override
@@ -59,8 +78,8 @@ public class GUI extends JFrame {
 
 
         /*
-        * radius button - opens a screen requiring user input for custom radius
-        * will return parkinglots within the radius sorted by default (proximity)
+         * radius button - opens a screen requiring user input for custom radius
+         * will return parkinglots within the radius sorted by default (proximity)
          */
         radiusButton.addActionListener(new ActionListener() {
             @Override
@@ -71,9 +90,9 @@ public class GUI extends JFrame {
 
 
         /*
-        * action performed button for price
-        * returns list of parking lots within the default radius sorted from lowest to highest price
-        *
+         * action performed button for price
+         * returns list of parking lots within the default radius sorted from lowest to highest price
+         *
          */
         priceButton.addActionListener(new ActionListener() {
             @Override
@@ -84,20 +103,39 @@ public class GUI extends JFrame {
 
 
         /*
-        * action performed button for ease of entry reviews
-        * returns list of parking lots within the default radius sorted from best to worst (+ unrated) reviews
+         * action performed button for ease of entry reviews
+         * returns list of parking lots within the default radius sorted from best to worst (+ unrated) reviews
          */
         easeOfEntryButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("TODO");
+                // Step 1: Create EOEInputData with the address from the text field
+                String address = textFieldAddress.getText();
+                EOEInputData inputData = new EOEInputData(address);
+
+                // Create the presenter
+                EOEPresenter presenter = new EOEPresenter(GUI.this);
+
+                // Create the interactor with the presenter
+                EOEInteractor interactor = new EOEInteractor(presenter);
+
+                // Execute the interactor
+                interactor.execute(inputData);
+//
+//                // Get sorted ParkingLot objects from EOEOutputData
+//                // Assuming the EOEOutputBoundary.present method saves the output data somewhere accessible
+//                ParkingLot[] sortedParkingLots = EOEOutputData.getSortedParkingLots();
+//
+//                updateParkingLotList(sortedParkingLots);
             }
         });
 
 
+
+
         /*
-        * action performed for availability button
-        * sorts the parking lots within the default radius by availability
+         * action performed for availability button
+         * sorts the parking lots within the default radius by availability
          */
         availabilityButton.addActionListener(new ActionListener() {
             @Override
@@ -108,9 +146,9 @@ public class GUI extends JFrame {
 
 
         /*
-        * action performed for type button
-        * must make user choose between "surface" or "garage"
-        * final results include only the chosen option
+         * action performed for type button
+         * must make user choose between "surface" or "garage"
+         * final results include only the chosen option
          */
         typeButton.addActionListener(new ActionListener() {
             @Override
@@ -120,11 +158,49 @@ public class GUI extends JFrame {
         });
     }
 
+    public void updateParkingLotList(ParkingLot[] parkingLots) {
+        // Update the GUI with the sorted parking lots
+        // For simplicity, let's print them to the console
+        for (ParkingLot lot : parkingLots) {
+            System.out.println(lot);
+        }
+    }
 
 
     public static void main(String[] args) {
 
         new GUI();
+    }
+
+  
+    // Private void; updates the panel corresponding to suggested address buttons
+    private void updateSuggestedAddresses() {
+
+        try{
+            buttonsPanel.removeAll();
+
+            // An array to store the results of the search
+            AutocompletePrediction[] results;
+            results = autoCompletionDAO.getListOfPredictions(textFieldAddress.getText());
+
+            // For later implementation when we ask for the LatLng of the place
+            ArrayList<JButton> buttonsArrayList = new ArrayList<JButton>();
+
+            for (AutocompletePrediction result : results) {
+                JButton b = new JButton(result.description);
+
+                b.setAlignmentX(Component.CENTER_ALIGNMENT);
+                b.setMaximumSize(new Dimension(Integer.MAX_VALUE, b.getMinimumSize().height));
+                buttonsPanel.add(b);
+                buttonsPanel.revalidate(); buttonsPanel.repaint();
+
+                buttonsArrayList.add(b);
+            }
+        }
+        catch (Exception ex){
+            buttonsPanel.removeAll();
+        }
+
     }
 
 
