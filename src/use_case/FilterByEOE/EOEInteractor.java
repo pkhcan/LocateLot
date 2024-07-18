@@ -8,6 +8,8 @@ import use_case.FilterOutput.OutputBoundary;
 import use_case.FilterOutput.OutputData;
 import use_case.FilterOutput.FilterOutputData;
 
+import java.util.ArrayList;
+
 /**
  * Interactor for handling Ease of Entry (EOE) input data and processing.
  */
@@ -40,8 +42,9 @@ public class EOEInteractor implements EOEInputBoundary{
         // receive output code from default proximity filter (identical ratings are sorted further by proximity)
         // Assume FilterOutputData.getFilteredParkingLots() gives us the parking lots to be sorted:
         // TODO - include code from proximity use case to fetch the parking lots viable within radius
-        ParkingLot[] parkingLots = OutputData.getSortedParkingLots();
+//        ParkingLot[] parkingLots = OutputData.getSortedParkingLots();
 
+        ParkingLot[] parkingLots = new ParkingLot[2];
         Filter entryFilter = new EOEFilter();
         entryFilter.filter(parkingLots);
 
