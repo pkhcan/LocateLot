@@ -6,7 +6,7 @@ public class Review {
      */
 
     private int value;
-    private String type;
+//    private String type;
 
     /**
      * @param value
@@ -15,7 +15,7 @@ public class Review {
 
     Review(int value) {
         this.value = value;
-        this.type = type;
+//        this.type = type;
     }
 
     public int getValue() {
@@ -26,12 +26,12 @@ public class Review {
         this.value = value;
     }
 
-    public String getType() {
-        return this.type;
-    }
+//    public String getType() {
+//        return this.type;
+//    }
 
-    public void setType(String value) {
-        this.type = value;
-    }
+//    public void setType(String value) {
+//        this.type = value;
+//    }
 
 }
