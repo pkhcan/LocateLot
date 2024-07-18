@@ -14,8 +14,12 @@ public class ParkingLot {
     public ArrayList<Integer> easeOfEntryReviews;
 
     /**
-    * Requires: xxxxx
-    * @param streetAddress
+     * ParkingLot constructor
+     * @param streetAddress - the street address of the ParkingLot location
+     * @param ID - the identifier for the ParkingLot object
+     * @param linkToWebsite - the link to the website that lists/owns the ParkingLot
+     * @param latitudeLongitude - an array containing the latitude and longitude coordinates of the ParkingLot location
+     * @param timesToRates - the daily price schedule for the ParkingLot location
     */
     public ParkingLot(String ID, String streetAddress, String linkToWebsite, float[] latitudeLongitude, HashMap<String, String> timesToRates) {
         this.ID = ID;
@@ -27,6 +31,10 @@ public class ParkingLot {
         this.easeOfEntryReviews = new ArrayList<>();
     }
 
+    /**
+     * Contructor for ParkingLot object that only takes in one argument
+     * @param streetAddress - the street address of the ParkingLot location
+     */
     public ParkingLot(String streetAddress){
         this.ID = null;
         this.linkToWebsite = "";
@@ -37,6 +45,10 @@ public class ParkingLot {
         this.easeOfEntryReviews = new ArrayList<>();
     }
 
+    /**
+     * getter method for average ease of entry (EOE) review of the ParkingLot
+     * @return String value of the average EOE rating
+     */
     public String getEntryReview() {
         if (easeOfEntryReviews.isEmpty()) {
             return "No reviews yet";
@@ -50,6 +62,10 @@ public class ParkingLot {
         }
     }
 
+    /**
+     * getter method for average ease of finding (EOf) review of the ParkingLot
+     * @return String value of the average EOF rating
+     */
     public String getFindingReview() {
         if (easeOfFindingReviews.isEmpty()) {
             return "No reviews yet";
@@ -63,16 +79,32 @@ public class ParkingLot {
         }
     }
 
-
+    /**
+     * getter method for streetAddress of the ParkingLot
+     * @return String StreetAddress of the ParkingLot
+     */
     public String getAddress() {return streetAddress; }
 
+    /**
+     * getter method for the website link of the ParkingLot
+     * @return String value of the StreetAddress of the ParkingLot
+     */
     public String getWebsiteLink() {return linkToWebsite; }
 
+    /**
+     * getter method for the rate schedule of the ParkingLot
+     * @return HashMap value of the daily rates of the ParkingLot
+     */
     public HashMap<String, String> getRates() {return timesToRates; }
 
+    /**
+     * getter method for the coordinates of the ParkingLot
+     * @return Array of float values of the latitude and longitude of the ParkingLot
+     */
     public float[] getLatitudeLongitude() {
         return this.latitudeLongitude;
     }
+
 
     public void setId (String id) {
         this.ID = id;
