@@ -11,6 +11,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
+
 public class GUI extends JFrame {
 
     private JPanel GUIPanel;
@@ -26,9 +29,14 @@ public class GUI extends JFrame {
     private final AutoCompletionDAO autoCompletionDAO = new AutoCompletionDAO();
 
     public GUI () {
+
         setContentPane(GUIPanel);
-        setTitle("LocateLot!");
+        setTitle("Locate Lot");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
+        GraphicsDevice device = GraphicsEnvironment
+                .getLocalGraphicsEnvironment()
+                .getDefaultScreenDevice();
+
         setSize(900, 400);
         // set location for map here?
         setLocationRelativeTo(null);

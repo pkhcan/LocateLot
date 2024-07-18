@@ -37,6 +37,7 @@ public class ParkingLotDAO implements GreenPDAO {
                 };
                 String streetAddress = parkingLot.get("address").toString();
                 String halfHourlyRate = parkingLot.get("rate_half_hour").toString();
+                String carparkType = parkingLot.get("carpark_type_str").toString();
                 HashMap<String, String> timesToRates = new HashMap<>();
                 // TODO: Create this hashmap
 
