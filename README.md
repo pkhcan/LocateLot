@@ -16,6 +16,7 @@ INDEX
 - Proposed Entities
 - Schedule Planning
 - Directions
+- Functionality
 
 
 - SOFTWARE SPECIFICATION
@@ -68,7 +69,23 @@ Mode of Communication- Instagram group chat, Discord call
 - Directions:
 1. Run GUI.java 
 2. Select closest street address from the drop-down list 
-3. Select the desired filter/sorting method from the buttons 
-     a. Proximity - sorts the nearest parking lots from nearest to furthest
-     b. Radius - expand the radius of your search 
-     c. Price - 
+3. Select the desired filter/sorting method from the buttons
+   a. Proximity - sorts the nearest parking lots from nearest to furthest
+   b. Radius - expand the radius of your search to include parking lots from further away
+   c. Price - view the nearest parking lots from least to most expensive
+   d. Ease of entry - view the nearest parking lots from most to least convenient entrances
+   e. Availability - view the nearest parking lots from largest to smallest capacity
+   f. Type - filter your search for parking lots based on type - surface/garage
+
+- Functionality:
+
+PRESENT - 
+* street address search autocomplete 
+* proximity sorting 
+* radius filter 
+* ease of entry sorting
+
+IN PROGRESS - 
+* type filter 
+* availability filter 
+* price sorting 
