@@ -172,7 +172,7 @@ public class GUI extends JFrame {
         new GUI();
     }
 
-  
+
     // Private void; updates the panel corresponding to suggested address buttons
     private void updateSuggestedAddresses() {
 
@@ -201,6 +201,10 @@ public class GUI extends JFrame {
             buttonsPanel.removeAll();
         }
 
+    }
+
+    private void createUIComponents() {
+        // TODO: place custom component creation code here
     }
 
 

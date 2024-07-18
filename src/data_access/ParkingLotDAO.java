@@ -42,7 +42,7 @@ public class ParkingLotDAO implements GreenPDAO {
                 // TODO: Create this hashmap
 
                 ParkingLotFactory parkingLotFactory = new ParkingLotFactory();
-                ParkingLot newParkingLot = parkingLotFactory.createParkingLot(id, website, latLong, streetAddress, timesToRates);
+                ParkingLot newParkingLot = parkingLotFactory.createParkingLot(id, website,carparkType, latLong, streetAddress, timesToRates);
                 parkingLots.add(newParkingLot);
 
             }
