@@ -3,6 +3,8 @@ package app.gui;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
 
 public class GUI extends JFrame {
 
@@ -18,9 +20,14 @@ public class GUI extends JFrame {
     //    ^^ replace with the API search box and button ?
 
     public GUI () {
+
         setContentPane(GUIPanel);
-        setTitle("LocateLot!");
+        setTitle("Locate Lot");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
+        GraphicsDevice device = GraphicsEnvironment
+                .getLocalGraphicsEnvironment()
+                .getDefaultScreenDevice();
+
         setSize(900, 400);
         // set location for map here?
         setLocationRelativeTo(null);

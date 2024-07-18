@@ -8,6 +8,7 @@ public class ParkingLot {
     private String ID;
     private String streetAddress;
     private String linkToWebsite;
+    private String carparkType;
     private float[] latitudeLongitude;
     private HashMap<String, String> timesToRates;
     public ArrayList<Integer> easeOfFindingReviews;
@@ -17,11 +18,12 @@ public class ParkingLot {
     * Requires: xxxxx
     * @param streetAddress
     */
-    public ParkingLot(String ID, String streetAddress, String linkToWebsite, float[] latitudeLongitude, HashMap<String, String> timesToRates) {
+    public ParkingLot(String ID, String streetAddress,String carparkType, String linkToWebsite, float[] latitudeLongitude, HashMap<String, String> timesToRates) {
         this.ID = ID;
         this.streetAddress = streetAddress;
         this.linkToWebsite = linkToWebsite;
         this.latitudeLongitude = latitudeLongitude;
+        this.carparkType = carparkType;
         this.timesToRates = timesToRates;
     }
 
@@ -87,6 +89,11 @@ public class ParkingLot {
 
     public void setAddress(String streetAddress) {
         this.streetAddress = streetAddress;
+    }
+
+
+    public void setCarparkType(String carparkType) {
+        this.streetAddress = carparkType;
     }
 
 
