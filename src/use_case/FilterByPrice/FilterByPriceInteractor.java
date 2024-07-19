@@ -1,8 +1,16 @@
-package use_case.FilterByPrice;
+ package use_case.FilterByPrice;
 
-public class FilterByPriceInteractor implements FilterByPriceInputBoundary{
+ import data_access.ParkingLotDAO;
 
-    public FilterByPriceInteractor(){};
+ public class FilterByPriceInteractor implements FilterByPriceInputBoundary{
 
-    public void filter(FilterByPriceData filterByPriceData){};
-}
+    public FilterByPriceInteractor(){
+
+    };
+
+     @Override
+     public void sort(ParkingLotDAO parkingLotDAO) {
+
+     }
+
+ }

@@ -1,6 +1,8 @@
 package use_case.FilterByPrice;
 
+import data_access.ParkingLotDAO;
+
 public interface FilterByPriceInputBoundary {
-    public void filter(FilterByPriceData filterByPriceData);
+    public void sort(ParkingLotDAO parkingLotDAO);
 
 }

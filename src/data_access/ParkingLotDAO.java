@@ -36,9 +36,23 @@ public class ParkingLotDAO implements GreenPDAO {
                         Float.parseFloat(parkingLot.get("lng").toString())
                 };
                 String streetAddress = parkingLot.get("address").toString();
+                // Will we use halfHourlyRate?
                 String halfHourlyRate = parkingLot.get("rate_half_hour").toString();
                 HashMap<String, String> timesToRates = new HashMap<>();
-                // TODO: Create this hashmap
+                JSONObject rateDetails = (JSONObject) parkingLot.get("rate_details");
+                JSONArray periods = (JSONArray) rateDetails.get("periods");
+                for (int j = 0; j < periods.size(); j++) {
+                    JSONObject period = (JSONObject) periods.get(j);
+                    JSONArray rates = (JSONArray) period.get("rates");
+                    for (int k = 0; k < rates.size(); k++) {
+                        JSONObject rate = (JSONObject) rates.get(k);
+                        String when = rate.get("when").toString();
+                        String rateValue = rate.get("rate").toString();
+                        timesToRates.put(when, rateValue);
+
+                    }
+                }
+
 
                 ParkingLotFactory parkingLotFactory = new ParkingLotFactory();
                 ParkingLot newParkingLot = parkingLotFactory.createParkingLot(id, website, latLong, streetAddress, timesToRates);
@@ -60,7 +74,11 @@ public class ParkingLotDAO implements GreenPDAO {
 
     @Override
     public ArrayList<ParkingLot> getParkingLotsPrice(double price) {
+        for (int i = 0; i < parkingLots.size(); i++) {
+            ParkingLot parkingLot = parkingLots.get(i);
+        }
         // TODO: Implement method (should iterate through parkingLots)
+
         return null;
     }
 
