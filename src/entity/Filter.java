@@ -4,9 +4,7 @@ import entity.ParkingLot;
 
 public interface Filter {
 
-    public static void filter(ParkingLot[] parkingResults) {
+    default void filter(ParkingLot[] parkingResults) {
 
     }
-
-
 }
