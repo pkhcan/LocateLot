@@ -1,4 +1,5 @@
 package data_access;
+
 import com.google.maps.model.GeocodingResult;
 import entity.ParkingLot;
 import org.json.simple.JSONArray;
@@ -11,11 +12,18 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-
+/**
+ * The type Parking lot dao.
+ */
 public class ParkingLotDAO implements GreenPDAO {
 
     private ArrayList<ParkingLot> parkingLots;
 
+    /**
+     * Instantiates a new Parking lot dao.
+     *
+     * @throws IOException the io exception
+     */
     public ParkingLotDAO() throws IOException {
         this.parkingLots = new ArrayList<>();
         parseFile();
@@ -28,37 +36,24 @@ public class ParkingLotDAO implements GreenPDAO {
             Object obj = parser.parse(reader);
             JSONObject jsonObject = (JSONObject) obj;
             final JSONArray jsonArray = (JSONArray) jsonObject.get("carparks");
+
             for (int i = 0; i < jsonArray.size(); i++) {
                 JSONObject parkingLot = (JSONObject) jsonArray.get(i);
-                String id = parkingLot.get("id").toString();
-                String website = parkingLot.get("slug").toString();
-                float[] latLong = { Float.parseFloat(parkingLot.get("lat").toString()),
-                        Float.parseFloat(parkingLot.get("lng").toString())
-                };
-                String streetAddress = parkingLot.get("address").toString();
-                // Will we use halfHourlyRate?
-                String halfHourlyRate = parkingLot.get("rate_half_hour").toString();
-                String carparkType = parkingLot.get("carpark_type_str").toString();
-                HashMap<String, String> timesToRates = new HashMap<>();
-                JSONObject rateDetails = (JSONObject) parkingLot.get("rate_details");
-                JSONArray periods = (JSONArray) rateDetails.get("periods");
-                for (int j = 0; j < periods.size(); j++) {
-                    JSONObject period = (JSONObject) periods.get(j);
-                    JSONArray rates = (JSONArray) period.get("rates");
-                    for (int k = 0; k < rates.size(); k++) {
-                        JSONObject rate = (JSONObject) rates.get(k);
-                        String when = rate.get("when").toString();
-                        String rateValue = rate.get("rate").toString();
-                        timesToRates.put(when, rateValue);
 
-                    }
-                }
+                String id = parseId(parkingLot);
+                String website = parseWebsite(parkingLot);
+                float[] latLong = parseLatLong(parkingLot);
+                String streetAddress = parseStreetAddress(parkingLot);
 
+                //Back up in case times to rates doesn't work out
+                String halfHourlyRate = parseHalfHourlyRate(parkingLot);
+                String carparkType = parseCarparkType(parkingLot);
+                HashMap<String, String> timesToRates = parseTimesToRates(parkingLot);
+                System.out.println(timesToRates);
 
                 ParkingLotFactory parkingLotFactory = new ParkingLotFactory();
                 ParkingLot newParkingLot = parkingLotFactory.createParkingLot(id, website,carparkType, latLong, streetAddress, timesToRates);
                 parkingLots.add(newParkingLot);
-
             }
 
         } catch (FileNotFoundException e) {
@@ -68,6 +63,53 @@ public class ParkingLotDAO implements GreenPDAO {
         }
     }
 
+
+    private String parseId(JSONObject parkingLot) {
+        return parkingLot.get("id").toString();
+    }
+
+
+    private String parseWebsite(JSONObject parkingLot) {
+        return parkingLot.get("slug").toString();
+    }
+
+    private float[] parseLatLong(JSONObject parkingLot) {
+        return new float[]{
+                Float.parseFloat(parkingLot.get("lat").toString()),
+                Float.parseFloat(parkingLot.get("lng").toString())
+        };
+    }
+
+    private String parseStreetAddress(JSONObject parkingLot) {
+        return parkingLot.get("address").toString();
+    }
+
+    private String parseHalfHourlyRate(JSONObject parkingLot) {
+        return parkingLot.get("rate_half_hour").toString();
+    }
+
+    private String parseCarparkType(JSONObject parkingLot) {
+        return parkingLot.get("carpark_type_str").toString();
+    }
+
+    private HashMap<String, String> parseTimesToRates(JSONObject parkingLot) {
+        HashMap<String, String> timesToRates = new HashMap<>();
+        JSONObject rateDetails = (JSONObject) parkingLot.get("rate_details");
+        JSONArray periods = (JSONArray) rateDetails.get("periods");
+        for (int j = 0; j < periods.size(); j++) {
+            JSONObject period = (JSONObject) periods.get(j);
+            JSONArray rates = (JSONArray) period.get("rates");
+            for (int k = 0; k < rates.size(); k++) {
+                JSONObject rate = (JSONObject) rates.get(k);
+                String when = rate.get("when").toString();
+                String rateValue = rate.get("rate").toString();
+                timesToRates.put(when, rateValue);
+            }
+        }
+        return timesToRates;
+    }
+
+
     @Override
     public ArrayList<ParkingLot> getParkingLots() {
         return this.parkingLots;
@@ -75,11 +117,7 @@ public class ParkingLotDAO implements GreenPDAO {
 
     @Override
     public ArrayList<ParkingLot> getParkingLotsPrice(double price) {
-        for (int i = 0; i < parkingLots.size(); i++) {
-            ParkingLot parkingLot = parkingLots.get(i);
-        }
         // TODO: Implement method (should iterate through parkingLots)
-
         return null;
     }
 
@@ -89,16 +127,23 @@ public class ParkingLotDAO implements GreenPDAO {
         return null;
     }
 
+    /**
+     * Gets closest parking lot.
+     *
+     * @param latitude  the latitude
+     * @param longitude the longitude
+     * @return the closest parking lot
+     */
     public ParkingLot getClosestParkingLot(double latitude, double longitude) {
-        if(this.parkingLots == null || this.parkingLots.isEmpty()) return null;
+        if (this.parkingLots == null || this.parkingLots.isEmpty()) return null;
         ParkingLot closest = null;
         double smallestDistance = Double.MAX_VALUE;
 
-        for(ParkingLot parkingLot : this.parkingLots) {
+        for (ParkingLot parkingLot : this.parkingLots) {
             float[] latLong = parkingLot.getLatitudeLongitude();
             double distance = Math.hypot(latLong[0] - latitude, latLong[1] - longitude);
 
-            if(distance < smallestDistance) {
+            if (distance < smallestDistance) {
                 smallestDistance = distance;
                 closest = parkingLot;
             }
@@ -107,12 +152,17 @@ public class ParkingLotDAO implements GreenPDAO {
         return closest;
     }
 
+    /**
+     * Gets closest parking lot.
+     *
+     * @param address the address
+     * @return the closest parking lot
+     */
     public ParkingLot getClosestParkingLot(String address) {
         try {
             GeocodingResult[] result = GeoApiDAO.getLatitudeLongitude(address);
             return getClosestParkingLot(result[0].geometry.location.lat, result[0].geometry.location.lng);
-        }
-        catch(Exception e) {
+        } catch (Exception e) {
             System.out.println("Error getting closest parking lot");
             System.out.println(e.getMessage());
             return null;
