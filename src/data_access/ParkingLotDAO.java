@@ -44,15 +44,14 @@ public class ParkingLotDAO implements GreenPDAO {
                 String website = parseWebsite(parkingLot);
                 float[] latLong = parseLatLong(parkingLot);
                 String streetAddress = parseStreetAddress(parkingLot);
-
-                //Back up in case times to rates doesn't work out
-                String halfHourlyRate = parseHalfHourlyRate(parkingLot);
                 String carparkType = parseCarparkType(parkingLot);
                 HashMap<String, String> timesToRates = parseTimesToRates(parkingLot);
+                String halfHourlyRate = parseHalfHourlyRate(parkingLot);
                 System.out.println(timesToRates);
+                System.out.println(halfHourlyRate);
 
                 ParkingLotFactory parkingLotFactory = new ParkingLotFactory();
-                ParkingLot newParkingLot = parkingLotFactory.createParkingLot(id, website,carparkType, latLong, streetAddress, timesToRates);
+                ParkingLot newParkingLot = parkingLotFactory.createParkingLot(id, website,carparkType, latLong, streetAddress, halfHourlyRate, timesToRates);
                 parkingLots.add(newParkingLot);
             }
 
@@ -99,11 +98,15 @@ public class ParkingLotDAO implements GreenPDAO {
         for (int j = 0; j < periods.size(); j++) {
             JSONObject period = (JSONObject) periods.get(j);
             JSONArray rates = (JSONArray) period.get("rates");
+
             for (int k = 0; k < rates.size(); k++) {
                 JSONObject rate = (JSONObject) rates.get(k);
                 String when = rate.get("when").toString();
                 String rateValue = rate.get("rate").toString();
-                timesToRates.put(when, rateValue);
+
+                if ("Day Maximum (7am - 6pm)".equals(when) || "Night Maximum (6pm - 7am)".equals(when)) {
+                    timesToRates.put(when, rateValue);
+                }
             }
         }
         return timesToRates;

@@ -9,7 +9,8 @@
     };
 
      @Override
-     public void sort(ParkingLotDAO parkingLotDAO) {
+     public void sort(ParkingLotDAO parkingLotDAO, int radius) {
+
 
      }
 
