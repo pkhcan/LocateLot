@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 public class ParkingLotFactory {
 
-    public static ParkingLot createParkingLot(String id, String website, String carparkType, float[] latLong, String streetAddress, String halfHourlyRate, HashMap<String, String> timesToRates) {
+    public static ParkingLot createParkingLot(String id, String website, String carparkType, double[] latLong, String streetAddress, String halfHourlyRate, HashMap<String, String> timesToRates) {
 
         ParkingLot parkingLot = new ParkingLot(streetAddress);
         parkingLot.setId(id);
