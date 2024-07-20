@@ -8,9 +8,9 @@ import entity.ParkingLot;
 import entity.EOEFilter;
 import data_access.GeoApiDAO;
 
-import use_case.FilterByRadius.FilterByRadiusInputData;
-import use_case.FilterByRadius.FilterByRadiusInteractor;
-import use_case.FilterByRadius.FilterByRadiusPresenter;
+//import use_case.FilterByRadius.FilterByRadiusInputData;
+//import use_case.FilterByRadius.FilterByRadiusInteractor;
+//import use_case.FilterByRadius.FilterByRadiusPresenter;
 import use_case.FilterOutput.OutputBoundary;
 import use_case.FilterOutput.OutputData;
 
@@ -56,10 +56,10 @@ public class EOEInteractor implements EOEInputBoundary{
         // receive output code from default proximity filter (identical ratings are sorted further by proximity)
         // Assume FilterOutputData.getFilteredParkingLots() gives us the parking lots to be sorted:
         // TODO - include code from proximity use case to fetch the parking lots viable within radius
-        ArrayList<ParkingLot> parkingLotArray = ParkingLotDAO.getParkingLots();
-        ParkingLot[] parkingLots = parkingLotArray.toArray(new ParkingLot[0]);
+//        ArrayList<ParkingLot> parkingLotArray = ParkingLotDAO.getParkingLots();
+//        ParkingLot[] parkingLots = parkingLotArray.toArray(new ParkingLot[0]);
 
-//        ParkingLot[] parkingLots = new ParkingLot[3];
+        ParkingLot[] parkingLots = new ParkingLot[5];
         Filter entryFilter = new EOEFilter();
         entryFilter.filter(parkingLots);
 
