@@ -9,7 +9,7 @@
     };
 
      @Override
-     public void sort(FilterByPriceInputData filterbyPriceInputData, float radius) {
+     public void sort(FilterByPriceInputData filterbyPriceInputData) {
 
 
      }
