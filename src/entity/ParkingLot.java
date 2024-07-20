@@ -7,7 +7,7 @@ import java.util.HashMap;
 public class ParkingLot {
     private String ID;
     private String streetAddress;
-    private String carParkType;
+    private String carparkType;
     private String linkToWebsite;
     private double[] latitudeLongitude;
     private String halfHourlyRate;
@@ -30,7 +30,7 @@ public class ParkingLot {
         this.streetAddress = streetAddress;
         this.linkToWebsite = linkToWebsite;
         this.latitudeLongitude = latitudeLongitude;
-        this.carParkType = carparkType;
+        this.carparkType = carparkType;
         this.halfHourlyRate = halfHourlyRate;
         this.timesToRates = timesToRates;
         this.easeOfFindingReviews = new ArrayList<>();
@@ -112,6 +112,8 @@ public class ParkingLot {
         return this.latitudeLongitude;
     }
 
+    public String getCarParkType() { return this.carparkType; }
+
 
     public void setId (String id) {
         this.ID = id;
@@ -134,7 +136,7 @@ public class ParkingLot {
 
 
     public void setCarparkType(String carparkType) {
-        this.carParkType = carparkType;
+        this.carparkType = carparkType;
     }
 
 

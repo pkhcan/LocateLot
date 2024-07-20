@@ -104,11 +104,12 @@ public class GUI extends JFrame {
         });
 
 
-        /*
-         * action performed button for ease of entry reviews
-         * returns list of parking lots within the default radius sorted from best to worst (+ unrated) reviews
-         */
         easeOfEntryButton.addActionListener(new ActionListener() {
+            /**
+             * action performed button for ease of entry reviews
+             * returns list of parking lots within the default radius sorted from best to worst (+ unrated) reviews
+             *
+             */
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Step 1: Create EOEInputData with the address from the text field
@@ -130,7 +131,7 @@ public class GUI extends JFrame {
 
 //                // Get sorted ParkingLot objects from EOEOutputData
 //                // Assuming the EOEOutputBoundary.present method saves the output data somewhere accessible
-//                ParkingLot[] sortedParkingLots = EOEOutputData.getSortedParkingLots();
+//                ParkingLot[] sortedParkingLots = OutputData.getSortedParkingLots();
 //
 //                updateParkingLotList(sortedParkingLots);
             }
