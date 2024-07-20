@@ -2,6 +2,7 @@ package data_access;
 
 import com.google.maps.model.GeocodingResult;
 import entity.ParkingLot;
+import entity.ParkingLotFactory;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -11,6 +12,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * The type Parking lot dao.
@@ -143,7 +145,7 @@ public class ParkingLotDAO implements GreenPDAO {
         double smallestDistance = Double.MAX_VALUE;
 
         for (ParkingLot parkingLot : this.parkingLots) {
-            float[] latLong = parkingLot.getLatitudeLongitude();
+            double[] latLong = parkingLot.getLatitudeLongitude();
             double distance = Math.hypot(latLong[0] - latitude, latLong[1] - longitude);
 
             if (distance < smallestDistance) {
@@ -165,7 +167,8 @@ public class ParkingLotDAO implements GreenPDAO {
         try {
             GeocodingResult[] result = GeoApiDAO.getLatitudeLongitude(address);
             return getClosestParkingLot(result[0].geometry.location.lat, result[0].geometry.location.lng);
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             System.out.println("Error getting closest parking lot");
             System.out.println(e.getMessage());
             return null;
