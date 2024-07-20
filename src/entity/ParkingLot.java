@@ -7,27 +7,31 @@ import java.util.HashMap;
 public class ParkingLot {
     private String ID;
     private String streetAddress;
-    private String linkToWebsite;
     private String carparkType;
+    private String linkToWebsite;
     private float[] latitudeLongitude;
+    private String halfHourlyRate;
     private HashMap<String, String> timesToRates;
     public ArrayList<Integer> easeOfFindingReviews;
     public ArrayList<Integer> easeOfEntryReviews;
 
     /**
      * ParkingLot constructor
-     * @param streetAddress - the street address of the ParkingLot location
-     * @param ID - the identifier for the ParkingLot object
-     * @param linkToWebsite - the link to the website that lists/owns the ParkingLot
+     *
+     * @param ID                - the identifier for the ParkingLot object
+     * @param streetAddress     - the street address of the ParkingLot location
+     * @param carparkType       - the carpark type
+     * @param linkToWebsite     - the link to the website that lists/owns the ParkingLot
      * @param latitudeLongitude - an array containing the latitude and longitude coordinates of the ParkingLot location
-     * @param timesToRates - the daily price schedule for the ParkingLot location
-    */
-    public ParkingLot(String ID, String streetAddress,String carparkType, String linkToWebsite, float[] latitudeLongitude, HashMap<String, String> timesToRates) {
+     * @param halfHourlyRate    - the daily price schedule for the ParkingLot location
+     */
+    public ParkingLot(String ID, String streetAddress,String carparkType, String linkToWebsite, float[] latitudeLongitude, String halfHourlyRate, HashMap<String, String> timesToRates) {
         this.ID = ID;
         this.streetAddress = streetAddress;
         this.linkToWebsite = linkToWebsite;
         this.latitudeLongitude = latitudeLongitude;
         this.carparkType = carparkType;
+        this.halfHourlyRate = halfHourlyRate;
         this.timesToRates = timesToRates;
         this.easeOfFindingReviews = new ArrayList<>();
         this.easeOfEntryReviews = new ArrayList<>();
@@ -43,6 +47,7 @@ public class ParkingLot {
         this.latitudeLongitude = new float[2];
         this.timesToRates = new HashMap<>();
         this.streetAddress = streetAddress;
+        this.halfHourlyRate = "";
         this.easeOfFindingReviews = new ArrayList<>();
         this.easeOfEntryReviews = new ArrayList<>();
     }
@@ -131,6 +136,9 @@ public class ParkingLot {
     public void setCarparkType(String carparkType) {
         this.streetAddress = carparkType;
     }
+
+
+    public void setHalfHourlyRate(String halfHourlyRate) {this.halfHourlyRate = halfHourlyRate;}
 
 
     public void setTimestoRates(HashMap<String, String> timesToRates) {
