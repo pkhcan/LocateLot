@@ -22,7 +22,7 @@ public class FilterByPriceData {
 
     /**
      *
-     * @return the time of the desired time to get the price range at
+     * @return the time of the desired parking lot to get the price range at
      */
     public LocalTime getTime() {return time;};
 }
