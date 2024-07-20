@@ -9,7 +9,7 @@
     };
 
      @Override
-     public void sort(ParkingLotDAO parkingLotDAO, int radius) {
+     public void sort(FilterByPriceInputData filterbyPriceInputData, float radius) {
 
 
      }

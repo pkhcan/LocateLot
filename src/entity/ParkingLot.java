@@ -9,7 +9,7 @@ public class ParkingLot {
     private String streetAddress;
     private String carparkType;
     private String linkToWebsite;
-    private float[] latitudeLongitude;
+    private double[] latitudeLongitude;
     private String halfHourlyRate;
     private HashMap<String, String> timesToRates;
     public ArrayList<Integer> easeOfFindingReviews;
@@ -25,7 +25,7 @@ public class ParkingLot {
      * @param latitudeLongitude - an array containing the latitude and longitude coordinates of the ParkingLot location
      * @param halfHourlyRate    - the daily price schedule for the ParkingLot location
      */
-    public ParkingLot(String ID, String streetAddress,String carparkType, String linkToWebsite, float[] latitudeLongitude, String halfHourlyRate, HashMap<String, String> timesToRates) {
+    public ParkingLot(String ID, String streetAddress, String linkToWebsite, double[] latitudeLongitude, String carparkType, String halfHourlyRate, HashMap<String, String> timesToRates) {
         this.ID = ID;
         this.streetAddress = streetAddress;
         this.linkToWebsite = linkToWebsite;
@@ -44,7 +44,7 @@ public class ParkingLot {
     public ParkingLot(String streetAddress){
         this.ID = null;
         this.linkToWebsite = "";
-        this.latitudeLongitude = new float[2];
+        this.latitudeLongitude = new double[2];
         this.timesToRates = new HashMap<>();
         this.streetAddress = streetAddress;
         this.halfHourlyRate = "";
@@ -65,7 +65,7 @@ public class ParkingLot {
             for (Integer review : easeOfEntryReviews) {
                 sum += review;
             }
-            return String.valueOf((float) sum / count);
+            return String.valueOf((double) sum / count);
         }
     }
 
@@ -82,7 +82,7 @@ public class ParkingLot {
             for (Integer review : easeOfFindingReviews) {
                 sum += review;
             }
-            return String.valueOf((float) sum / count);
+            return String.valueOf((double) sum / count);
         }
     }
 
@@ -108,7 +108,7 @@ public class ParkingLot {
      * getter method for the coordinates of the ParkingLot
      * @return Array of float values of the latitude and longitude of the ParkingLot
      */
-    public float[] getLatitudeLongitude() {
+    public double[] getLatitudeLongitude() {
         return this.latitudeLongitude;
     }
 
@@ -123,7 +123,7 @@ public class ParkingLot {
     }
 
 
-    public void setLatLong(float[] LatLong) {
+    public void setLatLong(double[] LatLong) {
         this.latitudeLongitude = LatLong;
     }
 

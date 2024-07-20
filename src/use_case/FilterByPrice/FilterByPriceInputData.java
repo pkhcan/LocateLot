@@ -1,17 +1,25 @@
 package use_case.FilterByPrice;
 
-import java.time.LocalTime;
+import data_access.ParkingLotDAO;
 
-public class FilterByPriceData {
+import java.time.LocalTime;
+import java.util.ArrayList;
+import entity.ParkingLot;
+
+public class FilterByPriceInputData {
 
     final float min;
     final float max;
     final LocalTime time;
+    final int radius;
+    final ParkingLotDAO parkingLotDAO;
 
-    public FilterByPriceData(float min, float max, LocalTime time) {
+    public FilterByPriceInputData(float min, float max, LocalTime time, int radius, ParkingLotDAO parkingLotDAO) {
         this.min = min;
         this.max = max;
         this.time = time;
+        this.radius = radius;
+        this.parkingLotDAO = parkingLotDAO;
     }
 
     /**
@@ -26,3 +34,4 @@ public class FilterByPriceData {
      */
     public LocalTime getTime() {return time;};
 }
+

@@ -1,10 +1,6 @@
-package data_access;
-
-import entity.ParkingLot;
+package entity;
 
 import java.util.HashMap;
-
-import java.util.List;
 
 public class ParkingLotFactory {
 
