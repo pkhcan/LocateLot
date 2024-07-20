@@ -1,5 +1,6 @@
 package app.gui;
 
+import com.google.maps.errors.ApiException;
 import com.google.maps.model.AutocompletePrediction;
 import data_access.AutoCompletionDAO;
 
@@ -14,6 +15,7 @@ import use_case.FilterByEOE.EOEInteractor;
 import entity.ParkingLot;
 import interface_adapter.EOEPresenter;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import java.awt.GraphicsDevice;
@@ -120,8 +122,12 @@ public class GUI extends JFrame {
                 EOEInteractor interactor = new EOEInteractor(presenter);
 
                 // Execute the interactor
-                interactor.execute(inputData);
-//
+                try {
+                    interactor.execute(inputData);
+                } catch (IOException | InterruptedException | ApiException ex) {
+                    throw new RuntimeException(ex);
+                }
+
 //                // Get sorted ParkingLot objects from EOEOutputData
 //                // Assuming the EOEOutputBoundary.present method saves the output data somewhere accessible
 //                ParkingLot[] sortedParkingLots = EOEOutputData.getSortedParkingLots();

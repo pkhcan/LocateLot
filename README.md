@@ -69,7 +69,8 @@ Meeting time outside of lab- Tuesdays 5pm-6pm, Weekends
 Mode of Communication- Instagram group chat, Discord call 
 
 DIRECTIONS:
-1. Run GUI.java 
+1. set up environmental variable (google maps) - API key
+2. Run GUI.java 
 2. Select closest street address from the drop-down list 
 3. Select the desired filter/sorting method from the buttons
    a. Proximity - sorts the nearest parking lots from nearest to furthest
