@@ -112,6 +112,8 @@ public class ParkingLot {
         return this.latitudeLongitude;
     }
 
+    public String getCarParkType() { return this.carparkType; }
+
 
     public void setId (String id) {
         this.ID = id;
@@ -134,7 +136,7 @@ public class ParkingLot {
 
 
     public void setCarparkType(String carparkType) {
-        this.streetAddress = carparkType;
+        this.carparkType = carparkType;
     }
 
 

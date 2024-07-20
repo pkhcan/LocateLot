@@ -17,13 +17,15 @@ public class ParkingLotTest {
     public void setUp() {
         String id = "1";
         String streetAddress = "123 Main St";
+        String carParkType = "Garage";
         String linkToWebsite = "http://example.com";
         float[] latitudeLongitude = {40.7128f, -74.0060f};
+        String halfHourlyRate = "7.50";
         HashMap<String, String> timesToRates = new HashMap<>();
         timesToRates.put("9AM-5PM", "$10");
         timesToRates.put("5PM-12AM", "$15");
 
-        parkingLot = new ParkingLot(id, streetAddress, linkToWebsite, latitudeLongitude, timesToRates);
+        parkingLot = new ParkingLot(id, streetAddress, carParkType, linkToWebsite, latitudeLongitude, halfHourlyRate, timesToRates);
     }
     @Test
     public void testGetAddress() {
@@ -75,6 +77,12 @@ public class ParkingLotTest {
     public void testGetFindingReview_NoReviews() {
         parkingLot.easeOfFindingReviews = new ArrayList<>();
         assertEquals("No reviews yet", parkingLot.getFindingReview());
+    }
+
+    @Test
+    public void testSetCarParkType () {
+        parkingLot.setCarparkType("Surface");
+        assertEquals("Surface", parkingLot.getCarParkType());
     }
 }
 
