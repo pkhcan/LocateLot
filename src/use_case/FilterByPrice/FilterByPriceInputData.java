@@ -20,7 +20,7 @@ public class FilterByPriceInputData {
      *
      * @return the time of the desired parking lot to get the price range at
      */
-    public LocalTime getTime() {return time;}
+    public String getTime() {return Integer.toString(time.getHour());}
 }
 
     // Use the method from nikoo_sandbox, FilterByRadiusInteractor.java that says execute:
