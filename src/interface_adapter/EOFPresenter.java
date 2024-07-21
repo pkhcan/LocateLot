@@ -23,7 +23,7 @@ public class EOFPresenter implements OutputBoundary {
     }
 
     /**
-     * Presents the EOE output data to the GUI by updating the parking lot list.
+     * Presents the EOF output data to the GUI by updating the parking lot list.
      *
      * @param outputData the output data containing sorted parking lots to present
      */

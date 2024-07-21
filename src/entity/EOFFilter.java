@@ -5,14 +5,9 @@ import java.util.Comparator;
 
 public class EOFFilter implements Filter {
 
-
 //    - retrieve all ParkingLot objects that are to be displayed
-//    - use getEntryReview method to collect all their ratings
-//    - create a list of indices of all the unrated ones - they return "No reviews yet"
-//    - sort the rest in descending order and store their indices in an array in their respective order
-//    - concatenate with the unrated list - unrated goes at the end
-//    - sort input list of parking objects in the order of new list indices
-
+//    - use getCapacity method to collect all the capacities
+//    - sort the parking lots based on their capacities
 
     /**
      * Sort array of ParkingLot objects in place based on entry reviews.
@@ -21,7 +16,7 @@ public class EOFFilter implements Filter {
      * @param parkingResults Array of ParkingLot objects to be sorted
      */
     public void filter(ParkingLot[] parkingResults) {
-        Arrays.sort(parkingResults, new Comparator<ParkingLot>() {
+        Arrays.sort(parkingResults, new Comparator<>() {
             /**
              *
              * @param p1 the first object to be compared.
