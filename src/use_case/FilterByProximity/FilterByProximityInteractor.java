@@ -6,6 +6,7 @@ import data_access.GeoApiDAO;
 import data_access.ParkingLotDAO;
 import entity.Filter;
 import entity.ParkingLot;
+import entity.ProximityFilter;
 import use_case.FilterOutput.OutputData;
 
 import java.io.IOException;
@@ -16,8 +17,8 @@ public class FilterByProximityInteractor implements FilterByProximityInputBounda
     /**
      * Filter by proximity use case interactor. Implements default proximity filter.
      */
-    final ParkingLotDAO parkingLotDAO;
-    final FilterByProximityOutputBoundary filterByProximityPresenter;
+    private final ParkingLotDAO parkingLotDAO;
+    private final FilterByProximityOutputBoundary filterByProximityPresenter;
     private List<ParkingLot> filteredByProximity;
 
     public FilterByProximityInteractor(FilterByProximityOutputBoundary filterByProximityPresenter) throws IOException {
@@ -33,14 +34,14 @@ public class FilterByProximityInteractor implements FilterByProximityInputBounda
         List<ParkingLot> parkingLots = parkingLotDAO.getParkingLots();
         // input data should get parkingLots from a new DAO instance so that the getClosest method from DAO can work
 
-//        ProximityFilter filter = new ProximityFilter();
-//        filteredByProximity = filter.filter(latitude, longitude, parkingLots);
-
         try {
             GeocodingResult[] result = GeoApiDAO.getLatitudeLongitude(filterByProximityInputData.getAddress());
             double latitude = result[0].geometry.location.lat;
             double longitude = result[0].geometry.location.lng;
-            filteredByProximity = parkingLotDAO.getClosestParkingLots(latitude, longitude, parkingLotDAO.getParkingLots());
+            filteredByProximity.clear();
+            ProximityFilter filter = new ProximityFilter();
+            filteredByProximity = filter.filter(latitude, longitude, (ArrayList) parkingLots);
+//            filteredByProximity = parkingLotDAO.getClosestParkingLots(latitude, longitude, parkingLotDAO.getParkingLots());
 
             FilterByProximityOutputData outputData = new FilterByProximityOutputData(filteredByProximity);
             filterByProximityPresenter.prepareSuccessView(outputData);

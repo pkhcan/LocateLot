@@ -20,7 +20,6 @@ import java.util.List;
  */
 public class ParkingLotDAO implements GreenPDAO {
 
-    private static final double EARTH_RAD_KM = 6371.0;
     private ArrayList<ParkingLot> parkingLots;
 
     /**
@@ -204,7 +203,7 @@ public class ParkingLotDAO implements GreenPDAO {
             parkingLots.remove(closest);
             closestParkingLots.add(closest);
         }
-        // remember to add to interface
+
         return (ArrayList<ParkingLot>) closestParkingLots;
     }
 
@@ -242,7 +241,7 @@ public class ParkingLotDAO implements GreenPDAO {
      * @param lng2
      * @return distance between two coordinate points in km
      */
-    public static double coordinateDistanceDegToKM(double lat1, double lng1, double lat2, double lng2) {
+    private static double coordinateDistanceDegToKM(double lat1, double lng1, double lat2, double lng2) {
         double earthRadiusKM = 6371.0; // radius of the earth in km
         double latMinusLat = Math.toRadians(lat2 - lat1); // difference between two latitudes in radians
         double lngMinusLng = Math.toRadians(lng2 - lng1); // difference between two longitudes in radians

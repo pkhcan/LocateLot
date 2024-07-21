@@ -34,53 +34,24 @@ public class FilterByRadiusInteractor implements FilterByRadiusInputBoundary {
 
     @Override
     public void execute(FilterByRadiusInputData filterByRadiusInputData) {
-//        if (!parkingLotDAO.addressInParkingLots(filterByRadiusInputData.getAddress())) {
-//            filterByRadiusPresenter.prepareFailView("Address not found. Please try again with a different address.");
-//        }
-
 
         try {
             GeocodingResult[] result = GeoApiDAO.getLatitudeLongitude(filterByRadiusInputData.getAddress());
             double latitude = result[0].geometry.location.lat;
             double longitude = result[0].geometry.location.lng;
-            int radius = filterByRadiusInputData.getRadius();
-//        ParkingLot testParkingLots = parkingLotDAO.getParkingLots().get(0);
-//        double[] latLong = testParkingLots.getLatitudeLongitude();
+            double radius = filterByRadiusInputData.getRadius();
+
             RadiusFilter filter = new RadiusFilter();
             filteredByRadius = filter.filter(radius, latitude, longitude,
                     parkingLotDAO.getClosestParkingLots(latitude, longitude, parkingLotDAO.getParkingLots()));
-//            for (ParkingLot parkingLot : parkingLotDAO.getClosestParkingLots(latitude, longitude,
-//                    parkingLotDAO.getParkingLots())) { // Iterating through parking lots filtered based on proximity
-//                double[] latLongLot = parkingLot.getLatitudeLongitude();
-//                double distance = Math.hypot(latitude - latLongLot[0], longitude - latLongLot[1]);
-//                if (distance <= radius) {
-//                    filteredByRadius.add(parkingLot);
-//                }
-
             FilterByRadiusOutputData filterByRadiusOutputData = new FilterByRadiusOutputData(filteredByRadius);
             filterByRadiusPresenter.prepareSuccessView(filterByRadiusOutputData);
         } catch (Exception e) {
             System.out.println("Geocoding error");
             System.out.println(e.getMessage());
         }
-
-//        ParkingLot testParkingLots = parkingLotDAO.getParkingLots().get(0);
-//        double[] latLong = testParkingLots.getLatitudeLongitude();
-
-
-//            for (ParkingLot parkingLot : parkingLotDAO.getClosestParkingLots(latitude, longitude,
-//                    parkingLotDAO.getParkingLots())) { // Iterating through parking lots filtered based on proximity
-//                double[] latLongLot = parkingLot.getLatitudeLongitude();
-//                double distance = Math.hypot(latitude - latLongLot[0], longitude - latLongLot[1]);
-//                if (distance <= radius) {
-//                    filteredByRadius.add(parkingLot);
-//                }
-//            }
-
     }
 }
-
-
 
 
 

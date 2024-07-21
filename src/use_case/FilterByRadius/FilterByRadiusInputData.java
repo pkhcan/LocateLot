@@ -1,18 +1,15 @@
 package use_case.FilterByRadius;
 
 import data_access.ParkingLotDAO;
-import entity.ParkingLot;
-import java.util.ArrayList;
-import java.util.List;
 
 public class FilterByRadiusInputData {
 
-    private final int radius;
+    private final double radius;
     private ParkingLotDAO parkingLotDAO;
 //    private final double[] latLong;
     private String address;
 
-    public FilterByRadiusInputData(int radius, String address) {
+    public FilterByRadiusInputData(double radius, String address) {
         /**
          * If user input does not specify radius (default int = 0) let the default radius be 3km.
          */
@@ -34,7 +31,7 @@ public class FilterByRadiusInputData {
         return this.address;
     }
 
-    public int getRadius() {
+    public double getRadius() {
         return radius;
     }
 }
