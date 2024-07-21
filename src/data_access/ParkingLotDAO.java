@@ -11,7 +11,9 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * The type Parking lot dao.
@@ -49,7 +51,7 @@ public class ParkingLotDAO implements GreenPDAO {
                 String carparkType = parseCarparkType(parkingLot);
                 HashMap<String, String> timesToRates = parseTimesToRates(parkingLot);
                 String halfHourlyRate = parseHalfHourlyRate(parkingLot);
-                System.out.println(latLong);
+//                System.out.println(latLong);
 
                 ParkingLotFactory parkingLotFactory = new ParkingLotFactory();
                 ParkingLot newParkingLot = parkingLotFactory.createParkingLot(id, website,carparkType, latLong, streetAddress, halfHourlyRate, timesToRates, capacity);
@@ -182,4 +184,62 @@ public class ParkingLotDAO implements GreenPDAO {
             return null;
         }
     }
+
+    /**
+     * Returns filtered list of closest parking lots
+     *
+     * @param latitude current latitude
+     * @param longitude current longitude
+     * @param parkingLots list of parking lots to filter based on proximity
+     * @return list of parking lots in order of closest to farthest
+     */
+
+    public ArrayList<ParkingLot> getClosestParkingLots(double latitude, double longitude, List<ParkingLot> parkingLots) {
+        if (parkingLots == null || parkingLots.isEmpty()) return null;
+
+        List<ParkingLot> closestParkingLots = new ArrayList<>();
+        while (!parkingLots.isEmpty()) {
+            ParkingLot closest = getClosestParkingLot(latitude, longitude);
+            parkingLots.remove(closest);
+            closestParkingLots.add(closest);
+        }
+        // remember to add to interface
+        return (ArrayList<ParkingLot>) closestParkingLots;
+    }
+
+    /**
+     * Fetches list of parking lots within a default (3km) radius
+     *
+     * @param latitude
+     * @param longitude
+     * @param parkingLots list of parking lots to sort through
+     * @return list of parking lots within default radius
+     */
+    public ArrayList<ParkingLot> getParkingLotsWithinRadius(double latitude, double longitude,
+                                                            List<ParkingLot> parkingLots) {
+        int radius = 3;
+        ArrayList<ParkingLot> parkingLotsWithinRadius = new ArrayList<>();
+        for (ParkingLot parkingLot : parkingLots) {
+            double distance = Math.hypot(latitude - parkingLot.getLatitudeLongitude()[0],
+                    longitude - parkingLot.getLatitudeLongitude()[1]);
+            if (distance <= radius) parkingLotsWithinRadius.add(parkingLot);
+        }
+
+        return parkingLotsWithinRadius;
+    }
+
+//    public static double calculateDistance(double lat1, double lon1, double lat2, double lon2) {
+//        double deltaLat = Math.toRadians(lat2 - lat1);
+//        double deltaLon = Math.toRadians(lon2 - lon1);
+//
+//        double a = Math.sin(deltaLat / 2) * Math.sin(deltaLat / 2) +
+//                Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2)) *
+//                        Math.sin(deltaLon / 2) * Math.sin(deltaLon / 2);
+//
+//        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+//
+//        return EARTH_RADIUS_KM * c;
+//    }
+
+
 }

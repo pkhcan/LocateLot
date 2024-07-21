@@ -8,10 +8,11 @@ import java.util.List;
 public class FilterByRadiusInputData {
 
     private final int radius;
-    private List<ParkingLot> parkingLots;
-    private final double[] latLong;
+    private ParkingLotDAO parkingLotDAO;
+//    private final double[] latLong;
+    private String address;
 
-    public FilterByRadiusInputData(int radius, double[] latLong, ArrayList<ParkingLot> parkingLots) {
+    public FilterByRadiusInputData(int radius, String address) {
         /**
          * If user input does not specify radius (default int = 0) let the default radius be 3km.
          */
@@ -22,16 +23,15 @@ public class FilterByRadiusInputData {
             this.radius = 3;
         }
 //        this.parkingLots = parkingLotDAO.getParkingLots();
-        this.latLong = latLong;
-        this.parkingLots = parkingLots;
+        this.address = address;
     }
 
-    public List<ParkingLot> getParkingLots() {
-        return parkingLots;
-    }
+//    public List<ParkingLot> getParkingLots() {
+//        return parkingLots;
+//    }
 
-    public double[] getLatLong() {
-        return latLong;
+    public String getAddress() {
+        return this.address;
     }
 
     public int getRadius() {
