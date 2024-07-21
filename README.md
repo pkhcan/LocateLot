@@ -74,9 +74,9 @@ DIRECTIONS:
 3. Select closest street address from the drop-down list - ensure the typed address matches the selection (in spelling - will not work otherwise -- see below for example inputs)
 4. Select the desired filter/sorting method from the buttons 
    a. Proximity - sorts the nearest parking lots from nearest to furthest
-   b. Radius - expand the radius of your search to include parking lots from further away
+   b. Radius - expand the radius of your search to include parking lots from further away 
    c. Price - view the nearest parking lots from least to most expensive
-   d. Ease of entry - view the nearest parking lots from most to least convenient entrances
+   d. Ease of entry - implemented - view the nearest parking lots from most to least convenient entrances (does not sort as review storing functionality has not yet been implemented; entity.EOEFilter contains sorting logic and has a test in test.unit_tests.EOEFilterTest)
    e. Availability - view the nearest parking lots from largest to smallest capacity
    f. Type - filter your search for parking lots based on type
 5. View the list of ideal parking lots at the bottom of the console ("Run" tab on the left on IntelliJ)
@@ -92,9 +92,10 @@ FUNCTIONALITY
 
 Present
 * street address search autocomplete 
-* proximity sorting 
-* radius filter 
 * ease of entry sorting
+* tests for entity.ParkingLot, entity.EOEFilter, EOEPresenter, EOEInputData, OutputData, FakeGUI(to test presenter)
+* radius filter
+* proximity sorting
 
 In Progress
 * type filter 
