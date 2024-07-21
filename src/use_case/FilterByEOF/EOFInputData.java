@@ -1,18 +1,15 @@
 package use_case.FilterByEOF;
 
-import java.time.LocalTime;
-
 public class EOFInputData {
 
-    final private int minimumEOFRating;
-    final private LocalTime time;
+    final String address;
 
-    public EOFInputData(int minimumEOFRating, LocalTime time) {
-        this.minimumEOFRating = minimumEOFRating;
-        this.time = time;
+    public EOFInputData(String address) {
+        this.address = address;
     }
 
-    public int getMinimumEOFRating() {return minimumEOFRating;}
+    public String getAddress() {
+        return this.address;
+    }
 
-    public LocalTime getTime() {return time;}
 }

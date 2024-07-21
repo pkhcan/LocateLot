@@ -12,7 +12,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * The type Parking lot dao.
@@ -44,7 +43,8 @@ public class ParkingLotDAO implements GreenPDAO {
 
                 String id = parseId(parkingLot);
                 String website = parseWebsite(parkingLot);
-                float[] latLong = parseLatLong(parkingLot);
+                double[] latLong = parseLatLong(parkingLot);
+                int capacity = parseCapacity(parkingLot);
                 String streetAddress = parseStreetAddress(parkingLot);
                 String carparkType = parseCarparkType(parkingLot);
                 HashMap<String, String> timesToRates = parseTimesToRates(parkingLot);
@@ -53,7 +53,7 @@ public class ParkingLotDAO implements GreenPDAO {
                 System.out.println(halfHourlyRate);
 
                 ParkingLotFactory parkingLotFactory = new ParkingLotFactory();
-                ParkingLot newParkingLot = parkingLotFactory.createParkingLot(id, website,carparkType, latLong, streetAddress, halfHourlyRate, timesToRates);
+                ParkingLot newParkingLot = parkingLotFactory.createParkingLot(id, website,carparkType, latLong, streetAddress, halfHourlyRate, timesToRates, capacity);
                 parkingLots.add(newParkingLot);
             }
 
@@ -74,10 +74,10 @@ public class ParkingLotDAO implements GreenPDAO {
         return parkingLot.get("slug").toString();
     }
 
-    private float[] parseLatLong(JSONObject parkingLot) {
-        return new float[]{
-                Float.parseFloat(parkingLot.get("lat").toString()),
-                Float.parseFloat(parkingLot.get("lng").toString())
+    private double[] parseLatLong(JSONObject parkingLot) {
+        return new double[]{
+                Double.parseDouble(parkingLot.get("lat").toString()),
+                Double.parseDouble(parkingLot.get("lng").toString())
         };
     }
 
@@ -91,6 +91,15 @@ public class ParkingLotDAO implements GreenPDAO {
 
     private String parseCarparkType(JSONObject parkingLot) {
         return parkingLot.get("carpark_type_str").toString();
+    }
+
+    private int parseCapacity(JSONObject parkingLot) {
+        try {
+            return Integer.parseInt(parkingLot.get("capacity").toString());
+        }
+        catch(Exception ex) {
+            return 0;
+        }
     }
 
     private HashMap<String, String> parseTimesToRates(JSONObject parkingLot) {
