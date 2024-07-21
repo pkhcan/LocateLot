@@ -20,6 +20,7 @@ import java.util.List;
  */
 public class ParkingLotDAO implements GreenPDAO {
 
+    private static final double EARTH_RAD_KM = 6371.0;
     private ArrayList<ParkingLot> parkingLots;
 
     /**
@@ -220,26 +221,41 @@ public class ParkingLotDAO implements GreenPDAO {
         int radius = 3;
         ArrayList<ParkingLot> parkingLotsWithinRadius = new ArrayList<>();
         for (ParkingLot parkingLot : parkingLots) {
-            double distance = Math.hypot(latitude - parkingLot.getLatitudeLongitude()[0],
-                    longitude - parkingLot.getLatitudeLongitude()[1]);
+            double distance = coordinateDistanceDegToKM(latitude, longitude,
+                    parkingLot.getLatitudeLongitude()[0], parkingLot.getLatitudeLongitude()[1]);
             if (distance <= radius) parkingLotsWithinRadius.add(parkingLot);
         }
 
         return parkingLotsWithinRadius;
     }
 
-//    public static double calculateDistance(double lat1, double lon1, double lat2, double lon2) {
-//        double deltaLat = Math.toRadians(lat2 - lat1);
-//        double deltaLon = Math.toRadians(lon2 - lon1);
-//
-//        double a = Math.sin(deltaLat / 2) * Math.sin(deltaLat / 2) +
-//                Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2)) *
-//                        Math.sin(deltaLon / 2) * Math.sin(deltaLon / 2);
-//
-//        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-//
-//        return EARTH_RADIUS_KM * c;
-//    }
+    /**
+     * Uses haversine formula to convert distance between two coordinate points (in degrees) to distance in km.
+     * Steps:
+     * 1. convert latitude and longitude distances in degrees to radians
+     * 2. compute 'a': half the chord length between the two coordinate points
+     * 3. use 'a' to calculate the angular distance, 'c'.
+     * 4. Multiply the radius of the Earth (in km) by the angular distance to get the distance between 2 points in km.
+     * @param lat1
+     * @param lng1
+     * @param lat2
+     * @param lng2
+     * @return distance between two coordinate points in km
+     */
+    public static double coordinateDistanceDegToKM(double lat1, double lng1, double lat2, double lng2) {
+        double earthRadiusKM = 6371.0; // radius of the earth in km
+        double latMinusLat = Math.toRadians(lat2 - lat1); // difference between two latitudes in radians
+        double lngMinusLng = Math.toRadians(lng2 - lng1); // difference between two longitudes in radians
+
+        // using haversine formula to find angular distance from coordinate points in degrees
+        double a = Math.sin(lngMinusLng / 2) * Math.sin(latMinusLat / 2) +
+                Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2)) *
+                        Math.sin(lngMinusLng / 2) * Math.sin(lngMinusLng / 2);
+
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+        return earthRadiusKM * c; // use angular distance and earth's radius (in km) to find distance in km.
+    }
 
 
 }

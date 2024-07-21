@@ -122,7 +122,7 @@ public class GUI extends JFrame {
             public void actionPerformed(ActionEvent e) {
 
                 String address = textFieldAddress.getText();
-                int radius = 0;
+                int radius = 3;
                 FilterByRadiusInputData inputData = new FilterByRadiusInputData(radius, address);
 
                 // Create the presenter
