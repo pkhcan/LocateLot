@@ -5,7 +5,6 @@ import com.google.maps.PlaceAutocompleteRequest;
 import com.google.maps.PlacesApi;
 import com.google.maps.errors.ApiException;
 import com.google.maps.model.AutocompletePrediction;
-import com.google.maps.
 
 import java.io.IOException;
 

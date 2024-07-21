@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import entity.Review;
 import use_case.SubmitReview.SubmitReviewDataAccessInterface;
+import use_case.SubmitReview.SubmitReviewInteractor.SubmitReviewFailedException;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -15,7 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import java.util.HashMap;
-import java.util.Map;
 
 public class ReviewDAO implements SubmitReviewDataAccessInterface {
 
@@ -25,37 +25,52 @@ public class ReviewDAO implements SubmitReviewDataAccessInterface {
 
     private final File file;
 
-    public ReviewDAO(String jsonPath) throws IOException {
+    /**
+     * Constructs a ReviewDAO for the given path
+     * Precondition: The file has to be a json file
+     * @param jsonPath The path to the json file to be accessed and modified.
+     * @throws IOException Thrown if the path is invalid.
+     */
+    public ReviewDAO(String jsonPath){
         this.objectMapper = new ObjectMapper();
         this.file = new File(jsonPath);
     }
 
-    public void saveReview(int parkingLotID, Review review) {
+    /**
+     * Save the review for the corresponding ParkingLot to the json file.
+     * @param parkingLotID The id of the ParkingLot
+     * @param review The review object
+     * @throws SubmitReviewFailedException An exception relevant to the use case interactor, is thrown when the DAO
+     *                                     fails to write the review to the json file.
+     */
+    @Override
+    public void saveReview(int parkingLotID, Review review) throws SubmitReviewFailedException {
         try{
+            // Create the root using the object mapper
             JsonNode node = objectMapper.readTree(file);
+
+            // Check to see either the value is in the file or not
             if (node.has(String.valueOf(parkingLotID))) {
-                ArrayNode parkingLotArrayNode = (ArrayNode) node.get(parkingLotID);
+                ArrayNode parkingLotArrayNode = (ArrayNode) node.get(String.valueOf(parkingLotID));
                 parkingLotArrayNode.add(review.getValue());
             }
+
+            // If the value is not in the json file;
             else {
-                // Create a new HashMap with the new value
-                Map <Integer, List<Integer>> newParkingLotMap = new HashMap<>();
-                newParkingLotMap.put(parkingLotID, new ArrayList<Integer>(){{add(review.getValue());}});
+                // Add the review value to an ArrayList and add it to a JSON node
+                JsonNode newParkingLotMapNode = objectMapper.valueToTree(
+                        new ArrayList<Integer>(){{add(review.getValue());}}
+                );
 
-
-                // Convert the HashMap to a JSON node and add it to the root
-                JsonNode newParkingLotMapNode = objectMapper.valueToTree(newParkingLotMap);
+                // Add the node to the root
                 ((ObjectNode)node).set(String.valueOf(parkingLotID), newParkingLotMapNode);
             }
 
             objectMapper.writeValue(file, node);
         }
+
         catch (IOException e){
-
+            throw new SubmitReviewFailedException("Failed to write the review to the json file.");
         }
-    }
-
-    private void save(Review review) {
-
     }
 }
