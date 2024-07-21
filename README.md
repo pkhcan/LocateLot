@@ -71,7 +71,7 @@ Mode of Communication- Instagram group chat, Discord call
 DIRECTIONS:
 1. Set up environmental variable (google maps) - API key
 2. Run GUI.java 
-3. Select closest street address from the drop-down list - ensure the typed address matches the selection (in spelling - will not work otherwise)
+3. Select closest street address from the drop-down list - ensure the typed address matches the selection (in spelling - will not work otherwise -- see below for example inputs)
 4. Select the desired filter/sorting method from the buttons 
    a. Proximity - sorts the nearest parking lots from nearest to furthest
    b. Radius - expand the radius of your search to include parking lots from further away
@@ -81,6 +81,12 @@ DIRECTIONS:
    f. Type - filter your search for parking lots based on type
 5. View the list of ideal parking lots at the bottom of the console ("Run" tab on the left on IntelliJ)
 
+EXAMPLE INPUTS : (please type out **and** select corresponding option)
+- 81 Bay Street, Toronto, ON, Canada
+- 255 McCaul Street, Toronto, ON, Canada
+- 40 St George Street, Toronto, ON, Canada
+- 27 King's College Circle, Toronto, ON, Canada
+- 1 Spadina Crescent, Spadina Crescent, Toronto, ON, Canada
 
 FUNCTIONALITY
 

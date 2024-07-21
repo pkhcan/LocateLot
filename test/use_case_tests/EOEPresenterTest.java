@@ -8,14 +8,18 @@ import entity.ParkingLot;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Test class for interface_adapter.EOEPresenter.
+ */
 class EOEPresenterTest {
 
     /**
-     * method to test EOEPresenter
+     * Tests the EOEPresenter.present(OutputData) method.
+     * Ensures that the parking lots passed to the GUI match the expected lots.
      */
     @Test
     void testPresent() {
-        // Arrange
+        // setUp
         FakeGUI fakeGUI = new FakeGUI();
         EOEPresenter presenter = new EOEPresenter(fakeGUI);
         ParkingLot[] expectedLots = new ParkingLot[]{
@@ -24,25 +28,35 @@ class EOEPresenterTest {
         };
         OutputData outputData = new OutputData(expectedLots);
 
+        // present
         presenter.present(outputData);
 
+        // check
         assertArrayEquals(expectedLots, fakeGUI.displayedParkingLots, "The parking lots passed to the GUI should match the expected lots.");
     }
 
+    /**
+     * Tests the EOEPresenter.presentError(String) method.
+     * Ensures that the error message is printed to System.out.
+     */
     @Test
     void testPresentError() {
+        // setUp
         FakeGUI fakeGUI = new FakeGUI();
         EOEPresenter presenter = new EOEPresenter(fakeGUI);
         String expectedError = "An error occurred";
 
-        // Capture System.out
+        // capture System.out
         final java.io.ByteArrayOutputStream outContent = new java.io.ByteArrayOutputStream();
         System.setOut(new java.io.PrintStream(outContent));
 
+        // present
         presenter.presentError(expectedError);
 
+        // check
         assertEquals(expectedError + System.lineSeparator(), outContent.toString(), "The error message should be printed to System.out.");
 
+        // reset
         System.setOut(System.out);
     }
 }
