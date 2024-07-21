@@ -114,6 +114,8 @@ public class ParkingLot {
 
     public String getCarParkType() { return this.carparkType; }
 
+    public String getHalfHourlyRate() { return this.halfHourlyRate; }
+
 
     public void setId (String id) {
         this.ID = id;
@@ -147,4 +149,8 @@ public class ParkingLot {
         this.timesToRates = timesToRates;
     }
 
+    @Override
+    public String toString() {
+        return getAddress() + ": " + getCarParkType() + " type parking, " + getWebsiteLink() + ", " + "rate per 30min: " + getHalfHourlyRate() + ", " + "ease of entry: " + getEntryReview() ;
+    }
 }

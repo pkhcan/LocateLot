@@ -8,14 +8,14 @@ import entity.ParkingLot;
 import entity.EOEFilter;
 import data_access.GeoApiDAO;
 
-//import use_case.FilterByRadius.FilterByRadiusInputData;
-//import use_case.FilterByRadius.FilterByRadiusInteractor;
-//import use_case.FilterByRadius.FilterByRadiusPresenter;
 import use_case.FilterOutput.OutputBoundary;
 import use_case.FilterOutput.OutputData;
 
 import java.io.IOException;
 import java.util.*;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import static data_access.GeoApiDAO.getLatitudeLongitude;
 
@@ -28,6 +28,8 @@ import java.util.ArrayList;
 public class EOEInteractor implements EOEInputBoundary{
 
     private final OutputBoundary outputBoundary;
+    private static final Logger logger = LoggerFactory.getLogger(EOEInteractor.class);
+
 
     /**
      * Constructs an {@code EOEInteractor} with the specified output boundary.
@@ -51,17 +53,29 @@ public class EOEInteractor implements EOEInputBoundary{
      */
     public void execute(EOEInputData eoeInputData) throws IOException, InterruptedException, ApiException {
         String address = eoeInputData.getAddress();
-        GeocodingResult[] results = getLatitudeLongitude(address);
+        try {
+            logger.info("Attempting to geocode address: {}", address);
+            GeocodingResult[] results = GeoApiDAO.getLatitudeLongitude(address);
 
-        double[] latLong;
+            if (results == null || results.length == 0) {
+                logger.warn("No geocoding results found for address: {}", address);
+                // Handle no results found scenario, e.g., notify user or ask for re-input
+                outputBoundary.presentError("No results found for the given address. Please check the address and try again.");
+                return;
+            }
 
-        if (results != null && results.length > 0) {
-            double latitude = results[0].geometry.location.lat;
-            double longitude = results[0].geometry.location.lng;
-            latLong = new double[]{latitude, longitude};
-        } else {
-            throw new InterruptedException("Failed to get latitude and longitude for the address.");
+        try {
+            results = GeoApiDAO.getLatitudeLongitude(address);
+            if (results == null || results.length == 0) {
+                throw new RuntimeException("No geocoding results found for the address.");
+            }
+        } catch (ApiException | InterruptedException e) {
+            throw new RuntimeException("Failed to get latitude and longitude for the address: " + e.getMessage(), e);
         }
+
+        double latitude = results[0].geometry.location.lat;
+        double longitude = results[0].geometry.location.lng;
+        double[] latLong = new double[]{latitude, longitude};
 
         ParkingLotDAO parkingLotDAO = new ParkingLotDAO();
         List<ParkingLot> allParkingLots = parkingLotDAO.getParkingLots();
@@ -86,14 +100,18 @@ public class EOEInteractor implements EOEInputBoundary{
 
         // Present output data
         outputBoundary.present(outputData);
+        } catch (Exception e) {
+            logger.error("Error occurred during geocoding for address: {}", address, e);
+            outputBoundary.presentError("An error occurred while trying to find the location. Please try again later.");
         }
+    }
 
     private ParkingLot getClosestParkingLot(double latitude, double longitude, List<ParkingLot> parkingLots) {
         ParkingLot closest = null;
         double smallestDistance = Double.MAX_VALUE;
 
         for (ParkingLot parkingLot : parkingLots) {
-            float[] latLong = parkingLot.getLatitudeLongitude();
+            double[] latLong = parkingLot.getLatitudeLongitude();
             double distance = Math.hypot(latLong[0] - latitude, latLong[1] - longitude);
 
             if (distance < smallestDistance) {
