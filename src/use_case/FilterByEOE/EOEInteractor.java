@@ -17,13 +17,13 @@ import java.util.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import static data_access.GeoApiDAO.getLatitudeLongitude;
-
 
 import java.util.ArrayList;
 
 /**
  * Interactor for handling Ease of Entry (EOE) input data and processing.
+ * Retrieves geolocation data for a given address, finds the closest parking lots,
+ * applies an EOE filter, and presents the results via the output boundary.
  */
 public class EOEInteractor implements EOEInputBoundary{
 
@@ -50,6 +50,9 @@ public class EOEInteractor implements EOEInputBoundary{
      * - Present the prepared output data using {@code outputBoundary}.
      *
      * @param eoeInputData the input data containing EOE details
+     * @throws IOException              if an I/O error occurs
+     * @throws InterruptedException     if the operation is interrupted
+     * @throws ApiException             if there is an error with the GeoAPI request
      */
     public void execute(EOEInputData eoeInputData) throws IOException, InterruptedException, ApiException {
         String address = eoeInputData.getAddress();
@@ -57,9 +60,9 @@ public class EOEInteractor implements EOEInputBoundary{
             logger.info("Attempting to geocode address: {}", address);
             GeocodingResult[] results = GeoApiDAO.getLatitudeLongitude(address);
 
+            // no results found scenario
             if (results == null || results.length == 0) {
                 logger.warn("No geocoding results found for address: {}", address);
-                // Handle no results found scenario
                 outputBoundary.presentError("No results found for the given address. Please check the address and try again.");
                 return;
             }
@@ -106,6 +109,14 @@ public class EOEInteractor implements EOEInputBoundary{
         }
     }
 
+    /**
+     * Finds the closest parking lot to the given latitude and longitude.
+     *
+     * @param latitude   the latitude of the location
+     * @param longitude  the longitude of the location
+     * @param parkingLots the list of parking lots to search through
+     * @return the closest parking lot
+     */
     private ParkingLot getClosestParkingLot(double latitude, double longitude, List<ParkingLot> parkingLots) {
         ParkingLot closest = null;
         double smallestDistance = Double.MAX_VALUE;
