@@ -12,4 +12,5 @@ public interface OutputBoundary {
      */
     void present(OutputData outputData);
 
+    void presentError(String s);
 }
