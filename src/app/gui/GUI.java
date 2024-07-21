@@ -238,7 +238,15 @@ public class GUI extends JFrame {
         });
     }
 
-    public void updateParkingLotList(List<ParkingLot> parkingLots) { // changed from array type to list type
+    public void updateParkingLotList(ParkingLot[] parkingLots) {
+        // Update the GUI with the sorted parking lots
+        // For simplicity, let's print them to the console
+        for (ParkingLot lot : parkingLots) {
+            System.out.println(lot);
+        }
+    }
+
+    public void updateParkingLotList(List<ParkingLot> parkingLots) {
         // Update the GUI with the sorted parking lots
         // For simplicity, let's print them to the console
         for (ParkingLot lot : parkingLots) {
