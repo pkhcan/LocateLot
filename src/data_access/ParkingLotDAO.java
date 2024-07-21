@@ -44,13 +44,12 @@ public class ParkingLotDAO implements GreenPDAO {
 
                 String id = parseId(parkingLot);
                 String website = parseWebsite(parkingLot);
-                float[] latLong = parseLatLong(parkingLot);
+                double[] latLong = parseLatLong(parkingLot);
                 String streetAddress = parseStreetAddress(parkingLot);
                 String carparkType = parseCarparkType(parkingLot);
                 HashMap<String, String> timesToRates = parseTimesToRates(parkingLot);
                 String halfHourlyRate = parseHalfHourlyRate(parkingLot);
-                System.out.println(timesToRates);
-                System.out.println(halfHourlyRate);
+                System.out.println(latLong);
 
                 ParkingLotFactory parkingLotFactory = new ParkingLotFactory();
                 ParkingLot newParkingLot = parkingLotFactory.createParkingLot(id, website,carparkType, latLong, streetAddress, halfHourlyRate, timesToRates);
@@ -74,12 +73,11 @@ public class ParkingLotDAO implements GreenPDAO {
         return parkingLot.get("slug").toString();
     }
 
-    private float[] parseLatLong(JSONObject parkingLot) {
-        return new float[]{
-                Float.parseFloat(parkingLot.get("lat").toString()),
-                Float.parseFloat(parkingLot.get("lng").toString())
-        };
-    }
+    private double[] parseLatLong(JSONObject parkingLot) {
+        int lat = Integer.parseInt(parkingLot.get("lat").toString());
+        int lng = Integer.parseInt(parkingLot.get("lng").toString());
+        return new double[] {lat, lng};
+        }
 
     private String parseStreetAddress(JSONObject parkingLot) {
         return parkingLot.get("address").toString();
