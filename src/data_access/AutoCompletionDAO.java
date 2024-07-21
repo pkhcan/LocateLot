@@ -5,6 +5,7 @@ import com.google.maps.PlaceAutocompleteRequest;
 import com.google.maps.PlacesApi;
 import com.google.maps.errors.ApiException;
 import com.google.maps.model.AutocompletePrediction;
+import com.google.maps.
 
 import java.io.IOException;
 
@@ -29,6 +30,7 @@ public class AutoCompletionDAO {
      */
     public AutocompletePrediction[] getListOfPredictions(String address) throws
             IOException, InterruptedException, ApiException {
+        System.out.println();
         PlaceAutocompleteRequest response = PlacesApi.placeAutocomplete(
                 CONTEXT,
                 address,

@@ -10,7 +10,7 @@ import data_access.GeoApiDAO;
 
 import use_case.FilterByRadius.FilterByRadiusInputData;
 import use_case.FilterByRadius.FilterByRadiusInteractor;
-import use_case.FilterByRadius.FilterByRadiusPresenter;
+//import use_case.FilterByRadius.FilterByRadiusPresenter;
 import use_case.FilterOutput.OutputBoundary;
 import use_case.FilterOutput.OutputData;
 
@@ -26,6 +26,7 @@ import static data_access.GeoApiDAO.getLatitudeLongitude;
  * Interactor for handling Ease of Entry (EOE) input data and processing.
  */
 public class EOEInteractor implements EOEInputBoundary{
+
 
     private final OutputBoundary outputBoundary;
 
@@ -56,18 +57,20 @@ public class EOEInteractor implements EOEInputBoundary{
         // receive output code from default proximity filter (identical ratings are sorted further by proximity)
         // Assume FilterOutputData.getFilteredParkingLots() gives us the parking lots to be sorted:
         // TODO - include code from proximity use case to fetch the parking lots viable within radius
-        ArrayList<ParkingLot> parkingLotArray = ParkingLotDAO.getParkingLots();
-        ParkingLot[] parkingLots = parkingLotArray.toArray(new ParkingLot[0]);
+//        ArrayList<ParkingLot> parkingLotArray = ParkingLotDAO.getParkingLots();
+//        ParkingLot[] parkingLots = parkingLotArray.toArray(new ParkingLot[0]);
 
 //        ParkingLot[] parkingLots = new ParkingLot[3];
         Filter entryFilter = new EOEFilter();
-        entryFilter.filter(parkingLots);
+//        entryFilter.filter(parkingLots);
 
         // Prepare output data
-        OutputData outputData = new OutputData(parkingLots);
+//        OutputData outputData = new OutputData(parkingLots);
 
         // Present output data
-        outputBoundary.present(outputData);
+//        outputBoundary.present(outputData);
         }
+
+
 
 }

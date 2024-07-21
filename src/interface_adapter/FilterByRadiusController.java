@@ -27,8 +27,8 @@ public class FilterByRadiusController {
                 filterByProximityInteractor.execute(filterByProximityInputData);
         // Gives filterByRadiusInteractor a sorted list of parking lots so that filterByRadius only filters by Radius
         // TODO: Implement filterByProximityOutputData
-        List<ParkingLot> parkingLots = filterByProximityOutputData.getParkingLots();
-        FilterByRadiusInputData filterByRadiusInputData = new FilterByRadiusInputData(radius, latLong, parkingLots);
-        filterByRadiusInteractor.execute(filterByRadiusInputData);
+//        List<ParkingLot> parkingLots = filterByProximityOutputData.getParkingLots();
+//        FilterByRadiusInputData filterByRadiusInputData = new FilterByRadiusInputData(radius, latLong, parkingLots);
+//        filterByRadiusInteractor.execute(filterByRadiusInputData);
     }
 }

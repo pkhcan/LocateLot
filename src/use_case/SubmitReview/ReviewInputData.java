@@ -4,23 +4,17 @@ import com.sun.jdi.InvalidTypeException;
 
 public class ReviewInputData {
 
-    private final int reviewID;
-    private final String reviewType;
     private final int rating;
-
-    static int idTracker = 1;
+    private final int parkingLotID;
 
     /**
-     * Create a ReviewInputData
-     * @param reviewType RI: has to be either "EOE" or "EOF"
+     *
+     * @param parkingLotID
      * @param rating
      */
-    public ReviewInputData(String reviewType, int rating){
-        this.reviewID = idTracker;
-        idTracker++;
-        this.reviewType = reviewType;
+    public ReviewInputData(int parkingLotID, int rating){
+
+        this.parkingLotID = parkingLotID;
         this.rating = rating;
     }
-
-    public int getReviewID() {return this.reviewID;};
 }

@@ -26,5 +26,6 @@
       </library>
     </orderEntry>
     <orderEntry type="library" name="google.maps.services" level="project" />
+    <orderEntry type="library" name="fasterxml.jackson.core.databind" level="project" />
   </component>
 </module>
