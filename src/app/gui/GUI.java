@@ -115,7 +115,7 @@ public class GUI extends JFrame {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Step 1: Create EOEInputData with the address from the text field
+                // Create EOEInputData with the address from the text field
                 String address = textFieldAddress.getText();
                 EOEInputData inputData = new EOEInputData(address);
 
@@ -132,11 +132,6 @@ public class GUI extends JFrame {
                     throw new RuntimeException(ex);
                 }
 
-//                // Get sorted ParkingLot objects from EOEOutputData
-//                // Assuming the EOEOutputBoundary.present method saves the output data somewhere accessible
-//                ParkingLot[] sortedParkingLots = OutputData.getSortedParkingLots();
-//
-//                updateParkingLotList(sortedParkingLots);
             }
         });
 

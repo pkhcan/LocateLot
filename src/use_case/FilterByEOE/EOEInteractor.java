@@ -59,7 +59,7 @@ public class EOEInteractor implements EOEInputBoundary{
 
             if (results == null || results.length == 0) {
                 logger.warn("No geocoding results found for address: {}", address);
-                // Handle no results found scenario, e.g., notify user or ask for re-input
+                // Handle no results found scenario
                 outputBoundary.presentError("No results found for the given address. Please check the address and try again.");
                 return;
             }
@@ -124,12 +124,3 @@ public class EOEInteractor implements EOEInputBoundary{
     }
 }
 
-
-
-
-
-// receive output code from default proximity filter (identical ratings are sorted further by proximity)
-// Assume FilterOutputData.getFilteredParkingLots() gives us the parking lots to be sorted:
-// TODO - include code from proximity use case to fetch the parking lots viable within radius
-//        ArrayList<ParkingLot> parkingLotArray = ParkingLotDAO.getParkingLots();
-//        ParkingLot[] parkingLots = parkingLotArray.toArray(new ParkingLot[0]);

@@ -49,8 +49,8 @@ public class ParkingLotDAO implements GreenPDAO {
                 String carparkType = parseCarparkType(parkingLot);
                 HashMap<String, String> timesToRates = parseTimesToRates(parkingLot);
                 String halfHourlyRate = parseHalfHourlyRate(parkingLot);
-                System.out.println(timesToRates);
-                System.out.println(halfHourlyRate);
+//                System.out.println(timesToRates);
+//                System.out.println(halfHourlyRate);
 
                 ParkingLotFactory parkingLotFactory = new ParkingLotFactory();
                 ParkingLot newParkingLot = parkingLotFactory.createParkingLot(id, website,carparkType, latLong, streetAddress, halfHourlyRate, timesToRates, capacity);
