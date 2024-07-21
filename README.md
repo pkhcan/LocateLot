@@ -72,13 +72,14 @@ DIRECTIONS:
 1. set up environmental variable (google maps) - API key
 2. Run GUI.java 
 2. Select closest street address from the drop-down list 
-3. Select the desired filter/sorting method from the buttons
+3. Select the desired filter/sorting method from the buttons 
    a. Proximity - sorts the nearest parking lots from nearest to furthest
    b. Radius - expand the radius of your search to include parking lots from further away
    c. Price - view the nearest parking lots from least to most expensive
    d. Ease of entry - view the nearest parking lots from most to least convenient entrances
    e. Availability - view the nearest parking lots from largest to smallest capacity
-   f. Type - filter your search for parking lots based on type - surface/garage
+   f. Type - filter your search for parking lots based on type
+4. View the list of ideal parking lots at the bottom of the console ("Run" tab on the left on IntelliJ)
 
 
 FUNCTIONALITY

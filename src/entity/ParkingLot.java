@@ -14,6 +14,7 @@ public class ParkingLot {
     private HashMap<String, String> timesToRates;
     public ArrayList<Integer> easeOfFindingReviews;
     public ArrayList<Integer> easeOfEntryReviews;
+    private int capacity;
 
     /**
      * ParkingLot constructor
@@ -25,7 +26,7 @@ public class ParkingLot {
      * @param latitudeLongitude - an array containing the latitude and longitude coordinates of the ParkingLot location
      * @param halfHourlyRate    - the daily price schedule for the ParkingLot location
      */
-    public ParkingLot(String ID, String streetAddress, String linkToWebsite, double[] latitudeLongitude, String carparkType, String halfHourlyRate, HashMap<String, String> timesToRates) {
+    public ParkingLot(String ID, String streetAddress, String linkToWebsite, double[] latitudeLongitude, String carparkType, String halfHourlyRate, HashMap<String, String> timesToRates, int capacity) {
         this.ID = ID;
         this.streetAddress = streetAddress;
         this.linkToWebsite = linkToWebsite;
@@ -35,6 +36,7 @@ public class ParkingLot {
         this.timesToRates = timesToRates;
         this.easeOfFindingReviews = new ArrayList<>();
         this.easeOfEntryReviews = new ArrayList<>();
+        this.capacity = capacity;
     }
 
     /**
@@ -112,6 +114,10 @@ public class ParkingLot {
         return this.latitudeLongitude;
     }
 
+    public String getCarParkType() { return this.carparkType; }
+
+    public String getHalfHourlyRate() { return this.halfHourlyRate; }
+
 
     public void setId (String id) {
         this.ID = id;
@@ -134,7 +140,7 @@ public class ParkingLot {
 
 
     public void setCarparkType(String carparkType) {
-        this.streetAddress = carparkType;
+        this.carparkType = carparkType;
     }
 
 
@@ -145,4 +151,15 @@ public class ParkingLot {
         this.timesToRates = timesToRates;
     }
 
+    @Override
+    public String toString() {
+        return getAddress() + ": " + getCarParkType() + " type parking, " + getWebsiteLink() + ", " + "rate per 30min: " + getHalfHourlyRate() + ", " + "ease of entry: " + getEntryReview() ;
+    }
+    public void setCapacity(int capacity) {
+        this.capacity = capacity;
+    }
+
+    public int getCapacity() {
+        return this.capacity;
+    }
 }
