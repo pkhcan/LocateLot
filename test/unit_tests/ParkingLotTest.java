@@ -19,13 +19,14 @@ public class ParkingLotTest {
         String streetAddress = "123 Main St";
         String carParkType = "Garage";
         String linkToWebsite = "http://example.com";
-        float[] latitudeLongitude = {40.7128f, -74.0060f};
+        double[] latitudeLongitude = {40.7128f, -74.0060f};
         String halfHourlyRate = "7.50";
         HashMap<String, String> timesToRates = new HashMap<>();
         timesToRates.put("9AM-5PM", "$10");
         timesToRates.put("5PM-12AM", "$15");
+        int capacity = 3;
 
-        parkingLot = new ParkingLot(id, streetAddress, carParkType, linkToWebsite, latitudeLongitude, halfHourlyRate, timesToRates);
+        parkingLot = new ParkingLot(id, streetAddress, linkToWebsite, latitudeLongitude, carParkType, halfHourlyRate, timesToRates, capacity);
     }
     @Test
     public void testGetAddress() {
@@ -39,7 +40,7 @@ public class ParkingLotTest {
 
     @Test
     public void testGetLatitudeLongitude() {
-        float[] expected = {40.7128f, -74.0060f};
+        double[] expected = {40.7128f, -74.0060f};
         assertArrayEquals(expected, parkingLot.getLatitudeLongitude(), 0);
     }
 

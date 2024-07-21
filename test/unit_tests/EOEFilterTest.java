@@ -31,9 +31,9 @@ public class EOEFilterTest {
      */
     @Test
     public void testFilterWithReviews() {
-        ParkingLot pl1 = new ParkingLot("1", "123 Lot St", "Type1", "http://pl1.com", new float[]{40.7128f, -74.0060f}, "10.00", new HashMap<>());
-        ParkingLot pl2 = new ParkingLot("2", "456 Lot St", "Type2", "http://pl2.com", new float[]{40.7129f, -74.0070f}, "12.00", new HashMap<>());
-        ParkingLot pl3 = new ParkingLot("3", "789 Lot St", "Type3", "http://pl3.com", new float[]{40.7130f, -74.0080f}, "15.00", new HashMap<>());
+        ParkingLot pl1 = new ParkingLot("1", "123 Lot St", "http://pl1.com", new double[]{40.7128f, -74.0060f},"Type1",  "10.00", new HashMap<>(), 1);
+        ParkingLot pl2 = new ParkingLot("2", "456 Lot St", "http://pl2.com", new double[]{40.7129f, -74.0070f}, "Type2", "12.00", new HashMap<>(), 2);
+        ParkingLot pl3 = new ParkingLot("3", "789 Lot St", "http://pl3.com", new double[]{40.7130f, -74.0080f}, "Type3", "15.00", new HashMap<>(), 3);
 
         pl1.easeOfEntryReviews.add(5);
         pl1.easeOfEntryReviews.add(4);
@@ -56,9 +56,9 @@ public class EOEFilterTest {
      */
     @Test
     public void testFilterWithUnratedLots() {
-        ParkingLot pl1 = new ParkingLot("1", "123 Main St", "Type1", "http://example1.com", new float[]{40.7128f, -74.0060f}, "10.00", new HashMap<>());
-        ParkingLot pl2 = new ParkingLot("2", "456 Main St", "Type2", "http://example2.com", new float[]{40.7129f, -74.0070f}, "12.00", new HashMap<>());
-        ParkingLot pl3 = new ParkingLot("3", "789 Main St", "Type3", "http://example3.com", new float[]{40.7130f, -74.0080f}, "15.00", new HashMap<>());
+        ParkingLot pl1 = new ParkingLot("1", "123 Main St", "http://example1.com", new double[]{40.7128f, -74.0060f}, "Type1", "10.00", new HashMap<>(), 1);
+        ParkingLot pl2 = new ParkingLot("2", "456 Main St", "http://example2.com", new double[]{40.7129f, -74.0070f}, "Type2", "12.00", new HashMap<>(), 2);
+        ParkingLot pl3 = new ParkingLot("3", "789 Main St", "http://example3.com", new double[]{40.7130f, -74.0080f}, "Type3", "15.00", new HashMap<>(), 2);
 
         pl1.easeOfEntryReviews.add(5);
         pl1.easeOfEntryReviews.add(4);
@@ -80,9 +80,9 @@ public class EOEFilterTest {
      */
     @Test
     public void testFilterAllUnratedLots() {
-        ParkingLot pl1 = new ParkingLot("1", "123 Main St", "Type1", "http://example1.com", new float[]{40.7128f, -74.0060f}, "10.00", new HashMap<>());
-        ParkingLot pl2 = new ParkingLot("2", "456 Main St", "Type2", "http://example2.com", new float[]{40.7129f, -74.0070f}, "12.00", new HashMap<>());
-        ParkingLot pl3 = new ParkingLot("3", "789 Main St", "Type3", "http://example3.com", new float[]{40.7130f, -74.0080f}, "15.00", new HashMap<>());
+        ParkingLot pl1 = new ParkingLot("1", "123 Main St", "http://example1.com", new double[]{40.7128f, -74.0060f}, "Type1", "10.00", new HashMap<>(), 1);
+        ParkingLot pl2 = new ParkingLot("2", "456 Main St", "http://example2.com", new double[]{40.7129f, -74.0070f}, "Type2", "12.00", new HashMap<>(), 2);
+        ParkingLot pl3 = new ParkingLot("3", "789 Main St", "http://example3.com", new double[]{40.7130f, -74.0080f}, "Type3", "15.00", new HashMap<>(), 2);
 
         pl1.easeOfEntryReviews = new ArrayList<>(); // Unrated lot
         pl2.easeOfEntryReviews = new ArrayList<>(); // Unrated lot
