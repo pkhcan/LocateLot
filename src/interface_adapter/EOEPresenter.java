@@ -32,12 +32,10 @@ public class EOEPresenter implements OutputBoundary {
     @Override
     public void present(OutputData outputData) {
         ParkingLot[] sortedParkingLots = outputData.getSortedParkingLots();
-//        gui.updateParkingLotList(sortedParkingLots);
-        for (ParkingLot parkingLot : sortedParkingLots) {
-            System.out.println(parkingLot);
-        }
+        gui.updateParkingLotList(sortedParkingLots);
 
     }
+
 
     @Override
     public void presentError(String s) {
