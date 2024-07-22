@@ -6,7 +6,6 @@ import use_case.SubmitReview.SubmitReviewOutputData;
 import javax.swing.*;
 
 public class SubmitReviewPresenter implements SubmitReviewOutputBoundary {
-    private SubmitReviewOutputBoundary output;
     private final JLabel label;
 
     /**
