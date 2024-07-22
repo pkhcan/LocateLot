@@ -30,7 +30,7 @@ public class SubmitReviewOutputData {
     @Override
     public String toString(){
         if (success){
-            return ("Review of"+ rating +
+            return ("Review of "+ rating +
                     " has been saved for parking lot with id " + parkingLotID);
         }
         else{
