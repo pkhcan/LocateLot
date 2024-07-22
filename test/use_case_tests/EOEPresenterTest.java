@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Test class for interface_adapter.EOEPresenter.
- * TODO - TO RUN - comment out code block in GUI.java starting at line 242
+ * TODO - TO RUN - comment out code block in GUI.java starting at line 242 (242 - 263)
  */
 class EOEPresenterTest {
 
