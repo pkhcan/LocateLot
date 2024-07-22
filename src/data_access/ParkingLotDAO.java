@@ -144,6 +144,19 @@ public class ParkingLotDAO implements GreenPDAO {
         return null;
     }
 
+
+    public static String getParkingLotPrice(ParkingLot parkinglot, int hour) {
+        int milit_hour = hour + 12;
+        if (parkinglot.getRates().isEmpty())
+            return parkinglot.getHalfHourlyRate();
+        else if (0700 <= milit_hour && milit_hour < 1800)
+            return parkinglot.getRates().get("Day Maximum (7am - 6pm)");
+        else {
+            return parkinglot.getRates().get("Night Maximum (6pm - 7am)");
+        }
+
+    }
+
     /**
      * Gets closest parking lot.
      *
