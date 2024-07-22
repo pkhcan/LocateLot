@@ -72,17 +72,17 @@ DIRECTIONS TO SEARCH :
 1. Set up environmental variable (google maps) - API key
 2. Add and download the library *com.fasterxml.jackson.core:jackson-annotations:2.13.0* to Project Structure and Apply 
 3. Run GUI.java 
-4. Select closest street address from the drop-down list - ensure the typed address matches the selection (in spelling - will not work otherwise -- see below for example inputs)
+4. Type and select street address from the drop-down list - ensure the typed address matches the selection (will not work otherwise -- see below for example inputs)
 5. Select the desired filter/sorting method from the buttons 
    a. Proximity - sorts the nearest parking lots from nearest to furthest
-   b. Radius - expand the radius of your search to include parking lots from further away 
+   b. Radius - edit the radius of your search to view parking lots within a certain distance (currently set at default 3km)
    c. Price - view the nearest parking lots from least to most expensive
-   d. Ease of entry - implemented - view the nearest parking lots from most to least convenient entrances (does not sort as review storing functionality has not yet been implemented; entity.EOEFilter contains sorting logic and has a test in test.unit_tests.EOEFilterTest)
+   d. Ease of entry - implemented - view the nearest parking lots from most to least convenient entrances (does not sort as review storing functionality has not yet been tested; entity.EOEFilter contains sorting logic and can be tested in test.unit_tests.EOEFilterTest)
    e. Availability - view the nearest parking lots from largest to smallest capacity
-   f. Type - filter your search for parking lots based on type
+   f. Type - filter your search for parking lots based on type (garage, surface)
 6. View the list of ideal parking lots at the bottom of the console ("Run" tab on the left on IntelliJ)
 
-EXAMPLE INPUTS : (please type out **and** select corresponding option)
+EXAMPLE INPUTS : (please type out in full **and** select corresponding option)
 - 81 Bay Street, Toronto, ON, Canada
 - 255 McCaul Street, Toronto, ON, Canada
 - 40 St George Street, Toronto, ON, Canada
