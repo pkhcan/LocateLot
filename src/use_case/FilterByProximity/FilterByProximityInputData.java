@@ -1,24 +1,25 @@
 package use_case.FilterByProximity;
 
-import data_access.ParkingLotDAO;
-import entity.ParkingLot;
-
-import java.util.List;
+/**
+ * Input data for filter by proximity use case
+ */
 
 public class FilterByProximityInputData {
 
     private String address;
-    // private List<ParkingLot> parkingLots;
 
+    /**
+     * Constructor method
+     * @param address from user input
+     */
     public FilterByProximityInputData(String address) {
-        // this.parkingLots = parkingLotDAO.getParkingLots();
         this.address = address;
     }
 
-//    public List<ParkingLot> getParkingLots() {
-//        return this.parkingLots;
-//    }
-
+    /**
+     * getter method for input data address
+     * @return
+     */
     public String getAddress() {
         return this.address;
     }
