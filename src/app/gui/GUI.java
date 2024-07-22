@@ -10,9 +10,11 @@ import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.LocalTime;
 import java.util.InputMismatchException;
 import java.util.List;
 
+import data_access.ParkingLotDAO;
 import data_access.ReviewDAO;
 import interface_adapter.*;
 import org.w3c.dom.ls.LSOutput;
@@ -21,6 +23,10 @@ import use_case.FilterByEOE.EOEInteractor;
 import use_case.FilterByEOF.EOFInputData;
 import use_case.FilterByEOF.EOFInteractor;
 import entity.ParkingLot;
+import use_case.FilterByPrice.FilterByPriceInputBoundary;
+import use_case.FilterByPrice.FilterByPriceInputData;
+import use_case.FilterByPrice.FilterByPriceInteractor;
+import use_case.FilterByPrice.FilterByPriceOutputBoundary;
 import use_case.FilterByProximity.FilterByProximityInputBoundary;
 import use_case.FilterByProximity.FilterByProximityInputData;
 import use_case.FilterByProximity.FilterByProximityInteractor;
@@ -161,7 +167,32 @@ public class GUI extends JFrame {
         priceButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("TODO");
+
+                String address = textFieldAddress.getText();
+                double radius = 3.0;
+                LocalTime currentTime = LocalTime.now();
+                int currentHour = currentTime.getHour();
+                ParkingLotDAO radiusSortedList = null;
+                try {
+                    radiusSortedList = new ParkingLotDAO();
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+                FilterByPriceInputData inputData = new FilterByPriceInputData(radiusSortedList, currentHour);
+
+                // Create the presenter
+                FilterByPriceOutputBoundary presenter = new FilterByPricePresenter(GUI.this);
+
+                // Create the interactor with the presenter
+                FilterByPriceInputBoundary interactor = null;
+                interactor = new FilterByPriceInteractor(presenter);
+
+                // Execute the interactor
+                try {
+                    interactor.execute(inputData);
+                } catch (Exception ex) {
+                    throw new RuntimeException(ex);
+                }
             }
         });
 
