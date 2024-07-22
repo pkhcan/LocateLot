@@ -11,7 +11,9 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * The type Parking lot dao.
@@ -49,6 +51,7 @@ public class ParkingLotDAO implements GreenPDAO {
                 String carparkType = parseCarparkType(parkingLot);
                 HashMap<String, String> timesToRates = parseTimesToRates(parkingLot);
                 String halfHourlyRate = parseHalfHourlyRate(parkingLot);
+//                System.out.println(latLong);
 //                System.out.println(timesToRates);
 //                System.out.println(halfHourlyRate);
 
@@ -183,4 +186,77 @@ public class ParkingLotDAO implements GreenPDAO {
             return null;
         }
     }
+
+    /**
+     * Returns filtered list of closest parking lots
+     *
+     * @param latitude current latitude
+     * @param longitude current longitude
+     * @param parkingLots list of parking lots to filter based on proximity
+     * @return list of parking lots in order of closest to farthest
+     */
+
+    public ArrayList<ParkingLot> getClosestParkingLots(double latitude, double longitude, List<ParkingLot> parkingLots) {
+        if (parkingLots == null || parkingLots.isEmpty()) return null;
+
+        List<ParkingLot> closestParkingLots = new ArrayList<>();
+        while (!parkingLots.isEmpty()) {
+            ParkingLot closest = getClosestParkingLot(latitude, longitude);
+            parkingLots.remove(closest);
+            closestParkingLots.add(closest);
+        }
+
+        return (ArrayList<ParkingLot>) closestParkingLots;
+    }
+
+    /**
+     * Fetches list of parking lots within a default (3km) radius
+     *
+     * @param latitude
+     * @param longitude
+     * @param parkingLots list of parking lots to sort through
+     * @return list of parking lots within default radius
+     */
+    public ArrayList<ParkingLot> getParkingLotsWithinRadius(double latitude, double longitude,
+                                                            List<ParkingLot> parkingLots) {
+        int radius = 3;
+        ArrayList<ParkingLot> parkingLotsWithinRadius = new ArrayList<>();
+        for (ParkingLot parkingLot : parkingLots) {
+            double distance = coordinateDistanceDegToKM(latitude, longitude,
+                    parkingLot.getLatitudeLongitude()[0], parkingLot.getLatitudeLongitude()[1]);
+            if (distance <= radius) parkingLotsWithinRadius.add(parkingLot);
+        }
+
+        return parkingLotsWithinRadius;
+    }
+
+    /**
+     * Uses haversine formula to convert distance between two coordinate points (in degrees) to distance in km.
+     * Steps:
+     * 1. convert latitude and longitude distances in degrees to radians
+     * 2. compute 'a': half the chord length between the two coordinate points
+     * 3. use 'a' to calculate the angular distance, 'c'.
+     * 4. Multiply the radius of the Earth (in km) by the angular distance to get the distance between 2 points in km.
+     * @param lat1
+     * @param lng1
+     * @param lat2
+     * @param lng2
+     * @return distance between two coordinate points in km
+     */
+    private static double coordinateDistanceDegToKM(double lat1, double lng1, double lat2, double lng2) {
+        double earthRadiusKM = 6371.0; // radius of the earth in km
+        double latMinusLat = Math.toRadians(lat2 - lat1); // difference between two latitudes in radians
+        double lngMinusLng = Math.toRadians(lng2 - lng1); // difference between two longitudes in radians
+
+        // using haversine formula to find angular distance from coordinate points in degrees
+        double a = Math.sin(lngMinusLng / 2) * Math.sin(latMinusLat / 2) +
+                Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2)) *
+                        Math.sin(lngMinusLng / 2) * Math.sin(lngMinusLng / 2);
+
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+        return earthRadiusKM * c; // use angular distance and earth's radius (in km) to find distance in km.
+    }
+
+
 }

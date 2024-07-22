@@ -96,7 +96,7 @@ Present
 * tests for entity.ParkingLot, entity.EOEFilter, EOEPresenter, EOEInputData, OutputData, FakeGUI(to test presenter)
 * radius filter
 * proximity sorting
-
+ 
 In Progress
 * type filter 
 * availability filter 
