@@ -10,16 +10,17 @@ import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.InputMismatchException;
 import java.util.List;
 
-import interface_adapter.FilterByProximityPresenter;
-import interface_adapter.FilterByRadiusPresenter;
+import data_access.ReviewDAO;
+import interface_adapter.*;
+import org.w3c.dom.ls.LSOutput;
 import use_case.FilterByEOE.EOEInputData;
 import use_case.FilterByEOE.EOEInteractor;
 import use_case.FilterByEOF.EOFInputData;
 import use_case.FilterByEOF.EOFInteractor;
 import entity.ParkingLot;
-import interface_adapter.EOEPresenter;
 import use_case.FilterByProximity.FilterByProximityInputBoundary;
 import use_case.FilterByProximity.FilterByProximityInputData;
 import use_case.FilterByProximity.FilterByProximityInteractor;
@@ -28,6 +29,7 @@ import use_case.FilterByRadius.FilterByRadiusInputBoundary;
 import use_case.FilterByRadius.FilterByRadiusInputData;
 import use_case.FilterByRadius.FilterByRadiusInteractor;
 import use_case.FilterByRadius.FilterByRadiusOutputBoundary;
+import use_case.SubmitReview.*;
 //import interface_adapter.EOFPresenter;
 
 import java.io.IOException;
@@ -35,6 +37,7 @@ import java.util.ArrayList;
 
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
+import java.util.Scanner;
 
 
 public class GUI extends JFrame {
@@ -198,22 +201,22 @@ public class GUI extends JFrame {
         availabilityButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("TODO");
-//                String address = textFieldAddress.getText();
-//                EOFInputData inputData = new EOFInputData(address);
-//
-//                // Create the presenter
-//                EOFPresenter presenter = new EOFPresenter(GUI.this);
-//
-//                // Create the interactor with the presenter
-//                EOFInteractor interactor = new EOFInteractor(presenter);
-//
-//                // Execute the interactor
-//                try {
-//                    interactor.execute(inputData);
-//                } catch (IOException | InterruptedException | ApiException ex) {
-//                    throw new RuntimeException(ex);
-//                }
+
+                String address = textFieldAddress.getText();
+                EOFInputData inputData = new EOFInputData(address);
+
+                // Create the presenter
+                EOFPresenter presenter = new EOFPresenter(GUI.this);
+
+                // Create the interactor with the presenter
+                EOFInteractor interactor = new EOFInteractor(presenter);
+
+                // Execute the interactor
+                try {
+                    interactor.execute(inputData);
+                } catch (IOException | InterruptedException | ApiException ex) {
+                    throw new RuntimeException(ex);
+                }
 //            }
         };
 
@@ -231,6 +234,34 @@ public class GUI extends JFrame {
                 System.out.println("TODO");
             }
         });
+
+
+        /*
+        Ask the user to enter a review for a parking garage
+         */
+        while (true) {
+            try {
+                Scanner scanner = new Scanner(System.in);
+                System.out.println("\n==== Submit a Review ====\nEnter the id of the Parking Lot (has to be an integer):");
+                int parkingLotID = scanner.nextInt();
+
+                System.out.println("Enter your rating for this parking: ");
+                int rating = scanner.nextInt();
+
+                // Set up the interactor
+                SubmitReviewDataAccessInterface reviewDAO = new ReviewDAO("src/external_data/Reviews.json");
+                SubmitReviewOutputBoundary presenter = new SubmitReviewPresenter(new JLabel());
+                SubmitReviewBoundary interactor = new SubmitReviewInteractor(reviewDAO, presenter);
+                ReviewInputData inputData = new ReviewInputData(parkingLotID, rating);
+
+                // Execute the interactor
+                interactor.execute(inputData);
+            }
+            catch (InputMismatchException ex) {
+                break;
+            }
+        }
+
     }
 
     public void updateParkingLotList(ParkingLot[] parkingLots) {
@@ -285,6 +316,7 @@ public class GUI extends JFrame {
         }
 
     }
+
 
     private void createUIComponents() {
         // TODO: place custom component creation code here

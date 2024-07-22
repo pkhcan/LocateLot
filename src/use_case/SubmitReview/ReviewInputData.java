@@ -1,26 +1,34 @@
 package use_case.SubmitReview;
 
-import com.sun.jdi.InvalidTypeException;
 
+/**
+ * Represents input data to submit a review.
+ */
 public class ReviewInputData {
 
-    private final int reviewID;
-    private final String reviewType;
     private final int rating;
-
-    static int idTracker = 1;
+    private final int parkingLotID;
 
     /**
-     * Create a ReviewInputData
-     * @param reviewType RI: has to be either "EOE" or "EOF"
-     * @param rating
+     * Constructs an {@code ReviewInputData} object.
+     * @param parkingLotID The of the ParkingLot for which the review is.
+     * @param rating The rating of the review.
      */
-    public ReviewInputData(String reviewType, int rating){
-        this.reviewID = idTracker;
-        idTracker++;
-        this.reviewType = reviewType;
+    public ReviewInputData(int parkingLotID, int rating){
+
+        this.parkingLotID = parkingLotID;
         this.rating = rating;
     }
 
-    public int getReviewID() {return this.reviewID;};
+    /**
+     * Get the rating of the review
+     * @return The rating of this review input
+     */
+    public int getRating() {return rating;}
+
+    /**
+     * Get the id of the parking lot for which this review input is
+     * @return The id of the associated parking lot
+     */
+    public int getParkingLotID() {return parkingLotID;}
 }

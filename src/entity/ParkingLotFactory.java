@@ -9,7 +9,7 @@ public class ParkingLotFactory {
         ParkingLot parkingLot = new ParkingLot(streetAddress);
         parkingLot.setId(id);
         parkingLot.setWebsite(website);
-        parkingLot.setLatLong(latLong);
+//        parkingLot.setLatLong(latLong);
         parkingLot.setAddress(streetAddress);
         parkingLot.setHalfHourlyRate(halfHourlyRate);
         parkingLot.setTimestoRates(timesToRates);
