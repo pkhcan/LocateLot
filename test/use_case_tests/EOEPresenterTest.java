@@ -1,15 +1,16 @@
 package use_case_tests;
 
 import interface_adapter.EOEPresenter;
-import use_case_tests.FakeGUI;
 import org.junit.jupiter.api.Test;
 import use_case.FilterOutput.OutputData;
 import entity.ParkingLot;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Test class for interface_adapter.EOEPresenter.
+ * TODO - TO RUN - comment out code block in GUI.java starting at line 242 (242 - 263)
  */
 class EOEPresenterTest {
 
