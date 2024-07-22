@@ -1,19 +1,29 @@
 package entity;
 
-import com.google.maps.model.GeocodingResult;
-import data_access.GeoApiDAO;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class ProximityFilter {
+
     public ProximityFilter() {
     }
 
+    /**
+     *
+     * @param latitude current latitude
+     * @param longitude current longitude
+     * @param parkingLots list of parking lots to be filtered
+     * @return List of parking lots filtered by proximity
+     */
     public List<ParkingLot> filter(double latitude, double longitude, ArrayList<ParkingLot> parkingLots) {
         List<ParkingLot> filteredByProximity = new ArrayList<>();
+        /*
+        iterates through a mutable arraylist of parking lots and removes the closest one each time to add
+        to new filtered list. A parking lot is always removed so that the getClosestParkingLot method
+        can get the next closest parking lot in the list.
+         */
         while (!parkingLots.isEmpty()) {
-            ParkingLot closest = getClosestParkingLot(latitude, longitude, parkingLots); // can't implement due to having to access DAO
+            ParkingLot closest = getClosestParkingLot(latitude, longitude, parkingLots);
             parkingLots.remove(closest);
             filteredByProximity.add(closest);
         }
@@ -21,6 +31,14 @@ public class ProximityFilter {
         return filteredByProximity;
     }
 
+    /**
+     * Iterates through a list of parking lots to find the parking lot closest to a given set of
+     * coordinate points.
+     * @param latitude current latitude from user input for address
+     * @param longitude current longitude from user input for address
+     * @param parkingLots list of parking lots to be searched
+     * @return closest parking lot in the list
+     */
     private static ParkingLot getClosestParkingLot(double latitude, double longitude, ArrayList<ParkingLot> parkingLots) {
         if (parkingLots == null || parkingLots.isEmpty()) return null;
         ParkingLot closest = null;

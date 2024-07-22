@@ -219,10 +219,10 @@ public class ParkingLotDAO implements GreenPDAO {
      */
     public ArrayList<ParkingLot> getParkingLotsWithinRadius(double latitude, double longitude,
                                                             List<ParkingLot> parkingLots) {
-        int radius = 3;
+        double radius = 3;
         ArrayList<ParkingLot> parkingLotsWithinRadius = new ArrayList<>();
         for (ParkingLot parkingLot : parkingLots) {
-            double distance = coordinateDistanceDegToKM(latitude, longitude,
+            double distance = calculateDistanceDegToKM(latitude, longitude,
                     parkingLot.getLatitudeLongitude()[0], parkingLot.getLatitudeLongitude()[1]);
             if (distance <= radius) parkingLotsWithinRadius.add(parkingLot);
         }
@@ -243,7 +243,7 @@ public class ParkingLotDAO implements GreenPDAO {
      * @param lng2
      * @return distance between two coordinate points in km
      */
-    private static double coordinateDistanceDegToKM(double lat1, double lng1, double lat2, double lng2) {
+    private static double calculateDistanceDegToKM(double lat1, double lng1, double lat2, double lng2) {
         double earthRadiusKM = 6371.0; // radius of the earth in km
         double latMinusLat = Math.toRadians(lat2 - lat1); // difference between two latitudes in radians
         double lngMinusLng = Math.toRadians(lng2 - lng1); // difference between two longitudes in radians
