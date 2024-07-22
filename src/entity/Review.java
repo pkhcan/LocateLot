@@ -13,9 +13,8 @@ public class Review {
      */
 
 
-    Review(int value) {
+    public Review(int value) {
         this.value = value;
-//        this.type = type;
     }
 
     public int getValue() {
