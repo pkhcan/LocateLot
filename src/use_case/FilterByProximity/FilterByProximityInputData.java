@@ -7,20 +7,20 @@ import java.util.List;
 
 public class FilterByProximityInputData {
 
-    private double[] latLong;
+    private String address;
     // private List<ParkingLot> parkingLots;
 
-    public FilterByProximityInputData(double[] latLong) {
+    public FilterByProximityInputData(String address) {
         // this.parkingLots = parkingLotDAO.getParkingLots();
-        this.latLong = latLong;
+        this.address = address;
     }
 
 //    public List<ParkingLot> getParkingLots() {
 //        return this.parkingLots;
 //    }
 
-    public double[] getLatLong() {
-        return this.latLong;
+    public String getAddress() {
+        return this.address;
     }
 
 }

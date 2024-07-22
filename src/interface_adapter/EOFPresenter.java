@@ -6,6 +6,7 @@ import entity.ParkingLot;
 import use_case.FilterOutput.OutputBoundary;
 import use_case.FilterOutput.OutputData;
 
+
 /**
  * Presenter class that presents Ease of Finding (EOF) output data to a GUI.
  */
@@ -32,5 +33,14 @@ public class EOFPresenter implements OutputBoundary {
         ParkingLot[] sortedParkingLots = outputData.getSortedParkingLots();
         gui.updateParkingLotList(sortedParkingLots);
 
+    }
+
+    /**
+     * Present the error to the GUI.
+     * @param s the error to be presented
+     */
+    @Override
+    public void presentError(String s) {
+        System.out.println(s);
     }
 }

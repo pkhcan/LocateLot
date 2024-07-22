@@ -1,4 +1,4 @@
-package interface_adapter;
-
-public class FilterByProximityController {
-}
+//package interface_adapter;
+//
+//public class FilterByProximityController {
+//}
