@@ -12,8 +12,6 @@ public class SubmitReviewInteractor implements SubmitReviewBoundary {
     final SubmitReviewDataAccessInterface reviewDAO;
     final SubmitReviewOutputBoundary presenter;
 
-    private static final Logger logger = LoggerFactory.getLogger(EOEInteractor.class);
-
     /**
      * Construct a {@code SubmitReviewInteractor} for the specified data access object and output boundary
      * @param reviewDAO The data access object that will access the data
@@ -35,11 +33,11 @@ public class SubmitReviewInteractor implements SubmitReviewBoundary {
 
         try{
             reviewDAO.saveReview(reviewInputData.getParkingLotID(), review);
-            logger.info("Review of "+ reviewInputData.getRating() +
+            System.out.println("Review of "+ reviewInputData.getRating() +
                     " has been saved for parking lot with id " + reviewInputData.getParkingLotID());
         }
         catch(Exception e){
-            logger.error(e.getMessage());
+            System.out.println("Failed to save the review");
         }
     }
 

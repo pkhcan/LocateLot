@@ -68,7 +68,7 @@ Scheduled Meeting Times + Mode of Communication:
 Meeting time outside of lab- Tuesdays 5pm-6pm, Weekends
 Mode of Communication- Instagram group chat, Discord call 
 
-DIRECTIONS (to search) :
+DIRECTIONS TO SEARCH :
 1. Set up environmental variable (google maps) - API key
 2. Add and download the library *com.fasterxml.jackson.core:jackson-annotations:2.13.0* to Project Structure and Apply 
 3. Run GUI.java 
@@ -88,6 +88,11 @@ EXAMPLE INPUTS : (please type out **and** select corresponding option)
 - 40 St George Street, Toronto, ON, Canada
 - 27 King's College Circle, Toronto, ON, Canada
 - 1 Spadina Crescent, Spadina Crescent, Toronto, ON, Canada
+
+
+DIRECTIONS TO SUBMIT A REVIEW :
+- Make sure to have the _com.fasterxml.jackson.core_ dependency in your project structure.
+- As soon as the GUI runs, the console will ask for a review input. Input the id of the desired parking lot and the rating as well, both as integers. It will update the Reviews.json file and report if it was successful in the console. An invalid input will stop the program from asking for a review.
 
 FUNCTIONALITY
 
