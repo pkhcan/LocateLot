@@ -6,6 +6,7 @@ import entity.ParkingLot;
 import use_case.FilterOutput.OutputBoundary;
 import use_case.FilterOutput.OutputData;
 
+
 /**
  * Presenter class that presents Ease of Finding (EOF) output data to a GUI.
  */
