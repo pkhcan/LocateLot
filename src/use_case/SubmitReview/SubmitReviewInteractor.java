@@ -35,13 +35,13 @@ public class SubmitReviewInteractor implements SubmitReviewBoundary {
 
         try{
             reviewDAO.saveReview(reviewInputData.getParkingLotID(), review);
-            logger.info("Review of"+ String.valueOf(reviewInputData.getRating()) +
-                    " has been saved for parking lot with id " + String.valueOf(reviewInputData.getParkingLotID()));
+            logger.info("Review of "+ reviewInputData.getRating() +
+                    " has been saved for parking lot with id " + reviewInputData.getParkingLotID());
         }
         catch(Exception e){
             logger.error(e.getMessage());
         }
-    };
+    }
 
 
     /**

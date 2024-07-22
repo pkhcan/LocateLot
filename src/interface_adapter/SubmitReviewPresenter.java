@@ -7,7 +7,7 @@ import javax.swing.*;
 
 public class SubmitReviewPresenter implements SubmitReviewOutputBoundary {
     private SubmitReviewOutputBoundary output;
-    private JLabel label;
+    private final JLabel label;
 
     /**
      * Prepares the label to be updated based on the result of the submission

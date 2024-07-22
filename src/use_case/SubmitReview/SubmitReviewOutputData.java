@@ -2,8 +2,8 @@ package use_case.SubmitReview;
 
 public class SubmitReviewOutputData {
     private boolean success = false;
-    private String parkingLotID;
-    private String rating;
+    private final String parkingLotID;
+    private final String rating;
 
     /**
      * The constructor that is used when the review submission is successful.
