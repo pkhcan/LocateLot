@@ -12,11 +12,15 @@ import entity.ProximityFilter;
 public class FilterByPriceInputData {
 
     final ParkingLotDAO radiusSortedList;
-    final int time;
+    final LocalTime time;
 
-    public FilterByPriceInputData(ParkingLotDAO radiusSortedList, int time) {
+    public FilterByPriceInputData(ParkingLotDAO radiusSortedList, LocalTime time) {
         this.radiusSortedList = radiusSortedList;
         this.time = time;
+    }
+
+    public int getTime(){
+        return this.time.getHour();
     }
 }
 

@@ -170,22 +170,22 @@ public class GUI extends JFrame {
 
                 String address = textFieldAddress.getText();
                 double radius = 3.0;
-                LocalTime currentTime = LocalTime.now();
-                int currentHour = currentTime.getHour();
                 ParkingLotDAO radiusSortedList = null;
+                LocalTime currentTime = LocalTime.now();
+
                 try {
                     radiusSortedList = new ParkingLotDAO();
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
                 }
-                FilterByPriceInputData inputData = new FilterByPriceInputData(radiusSortedList, currentHour);
+                FilterByPriceInputData inputData = new FilterByPriceInputData(radiusSortedList, currentTime);
 
                 // Create the presenter
                 FilterByPriceOutputBoundary presenter = new FilterByPricePresenter(GUI.this);
 
                 // Create the interactor with the presenter
                 FilterByPriceInputBoundary interactor = null;
-                interactor = new FilterByPriceInteractor(presenter);
+                interactor = new FilterByPriceInteractor(presenter, radiusSortedList);
 
                 // Execute the interactor
                 try {
