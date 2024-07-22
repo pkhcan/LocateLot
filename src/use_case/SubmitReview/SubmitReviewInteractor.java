@@ -3,10 +3,6 @@ package use_case.SubmitReview;
 
 import entity.Review;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import use_case.FilterByEOE.EOEInteractor;
-
 public class SubmitReviewInteractor implements SubmitReviewBoundary {
 
     final SubmitReviewDataAccessInterface reviewDAO;
