@@ -12,6 +12,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
+import interface_adapter.EOFPresenter;
 import interface_adapter.FilterByProximityPresenter;
 import interface_adapter.FilterByRadiusPresenter;
 import use_case.FilterByEOE.EOEInputData;
@@ -198,22 +199,22 @@ public class GUI extends JFrame {
         availabilityButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("TODO");
-//                String address = textFieldAddress.getText();
-//                EOFInputData inputData = new EOFInputData(address);
-//
-//                // Create the presenter
-//                EOFPresenter presenter = new EOFPresenter(GUI.this);
-//
-//                // Create the interactor with the presenter
-//                EOFInteractor interactor = new EOFInteractor(presenter);
-//
-//                // Execute the interactor
-//                try {
-//                    interactor.execute(inputData);
-//                } catch (IOException | InterruptedException | ApiException ex) {
-//                    throw new RuntimeException(ex);
-//                }
+
+                String address = textFieldAddress.getText();
+                EOFInputData inputData = new EOFInputData(address);
+
+                // Create the presenter
+                EOFPresenter presenter = new EOFPresenter(GUI.this);
+
+                // Create the interactor with the presenter
+                EOFInteractor interactor = new EOFInteractor(presenter);
+
+                // Execute the interactor
+                try {
+                    interactor.execute(inputData);
+                } catch (IOException | InterruptedException | ApiException ex) {
+                    throw new RuntimeException(ex);
+                }
 //            }
         };
 
