@@ -78,11 +78,14 @@ public class GUI extends JFrame {
             public void changedUpdate(DocumentEvent e) {
                 updateSuggestedAddresses();
             }
+
             public void removeUpdate(DocumentEvent e) {
             }
+
             public void insertUpdate(DocumentEvent e) {
                 updateSuggestedAddresses();
-            }});
+            }
+        });
 
 
         /*
@@ -167,7 +170,6 @@ public class GUI extends JFrame {
             /**
              * action performed button for ease of entry reviews
              * returns list of parking lots within the default radius sorted from best to worst (+ unrated) reviews
-             *
              */
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -218,7 +220,9 @@ public class GUI extends JFrame {
                     throw new RuntimeException(ex);
                 }
 //            }
-        };
+            }
+
+            ;
 
         });
 
@@ -236,33 +240,8 @@ public class GUI extends JFrame {
         });
 
 
-        /*
-        Ask the user to enter a review for a parking garage
-         */
-        while (true) {
-            try {
-                Scanner scanner = new Scanner(System.in);
-                System.out.println("\n==== Submit a Review ====\nEnter the id of the Parking Lot (has to be an integer):");
-                int parkingLotID = scanner.nextInt();
-
-                System.out.println("Enter your rating for this parking: ");
-                int rating = scanner.nextInt();
-
-                // Set up the interactor
-                SubmitReviewDataAccessInterface reviewDAO = new ReviewDAO("src/external_data/Reviews.json");
-                SubmitReviewOutputBoundary presenter = new SubmitReviewPresenter(new JLabel());
-                SubmitReviewBoundary interactor = new SubmitReviewInteractor(reviewDAO, presenter);
-                ReviewInputData inputData = new ReviewInputData(parkingLotID, rating);
-
-                // Execute the interactor
-                interactor.execute(inputData);
-            }
-            catch (InputMismatchException ex) {
-                break;
-            }
-        }
-
     }
+
 
     public void updateParkingLotList(ParkingLot[] parkingLots) {
         // Update the GUI with the sorted parking lots
@@ -284,6 +263,32 @@ public class GUI extends JFrame {
     public static void main(String[] args) {
 
         new GUI();
+        submitReview();
+    }
+
+    /*
+    Ask the user to enter a review for a parking garage
+    */
+    private static void submitReview(){
+        try {
+            Scanner scanner = new Scanner(System.in);
+            System.out.println("\n==== Submit a Review ====\nEnter the id of the Parking Lot (has to be an integer):");
+            int parkingLotID = scanner.nextInt();
+
+            System.out.println("Enter your rating for this parking: ");
+            int rating = scanner.nextInt();
+
+            // Set up the interactor
+            SubmitReviewDataAccessInterface reviewDAO = new ReviewDAO("src/external_data/Reviews.json");
+            SubmitReviewOutputBoundary presenter = new SubmitReviewPresenter(new JLabel());
+            SubmitReviewBoundary interactor = new SubmitReviewInteractor(reviewDAO, presenter);
+            ReviewInputData inputData = new ReviewInputData(parkingLotID, rating);
+
+            // Execute the interactor
+            interactor.execute(inputData);
+        } catch (InputMismatchException ex) {
+            System.out.println(ex.getMessage());
+        }
     }
 
 
@@ -316,6 +321,8 @@ public class GUI extends JFrame {
         }
 
     }
+
+
 
 
     private void createUIComponents() {
