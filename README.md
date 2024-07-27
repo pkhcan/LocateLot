@@ -56,6 +56,7 @@ PROPOSED ENTITIES
      boolean availability
      float pricing
      float searchRadius
+ 	Str carparkType
 
 -	Review
      float easeOfEntry (expressed as a star rating)
@@ -103,6 +104,7 @@ Present
 * radius filter
 * proximity sorting
 * availability filter
+* type of carpark: surface or garage
 
 In Progress
 * type filter 
