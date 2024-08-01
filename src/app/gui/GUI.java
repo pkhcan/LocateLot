@@ -16,8 +16,9 @@ import java.util.List;
 
 import data_access.ParkingLotDAO;
 import data_access.ReviewDAO;
+import entity.Review;
 import interface_adapter.*;
-import org.w3c.dom.ls.LSOutput;
+import kotlin.io.path.PathsKt;
 import use_case.FilterByEOE.EOEInputData;
 import use_case.FilterByEOE.EOEInteractor;
 import use_case.FilterByEOF.EOFInputData;
@@ -57,8 +58,12 @@ public class GUI extends JFrame {
     private JButton proximityButton;
     private JButton typeButton;
     private JPanel buttonsPanel;
+    private JButton ReviewButton;
+    private JPanel ReviewPanel;
     //    ^^ replace with the API search box and button ?
+    private String selectedAddress;
     private final AutoCompletionDAO autoCompletionDAO = new AutoCompletionDAO();
+    private final ParkingLot selectedParkingLot;
 
 
     public GUI() {
@@ -270,7 +275,70 @@ public class GUI extends JFrame {
             }
         });
 
+        /*
+        Action performed for Submit Review button.
+         */
+        ReviewButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                /*
+                === NOTE === UwU === #TODO
+                To see how it looks, comment line 290 and uncomment line 291, then select an address. The address
+                will be like a selected parking lot for now.
+                 */
 
+                // If the user has not selected a parking lot yet
+                if (selectedParkingLot == null)
+//                if (selectedAddress == null)
+                {
+                    ReviewPanel.removeAll();
+                    ReviewPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+
+                    // Add the label to the new frame
+                    JLabel errorLabel = new JLabel("You haven't selected a parking lot yet.");
+                    ReviewPanel.add(errorLabel);
+                    ReviewPanel.revalidate();
+
+                }
+
+                // The user has selected a parking lot
+                else{
+                    // Prepare the review panel
+                    ReviewPanel.removeAll();
+                    ReviewPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+
+
+                    JLabel enterRatingLabel = new JLabel("Enter your rating:");
+                    ReviewPanel.add(enterRatingLabel);
+
+                    // Create a slider
+                    JSlider ratingSlider = new JSlider(JSlider.HORIZONTAL, 1, 5, 1);
+
+                    // Customize the slider
+                    ratingSlider.setPaintTicks(true);
+                    ratingSlider.setPaintTrack(true);
+                    ratingSlider.setMajorTickSpacing(1);
+                    ratingSlider.setSnapToTicks(true);
+                    ratingSlider.setPaintLabels(true);
+
+
+                    ReviewPanel.add(ratingSlider);
+
+                    JButton submitButton = new JButton("Submit");
+
+                    submitButton.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            submitReview(Integer.getInteger(selectedParkingLot.getID()), ratingSlider.getValue());
+                        }
+                    });
+
+                    ReviewPanel.add(submitButton);
+
+                    ReviewPanel.revalidate();
+                }
+            }
+        });
     }
 
 
@@ -294,21 +362,11 @@ public class GUI extends JFrame {
     public static void main(String[] args) {
 
         new GUI();
-        submitReview();
     }
 
-    /*
-    Ask the user to enter a review for a parking garage
-    */
-    private static void submitReview(){
+
+    private void submitReview(int parkingLotID, int rating){
         try {
-            Scanner scanner = new Scanner(System.in);
-            System.out.println("\n==== Submit a Review ====\nEnter the id of the Parking Lot (has to be an integer):");
-            int parkingLotID = scanner.nextInt();
-
-            System.out.println("Enter your rating for this parking: ");
-            int rating = scanner.nextInt();
-
             // Set up the interactor
             SubmitReviewDataAccessInterface reviewDAO = new ReviewDAO("src/external_data/Reviews.json");
             SubmitReviewOutputBoundary presenter = new SubmitReviewPresenter(new JLabel());
@@ -317,6 +375,7 @@ public class GUI extends JFrame {
 
             // Execute the interactor
             interactor.execute(inputData);
+            
         } catch (InputMismatchException ex) {
             System.out.println(ex.getMessage());
         }
@@ -341,6 +400,14 @@ public class GUI extends JFrame {
 
                 b.setAlignmentX(Component.CENTER_ALIGNMENT);
                 b.setMaximumSize(new Dimension(Integer.MAX_VALUE, b.getMinimumSize().height));
+                b.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        selectedAddress = b.getText();
+                        textFieldAddress.setText(selectedAddress);
+                    }
+                });
+
                 buttonsPanel.add(b);
                 buttonsPanel.revalidate(); buttonsPanel.repaint();
 
