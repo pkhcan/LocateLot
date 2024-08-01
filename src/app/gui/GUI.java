@@ -206,7 +206,6 @@ public class GUI extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 // Create EOEInputData with the address from the text field
                 String address = textFieldAddress.getText();
-                EOEInputData inputData = new EOEInputData(address);
 
                 // Create the presenter
                 EOEPresenter presenter = new EOEPresenter(GUI.this);
@@ -214,9 +213,12 @@ public class GUI extends JFrame {
                 // Create the interactor with the presenter
                 EOEInteractor interactor = new EOEInteractor(presenter);
 
-                // Execute the interactor
+                // Create the controller with the interactor
+                EOEController controller = new EOEController(interactor);
+
+                // Execute the interactor via the controller - handle EOE request
                 try {
-                    interactor.execute(inputData);
+                    controller.handleEOE(address);
                 } catch (IOException | InterruptedException | ApiException ex) {
                     throw new RuntimeException(ex);
                 }
@@ -253,7 +255,6 @@ public class GUI extends JFrame {
 //            }
             }
 
-            ;
 
         });
 
