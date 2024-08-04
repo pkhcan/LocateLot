@@ -17,8 +17,6 @@ import java.util.List;
 import data_access.ParkingLotDAO;
 import data_access.ReviewDAO;
 import interface_adapter.*;
-import org.w3c.dom.ls.LSOutput;
-import use_case.FilterByEOE.EOEInputData;
 import use_case.FilterByEOE.EOEInteractor;
 import use_case.FilterByEOF.EOFInputData;
 import use_case.FilterByEOF.EOFInteractor;
@@ -36,7 +34,6 @@ import use_case.FilterByRadius.FilterByRadiusInputData;
 import use_case.FilterByRadius.FilterByRadiusInteractor;
 import use_case.FilterByRadius.FilterByRadiusOutputBoundary;
 import use_case.SubmitReview.*;
-//import interface_adapter.EOFPresenter;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -57,7 +54,7 @@ public class GUI extends JFrame {
     private JButton proximityButton;
     private JButton typeButton;
     private JPanel buttonsPanel;
-    //    ^^ replace with the API search box and button ?
+    private JScrollPane resultsScrollPane;
     private final AutoCompletionDAO autoCompletionDAO = new AutoCompletionDAO();
 
 
@@ -220,7 +217,7 @@ public class GUI extends JFrame {
                 try {
                     controller.handleEOE(address);
                 } catch (IOException | InterruptedException | ApiException ex) {
-                    throw new RuntimeException(ex);
+                    showError(ex.getMessage());
                 }
 
             }
@@ -278,19 +275,35 @@ public class GUI extends JFrame {
     public void updateParkingLotList(ParkingLot[] parkingLots) {
         // Update the GUI with the sorted parking lots
         // For simplicity, let's print them to the console
+//        for (ParkingLot lot : parkingLots) {
+//            System.out.println(lot);
+//        }
+        DefaultListModel<String> listModel = new DefaultListModel<>();
         for (ParkingLot lot : parkingLots) {
-            System.out.println(lot);
+            listModel.addElement(lot.toString());
         }
+        JList<String> list = new JList<>(listModel);
+        resultsScrollPane.setViewportView(list);
     }
 
     public void updateParkingLotList(List<ParkingLot> parkingLots) {
-        // Update the GUI with the sorted parking lots
-        // For simplicity, let's print them to the console
+//        // Update the GUI with the sorted parking lots
+//        // For simplicity, let's print them to the console
+//        for (ParkingLot lot : parkingLots) {
+//            System.out.println(lot);
+//        }
+//    }
+        DefaultListModel<String> listModel = new DefaultListModel<>();
         for (ParkingLot lot : parkingLots) {
-            System.out.println(lot);
+            listModel.addElement(lot.toString());
         }
+        JList<String> list = new JList<>(listModel);
+        resultsScrollPane.setViewportView(list);
     }
 
+    public void showError(String errorMessage) {
+        JOptionPane.showMessageDialog(this, errorMessage, "Error", JOptionPane.ERROR_MESSAGE);
+    }
 
     public static void main(String[] args) {
 
