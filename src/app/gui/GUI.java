@@ -54,8 +54,10 @@ public class GUI extends JFrame {
     private JButton proximityButton;
     private JButton typeButton;
     private JPanel buttonsPanel;
-    private JScrollPane resultsScrollPane;
+//    private JScrollPane resultsScrollPane;
+    private JPanel resultsButtonPanel;
     private final AutoCompletionDAO autoCompletionDAO = new AutoCompletionDAO();
+
 
 
     public GUI() {
@@ -76,6 +78,7 @@ public class GUI extends JFrame {
         // to fix a null exception caused by IntelliJ's GUI creator
         buttonsPanel.setLayout(new BoxLayout(buttonsPanel, BoxLayout.Y_AXIS));
 
+        resultsButtonPanel.setLayout(new BoxLayout(resultsButtonPanel, BoxLayout.Y_AXIS));
         // Listener to detect changes in the textFieldBox, when the user inputs an address
         textFieldAddress.getDocument().addDocumentListener(new DocumentListener() {
             public void changedUpdate(DocumentEvent e) {
@@ -278,12 +281,35 @@ public class GUI extends JFrame {
 //        for (ParkingLot lot : parkingLots) {
 //            System.out.println(lot);
 //        }
+        resultsButtonPanel.removeAll();
+        resultsButtonPanel.add(new JLabel("RESULTS"));
         DefaultListModel<String> listModel = new DefaultListModel<>();
+        ArrayList<JButton> buttonsArrayList = new ArrayList<JButton>();
+
         for (ParkingLot lot : parkingLots) {
             listModel.addElement(lot.toString());
+            JButton b = new JButton(lot.toString());
+
+            b.setAlignmentX(Component.CENTER_ALIGNMENT);
+            b.setMaximumSize(new Dimension(Integer.MAX_VALUE, b.getMinimumSize().height));
+            b.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    // add code here
+                }
+            });
+            resultsButtonPanel.add(b);
+            resultsButtonPanel.revalidate();
+            resultsButtonPanel.repaint();
+
+            buttonsArrayList.add(b);
         }
-        JList<String> list = new JList<>(listModel);
-        resultsScrollPane.setViewportView(list);
+//        JList<String> list = new JList<>(listModel);
+//        resultsScrollPane.setViewportView(list);
+//        JPanel resultsPanel = new JPanel();
+//        resultsScrollPane.add(resultsPanel);
+//        resultsScrollPane.revalidate();
+
     }
 
     public void updateParkingLotList(List<ParkingLot> parkingLots) {
@@ -293,12 +319,30 @@ public class GUI extends JFrame {
 //            System.out.println(lot);
 //        }
 //    }
+        resultsButtonPanel.removeAll();
+        resultsButtonPanel.add(new JLabel("RESULTS"));
+
         DefaultListModel<String> listModel = new DefaultListModel<>();
+        ArrayList<JButton> buttonsArrayList = new ArrayList<JButton>();
+
         for (ParkingLot lot : parkingLots) {
             listModel.addElement(lot.toString());
+            JButton b = new JButton(lot.toString());
+
+            b.setAlignmentX(Component.CENTER_ALIGNMENT);
+            b.setMaximumSize(new Dimension(Integer.MAX_VALUE, b.getMinimumSize().height));
+            b.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    // add code here
+                }
+            });
+            resultsButtonPanel.add(b);
+            resultsButtonPanel.revalidate();
+            resultsButtonPanel.repaint();
+
+            buttonsArrayList.add(b);
         }
-        JList<String> list = new JList<>(listModel);
-        resultsScrollPane.setViewportView(list);
     }
 
     public void showError(String errorMessage) {
