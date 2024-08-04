@@ -32,5 +32,9 @@ public class SubmitReviewInputData {
      * Get the id of the parking lot for which this review input is
      * @return The id of the associated parking lot
      */
-    public int getParkingLotID() {return Integer.parseInt(parkingLot.getID());}
+    public ParkingLot getParkingLot() {return parkingLot;}
+
+    public boolean isEmpty(){
+        return this.parkingLot == null;
+    }
 }

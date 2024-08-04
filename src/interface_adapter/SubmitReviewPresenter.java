@@ -19,11 +19,31 @@ public class SubmitReviewPresenter implements SubmitReviewOutputBoundary {
 
     /**
      * Show the submission result.
-     * @param reviewSubmitted The output data for the submitted review.
+     * @param submittedReview The output data for the submitted review.
      */
-    public void showSubmission(SubmitReviewOutputData reviewSubmitted){
+    public void showSubmission(SubmitReviewOutputData submittedReview){
         ReviewState state = reviewViewModel.getState();
         state.submitted();
+        state.setParkingLot(submittedReview.getParkingLotName());
+        state.setRating(submittedReview.getRating());
+        reviewViewModel.firePropertyChanged();
+    }
+
+    /**
+     * Show that the user has not selected a parking lot yet.
+     */
+    public void showEmpty(){
+        ReviewState state = reviewViewModel.getState();
+        state.empty();
+        reviewViewModel.firePropertyChanged();
+    }
+
+    /**
+     * Show that the submission failed.
+     */
+    public void showFail(){
+        ReviewState state = reviewViewModel.getState();
+        state.failed();
         reviewViewModel.firePropertyChanged();
     }
 }

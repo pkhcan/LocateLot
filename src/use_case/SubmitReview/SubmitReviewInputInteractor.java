@@ -28,19 +28,27 @@ public class SubmitReviewInputInteractor implements SubmitReviewInputBoundary {
     public void execute(SubmitReviewInputData submitReviewInputData){
         // create a new review object
         Review review = new Review(submitReviewInputData.getRating());
-
-        try{
-            reviewDAO.saveReview(submitReviewInputData.getParkingLotID(), review);
-            System.out.println("Review of "+ submitReviewInputData.getRating() +
-                    " has been saved for parking lot with id " + submitReviewInputData.getParkingLotID());
-
-            SubmitReviewOutputData output = new SubmitReviewOutputData(submitReviewInputData.getParkingLotID(),
-                    submitReviewInputData.getRating());
-
-            presenter.showSubmission(output);
+        if (submitReviewInputData.isEmpty()){
+            presenter.showEmpty();
         }
-        catch(Exception e){
-            System.out.println("Failed to save the review");
+
+        else {
+            try {
+                // Save the Review into the Reviews file
+                reviewDAO.saveReview(Integer.parseInt(submitReviewInputData.getParkingLot().getID()),
+                        review);
+
+                // Prepare the output
+                SubmitReviewOutputData output = new SubmitReviewOutputData(
+                        submitReviewInputData.getParkingLot().getAddress(),
+                        submitReviewInputData.getRating());
+
+                // Display the output
+                presenter.showSubmission(output);
+            } catch (Exception e) {
+                // Show the user that their review submission was not successful
+                presenter.showFail();
+            }
         }
     }
 

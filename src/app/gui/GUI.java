@@ -61,9 +61,11 @@ public class GUI extends JFrame {
     private JPanel ReviewPanel;
     //    ^^ replace with the API search box and button ?
     private String selectedAddress;
-//    private JScrollPane resultsScrollPane;
+    private JScrollPane resultsScrollPane;
     private JPanel resultsButtonPanel;
+    private JPanel resultsTextPanel;
     private final AutoCompletionDAO autoCompletionDAO = new AutoCompletionDAO();
+    private ReviewView reviewView;
 
 
     public GUI() {
@@ -103,8 +105,8 @@ public class GUI extends JFrame {
         ReviewViewModel reviewViewModel = new ReviewViewModel();
         // to fix a null exception caused by IntelliJ's GUI creator
         ReviewPanel.setLayout(new BoxLayout(ReviewPanel, BoxLayout.Y_AXIS));
-
-        ReviewPanel.add(SubmitReviewUseCaseFactory.create(reviewViewModel));
+        this.reviewView = SubmitReviewUseCaseFactory.create(reviewViewModel);
+        ReviewPanel.add(reviewView);
         ReviewPanel.revalidate();
 
 
@@ -309,7 +311,7 @@ public class GUI extends JFrame {
             b.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    // add code here
+                    reviewView.setParkingLot(lot);
                 }
             });
             resultsButtonPanel.add(b);
