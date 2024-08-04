@@ -4,8 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import entity.Review;
-import use_case.SubmitReview.SubmitReviewDataAccessInterface;
-import use_case.SubmitReview.SubmitReviewInteractor.SubmitReviewFailedException;
+import use_case.SubmitReview.SubmitReviewInputInteractor.SubmitReviewFailedException;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -17,7 +16,7 @@ import java.util.List;
 
 import java.util.HashMap;
 
-public class ReviewDAO implements SubmitReviewDataAccessInterface {
+public class ReviewDAO implements ReviewDataAccessInterface {
 
     private final HashMap<String, List<Review>> reviews = new HashMap<String, List<Review>>();
 

@@ -16,9 +16,8 @@ import java.util.List;
 
 import data_access.ParkingLotDAO;
 import data_access.ReviewDAO;
-import entity.Review;
+import data_access.ReviewDataAccessInterface;
 import interface_adapter.*;
-import kotlin.io.path.PathsKt;
 import use_case.FilterByEOE.EOEInputData;
 import use_case.FilterByEOE.EOEInteractor;
 import use_case.FilterByEOF.EOFInputData;
@@ -37,6 +36,7 @@ import use_case.FilterByRadius.FilterByRadiusInputData;
 import use_case.FilterByRadius.FilterByRadiusInteractor;
 import use_case.FilterByRadius.FilterByRadiusOutputBoundary;
 import use_case.SubmitReview.*;
+import views.ReviewView;
 //import interface_adapter.EOFPresenter;
 
 import java.io.IOException;
@@ -44,7 +44,6 @@ import java.util.ArrayList;
 
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
-import java.util.Scanner;
 
 
 public class GUI extends JFrame {
@@ -63,7 +62,7 @@ public class GUI extends JFrame {
     //    ^^ replace with the API search box and button ?
     private String selectedAddress;
     private final AutoCompletionDAO autoCompletionDAO = new AutoCompletionDAO();
-    private final ParkingLot selectedParkingLot;
+//    private final ParkingLot selectedParkingLot;
 
 
     public GUI() {
@@ -97,6 +96,14 @@ public class GUI extends JFrame {
                 updateSuggestedAddresses();
             }
         });
+
+        // Set up the panel for submit review use case
+        ReviewViewModel reviewViewModel = new ReviewViewModel();
+        // to fix a null exception caused by IntelliJ's GUI creator
+        ReviewPanel.setLayout(new BoxLayout(ReviewPanel, BoxLayout.Y_AXIS));
+
+        ReviewPanel.add(SubmitReviewUseCaseFactory.create(reviewViewModel));
+        ReviewPanel.revalidate();
 
 
         /*
@@ -278,67 +285,67 @@ public class GUI extends JFrame {
         /*
         Action performed for Submit Review button.
          */
-        ReviewButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                /*
-                === NOTE === UwU === #TODO
-                To see how it looks, comment line 290 and uncomment line 291, then select an address. The address
-                will be like a selected parking lot for now.
-                 */
-
-                // If the user has not selected a parking lot yet
-                if (selectedParkingLot == null)
+//        ReviewButton.addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                /*
+//                === NOTE === UwU === #TODO
+//                To see how it looks, comment line 290 and uncomment line 291, then select an address. The address
+//                will be like a selected parking lot for now.
+//                 */
+//
+//                // If the user has not selected a parking lot yet
+////                if (selectedParkingLot == null)
 //                if (selectedAddress == null)
-                {
-                    ReviewPanel.removeAll();
-                    ReviewPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
-
-                    // Add the label to the new frame
-                    JLabel errorLabel = new JLabel("You haven't selected a parking lot yet.");
-                    ReviewPanel.add(errorLabel);
-                    ReviewPanel.revalidate();
-
-                }
-
-                // The user has selected a parking lot
-                else{
-                    // Prepare the review panel
-                    ReviewPanel.removeAll();
-                    ReviewPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
-
-
-                    JLabel enterRatingLabel = new JLabel("Enter your rating:");
-                    ReviewPanel.add(enterRatingLabel);
-
-                    // Create a slider
-                    JSlider ratingSlider = new JSlider(JSlider.HORIZONTAL, 1, 5, 1);
-
-                    // Customize the slider
-                    ratingSlider.setPaintTicks(true);
-                    ratingSlider.setPaintTrack(true);
-                    ratingSlider.setMajorTickSpacing(1);
-                    ratingSlider.setSnapToTicks(true);
-                    ratingSlider.setPaintLabels(true);
-
-
-                    ReviewPanel.add(ratingSlider);
-
-                    JButton submitButton = new JButton("Submit");
-
-                    submitButton.addActionListener(new ActionListener() {
-                        @Override
-                        public void actionPerformed(ActionEvent e) {
-                            submitReview(Integer.getInteger(selectedParkingLot.getID()), ratingSlider.getValue());
-                        }
-                    });
-
-                    ReviewPanel.add(submitButton);
-
-                    ReviewPanel.revalidate();
-                }
-            }
-        });
+//                {
+//                    ReviewPanel.removeAll();
+//                    ReviewPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+//
+//                    // Add the label to the new frame
+//                    JLabel errorLabel = new JLabel("You haven't selected a parking lot yet.");
+//                    ReviewPanel.add(errorLabel);
+//                    ReviewPanel.revalidate();
+//
+//                }
+//
+//                // The user has selected a parking lot
+//                else{
+//                    // Prepare the review panel
+//                    ReviewPanel.removeAll();
+//                    ReviewPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+//
+//
+//                    JLabel enterRatingLabel = new JLabel("Enter your rating:");
+//                    ReviewPanel.add(enterRatingLabel);
+//
+//                    // Create a slider
+//                    JSlider ratingSlider = new JSlider(JSlider.HORIZONTAL, 1, 5, 1);
+//
+//                    // Customize the slider
+//                    ratingSlider.setPaintTicks(true);
+//                    ratingSlider.setPaintTrack(true);
+//                    ratingSlider.setMajorTickSpacing(1);
+//                    ratingSlider.setSnapToTicks(true);
+//                    ratingSlider.setPaintLabels(true);
+//
+//
+//                    ReviewPanel.add(ratingSlider);
+//
+//                    JButton submitButton = new JButton("Submit");
+//
+//                    submitButton.addActionListener(new ActionListener() {
+//                        @Override
+//                        public void actionPerformed(ActionEvent e) {
+////                            submitReview(Integer.getInteger(selectedParkingLot.getID()), ratingSlider.getValue());
+//                        }
+//                    });
+//
+//                    ReviewPanel.add(submitButton);
+//
+//                    ReviewPanel.revalidate();
+//                }
+//            }
+//        });
     }
 
 
@@ -365,21 +372,21 @@ public class GUI extends JFrame {
     }
 
 
-    private void submitReview(int parkingLotID, int rating){
-        try {
-            // Set up the interactor
-            SubmitReviewDataAccessInterface reviewDAO = new ReviewDAO("src/external_data/Reviews.json");
-            SubmitReviewOutputBoundary presenter = new SubmitReviewPresenter(new JLabel());
-            SubmitReviewBoundary interactor = new SubmitReviewInteractor(reviewDAO, presenter);
-            ReviewInputData inputData = new ReviewInputData(parkingLotID, rating);
-
-            // Execute the interactor
-            interactor.execute(inputData);
-            
-        } catch (InputMismatchException ex) {
-            System.out.println(ex.getMessage());
-        }
-    }
+//    private void submitReview(int parkingLotID, int rating){
+//        try {
+//            // Set up the interactor
+//            ReviewDataAccessInterface reviewDAO = new ReviewDAO("src/external_data/Reviews.json");
+//            SubmitReviewOutputBoundary presenter = new SubmitReviewPresenter(new JLabel());
+//            SubmitReviewInputBoundary interactor = new SubmitReviewInputInteractor(reviewDAO, presenter);
+//            SubmitReviewInputData inputData = new SubmitReviewInputData(parkingLotID, rating);
+//
+//            // Execute the interactor
+//            interactor.execute(inputData);
+//
+//        } catch (InputMismatchException ex) {
+//            System.out.println(ex.getMessage());
+//        }
+//    }
 
 
     // Private void; updates the panel corresponding to suggested address buttons

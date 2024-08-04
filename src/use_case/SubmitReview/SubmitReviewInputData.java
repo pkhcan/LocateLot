@@ -1,22 +1,24 @@
 package use_case.SubmitReview;
 
 
+import entity.ParkingLot;
+
 /**
  * Represents input data to submit a review.
  */
-public class ReviewInputData {
+public class SubmitReviewInputData {
 
     private final int rating;
-    private final int parkingLotID;
+    private final ParkingLot parkingLot;
 
     /**
      * Constructs an {@code ReviewInputData} object.
-     * @param parkingLotID The of the ParkingLot for which the review is.
+     * @param parkingLot The of the ParkingLot for which the review is.
      * @param rating The rating of the review.
      */
-    public ReviewInputData(int parkingLotID, int rating){
+    public SubmitReviewInputData(ParkingLot parkingLot, int rating){
 
-        this.parkingLotID = parkingLotID;
+        this.parkingLot = parkingLot;
         this.rating = rating;
     }
 
@@ -30,5 +32,5 @@ public class ReviewInputData {
      * Get the id of the parking lot for which this review input is
      * @return The id of the associated parking lot
      */
-    public int getParkingLotID() {return parkingLotID;}
+    public int getParkingLotID() {return Integer.parseInt(parkingLot.getID());}
 }

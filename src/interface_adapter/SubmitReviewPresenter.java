@@ -2,18 +2,19 @@ package interface_adapter;
 
 import use_case.SubmitReview.SubmitReviewOutputBoundary;
 import use_case.SubmitReview.SubmitReviewOutputData;
+import views.ReviewView;
 
 import javax.swing.*;
 
 public class SubmitReviewPresenter implements SubmitReviewOutputBoundary {
-    private final JLabel label;
+    private final ReviewViewModel reviewViewModel;
 
     /**
      * Prepares the label to be updated based on the result of the submission
-     * @param label The label in the GUI to be updated.
+     * @param reviewViewModel The label in the GUI to be updated.
      */
-    public SubmitReviewPresenter(JLabel label) {
-        this.label = label;
+    public SubmitReviewPresenter(ReviewViewModel reviewViewModel) {
+        this.reviewViewModel = reviewViewModel;
     }
 
     /**
@@ -21,6 +22,8 @@ public class SubmitReviewPresenter implements SubmitReviewOutputBoundary {
      * @param reviewSubmitted The output data for the submitted review.
      */
     public void showSubmission(SubmitReviewOutputData reviewSubmitted){
-        label.setText(reviewSubmitted.toString());
+        ReviewState state = reviewViewModel.getState();
+        state.submitted();
+        reviewViewModel.firePropertyChanged();
     }
 }
