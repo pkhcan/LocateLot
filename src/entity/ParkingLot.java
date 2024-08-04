@@ -159,8 +159,9 @@ public class ParkingLot {
 
     @Override
     public String toString() {
-        return "id: " + getID() + " "+ getAddress() + ": " + getCarParkType() + " type parking, " + getWebsiteLink() + ", " + "rate per 30min: " + getHalfHourlyRate() + ", " + "ease of entry: " + getEntryReview() ;
+        return "ID " + getID() + ": "+ getAddress() + " (" + getCarParkType() + " parking) " + ", " + getHalfHourlyRate() + "$ per 30min ; " + "ease of entry: " + getEntryReview();
     }
+
     public void setCapacity(int capacity) {
         this.capacity = capacity;
     }

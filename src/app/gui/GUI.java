@@ -61,8 +61,9 @@ public class GUI extends JFrame {
     private JPanel ReviewPanel;
     //    ^^ replace with the API search box and button ?
     private String selectedAddress;
+//    private JScrollPane resultsScrollPane;
+    private JPanel resultsButtonPanel;
     private final AutoCompletionDAO autoCompletionDAO = new AutoCompletionDAO();
-//    private final ParkingLot selectedParkingLot;
 
 
     public GUI() {
@@ -83,6 +84,7 @@ public class GUI extends JFrame {
         // to fix a null exception caused by IntelliJ's GUI creator
         buttonsPanel.setLayout(new BoxLayout(buttonsPanel, BoxLayout.Y_AXIS));
 
+        resultsButtonPanel.setLayout(new BoxLayout(resultsButtonPanel, BoxLayout.Y_AXIS));
         // Listener to detect changes in the textFieldBox, when the user inputs an address
         textFieldAddress.getDocument().addDocumentListener(new DocumentListener() {
             public void changedUpdate(DocumentEvent e) {
@@ -232,7 +234,7 @@ public class GUI extends JFrame {
                 try {
                     controller.handleEOE(address);
                 } catch (IOException | InterruptedException | ApiException ex) {
-                    throw new RuntimeException(ex);
+                    showError(ex.getMessage());
                 }
 
             }
@@ -283,111 +285,82 @@ public class GUI extends JFrame {
             }
         });
 
-        /*
-        Action performed for Submit Review button.
-         */
-//        ReviewButton.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                /*
-//                === NOTE === UwU === #TODO
-//                To see how it looks, comment line 290 and uncomment line 291, then select an address. The address
-//                will be like a selected parking lot for now.
-//                 */
-//
-//                // If the user has not selected a parking lot yet
-////                if (selectedParkingLot == null)
-//                if (selectedAddress == null)
-//                {
-//                    ReviewPanel.removeAll();
-//                    ReviewPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
-//
-//                    // Add the label to the new frame
-//                    JLabel errorLabel = new JLabel("You haven't selected a parking lot yet.");
-//                    ReviewPanel.add(errorLabel);
-//                    ReviewPanel.revalidate();
-//
-//                }
-//
-//                // The user has selected a parking lot
-//                else{
-//                    // Prepare the review panel
-//                    ReviewPanel.removeAll();
-//                    ReviewPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
-//
-//
-//                    JLabel enterRatingLabel = new JLabel("Enter your rating:");
-//                    ReviewPanel.add(enterRatingLabel);
-//
-//                    // Create a slider
-//                    JSlider ratingSlider = new JSlider(JSlider.HORIZONTAL, 1, 5, 1);
-//
-//                    // Customize the slider
-//                    ratingSlider.setPaintTicks(true);
-//                    ratingSlider.setPaintTrack(true);
-//                    ratingSlider.setMajorTickSpacing(1);
-//                    ratingSlider.setSnapToTicks(true);
-//                    ratingSlider.setPaintLabels(true);
-//
-//
-//                    ReviewPanel.add(ratingSlider);
-//
-//                    JButton submitButton = new JButton("Submit");
-//
-//                    submitButton.addActionListener(new ActionListener() {
-//                        @Override
-//                        public void actionPerformed(ActionEvent e) {
-////                            submitReview(Integer.getInteger(selectedParkingLot.getID()), ratingSlider.getValue());
-//                        }
-//                    });
-//
-//                    ReviewPanel.add(submitButton);
-//
-//                    ReviewPanel.revalidate();
-//                }
-//            }
-//        });
+
     }
 
 
     public void updateParkingLotList(ParkingLot[] parkingLots) {
         // Update the GUI with the sorted parking lots
         // For simplicity, let's print them to the console
+//        for (ParkingLot lot : parkingLots) {
+//            System.out.println(lot);
+//        }
+        resultsButtonPanel.removeAll();
+        resultsButtonPanel.add(new JLabel("RESULTS"));
+        DefaultListModel<String> listModel = new DefaultListModel<>();
+        ArrayList<JButton> buttonsArrayList = new ArrayList<JButton>();
+
         for (ParkingLot lot : parkingLots) {
-            System.out.println(lot);
+            listModel.addElement(lot.toString());
+            JButton b = new JButton(lot.toString());
+
+            b.setAlignmentX(Component.CENTER_ALIGNMENT);
+            b.setMaximumSize(new Dimension(Integer.MAX_VALUE, b.getMinimumSize().height));
+            b.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    // add code here
+                }
+            });
+            resultsButtonPanel.add(b);
+            resultsButtonPanel.revalidate();
+            resultsButtonPanel.repaint();
+
+            buttonsArrayList.add(b);
         }
     }
 
     public void updateParkingLotList(List<ParkingLot> parkingLots) {
-        // Update the GUI with the sorted parking lots
-        // For simplicity, let's print them to the console
+//        // Update the GUI with the sorted parking lots
+//        // For simplicity, let's print them to the console
+//        for (ParkingLot lot : parkingLots) {
+//            System.out.println(lot);
+//        }
+//    }
+        resultsButtonPanel.removeAll();
+        resultsButtonPanel.add(new JLabel("RESULTS"));
+
+        DefaultListModel<String> listModel = new DefaultListModel<>();
+        ArrayList<JButton> buttonsArrayList = new ArrayList<JButton>();
+
         for (ParkingLot lot : parkingLots) {
-            System.out.println(lot);
+            listModel.addElement(lot.toString());
+            JButton b = new JButton(lot.toString());
+
+            b.setAlignmentX(Component.CENTER_ALIGNMENT);
+            b.setMaximumSize(new Dimension(Integer.MAX_VALUE, b.getMinimumSize().height));
+            b.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    // add code here
+                }
+            });
+            resultsButtonPanel.add(b);
+            resultsButtonPanel.revalidate();
+            resultsButtonPanel.repaint();
+
+            buttonsArrayList.add(b);
         }
     }
 
+    public void showError(String errorMessage) {
+        JOptionPane.showMessageDialog(this, errorMessage, "Error", JOptionPane.ERROR_MESSAGE);
+    }
 
     public static void main(String[] args) {
 
         new GUI();
     }
-
-
-//    private void submitReview(int parkingLotID, int rating){
-//        try {
-//            // Set up the interactor
-//            ReviewDataAccessInterface reviewDAO = new ReviewDAO("src/external_data/Reviews.json");
-//            SubmitReviewOutputBoundary presenter = new SubmitReviewPresenter(new JLabel());
-//            SubmitReviewInputBoundary interactor = new SubmitReviewInputInteractor(reviewDAO, presenter);
-//            SubmitReviewInputData inputData = new SubmitReviewInputData(parkingLotID, rating);
-//
-//            // Execute the interactor
-//            interactor.execute(inputData);
-//
-//        } catch (InputMismatchException ex) {
-//            System.out.println(ex.getMessage());
-//        }
-//    }
 
 
     // Private void; updates the panel corresponding to suggested address buttons
