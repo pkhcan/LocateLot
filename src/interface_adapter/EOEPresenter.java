@@ -38,7 +38,7 @@ public class EOEPresenter implements OutputBoundary {
 
 
     @Override
-    public void presentError(String s) {
-        System.out.println(s);
+    public void presentError(String error) {
+        gui.showError(error);
     }
 }

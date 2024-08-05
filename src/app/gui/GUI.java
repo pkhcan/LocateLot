@@ -17,8 +17,6 @@ import java.util.List;
 import data_access.ParkingLotDAO;
 import data_access.ReviewDAO;
 import interface_adapter.*;
-import org.w3c.dom.ls.LSOutput;
-import use_case.FilterByEOE.EOEInputData;
 import use_case.FilterByEOE.EOEInteractor;
 import use_case.FilterByEOF.EOFInputData;
 import use_case.FilterByEOF.EOFInteractor;
@@ -36,7 +34,6 @@ import use_case.FilterByRadius.FilterByRadiusInputData;
 import use_case.FilterByRadius.FilterByRadiusInteractor;
 import use_case.FilterByRadius.FilterByRadiusOutputBoundary;
 import use_case.SubmitReview.*;
-//import interface_adapter.EOFPresenter;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -57,8 +54,10 @@ public class GUI extends JFrame {
     private JButton proximityButton;
     private JButton typeButton;
     private JPanel buttonsPanel;
-    //    ^^ replace with the API search box and button ?
+    private JScrollPane resultsScrollPane;
+    private JPanel resultsButtonPanel;
     private final AutoCompletionDAO autoCompletionDAO = new AutoCompletionDAO();
+
 
 
     public GUI() {
@@ -70,7 +69,7 @@ public class GUI extends JFrame {
                 .getLocalGraphicsEnvironment()
                 .getDefaultScreenDevice();
 
-        setSize(900, 400);
+        setSize(1200, 500);
         // set location for map here?
         setLocationRelativeTo(null);
         setVisible(true);
@@ -79,6 +78,7 @@ public class GUI extends JFrame {
         // to fix a null exception caused by IntelliJ's GUI creator
         buttonsPanel.setLayout(new BoxLayout(buttonsPanel, BoxLayout.Y_AXIS));
 
+        resultsButtonPanel.setLayout(new BoxLayout(resultsButtonPanel, BoxLayout.Y_AXIS));
         // Listener to detect changes in the textFieldBox, when the user inputs an address
         textFieldAddress.getDocument().addDocumentListener(new DocumentListener() {
             public void changedUpdate(DocumentEvent e) {
@@ -220,7 +220,7 @@ public class GUI extends JFrame {
                 try {
                     controller.handleEOE(address);
                 } catch (IOException | InterruptedException | ApiException ex) {
-                    throw new RuntimeException(ex);
+                    showError(ex.getMessage());
                 }
 
             }
@@ -278,19 +278,76 @@ public class GUI extends JFrame {
     public void updateParkingLotList(ParkingLot[] parkingLots) {
         // Update the GUI with the sorted parking lots
         // For simplicity, let's print them to the console
+//        for (ParkingLot lot : parkingLots) {
+//            System.out.println(lot);
+//        }
+        resultsButtonPanel.removeAll();
+        resultsButtonPanel.add(new JLabel("RESULTS"));
+        DefaultListModel<String> listModel = new DefaultListModel<>();
+        ArrayList<JButton> buttonsArrayList = new ArrayList<JButton>();
+
         for (ParkingLot lot : parkingLots) {
-            System.out.println(lot);
+            listModel.addElement(lot.toString());
+            JButton b = new JButton(lot.toString());
+
+            b.setAlignmentX(Component.CENTER_ALIGNMENT);
+            b.setMaximumSize(new Dimension(Integer.MAX_VALUE, b.getMinimumSize().height));
+            b.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    // add code here
+                }
+            });
+            resultsButtonPanel.add(b);
+            resultsButtonPanel.revalidate();
+            resultsButtonPanel.repaint();
+
+            buttonsArrayList.add(b);
         }
+//        JList<String> list = new JList<>(listModel);
+//        resultsScrollPane.setViewportView(list);
+//        JPanel resultsPanel = new JPanel();
+//        resultsScrollPane.add(resultsPanel);
+//        resultsScrollPane.revalidate();
+
     }
 
     public void updateParkingLotList(List<ParkingLot> parkingLots) {
-        // Update the GUI with the sorted parking lots
-        // For simplicity, let's print them to the console
+//        // Update the GUI with the sorted parking lots
+//        // For simplicity, let's print them to the console
+//        for (ParkingLot lot : parkingLots) {
+//            System.out.println(lot);
+//        }
+//    }
+        resultsButtonPanel.removeAll();
+        resultsButtonPanel.add(new JLabel("RESULTS"));
+
+        DefaultListModel<String> listModel = new DefaultListModel<>();
+        ArrayList<JButton> buttonsArrayList = new ArrayList<JButton>();
+
         for (ParkingLot lot : parkingLots) {
-            System.out.println(lot);
+            listModel.addElement(lot.toString());
+            JButton b = new JButton(lot.toString());
+
+            b.setAlignmentX(Component.CENTER_ALIGNMENT);
+            b.setMaximumSize(new Dimension(Integer.MAX_VALUE, b.getMinimumSize().height));
+            b.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    // add code here
+                }
+            });
+            resultsButtonPanel.add(b);
+            resultsButtonPanel.revalidate();
+            resultsButtonPanel.repaint();
+
+            buttonsArrayList.add(b);
         }
     }
 
+    public void showError(String errorMessage) {
+        JOptionPane.showMessageDialog(this, errorMessage, "Error", JOptionPane.ERROR_MESSAGE);
+    }
 
     public static void main(String[] args) {
 
