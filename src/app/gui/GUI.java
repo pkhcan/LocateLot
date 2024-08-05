@@ -11,14 +11,10 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalTime;
-import java.util.InputMismatchException;
 import java.util.List;
 
 import data_access.ParkingLotDAO;
-import data_access.ReviewDAO;
-import data_access.ReviewDataAccessInterface;
 import interface_adapter.*;
-import use_case.FilterByEOE.EOEInputData;
 import use_case.FilterByEOE.EOEInteractor;
 import use_case.FilterByEOF.EOFInputData;
 import use_case.FilterByEOF.EOFInteractor;
@@ -35,7 +31,6 @@ import use_case.FilterByRadius.FilterByRadiusInputBoundary;
 import use_case.FilterByRadius.FilterByRadiusInputData;
 import use_case.FilterByRadius.FilterByRadiusInteractor;
 import use_case.FilterByRadius.FilterByRadiusOutputBoundary;
-import use_case.SubmitReview.*;
 import views.ReviewView;
 //import interface_adapter.EOFPresenter;
 
@@ -58,11 +53,12 @@ public class GUI extends JFrame {
     private JButton typeButton;
     private JPanel buttonsPanel;
     private JButton ReviewButton;
-    private JPanel ReviewPanel;
+    private JPanel inputPanel;
     //    ^^ replace with the API search box and button ?
     private String selectedAddress;
     private JScrollPane resultsScrollPane;
     private JPanel resultsButtonPanel;
+    private JButton submitReviewButton;
     private JPanel resultsTextPanel;
     private final AutoCompletionDAO autoCompletionDAO = new AutoCompletionDAO();
     private ReviewView reviewView;
@@ -100,15 +96,6 @@ public class GUI extends JFrame {
                 updateSuggestedAddresses();
             }
         });
-
-        // Set up the panel for submit review use case
-        ReviewViewModel reviewViewModel = new ReviewViewModel();
-        // to fix a null exception caused by IntelliJ's GUI creator
-        ReviewPanel.setLayout(new BoxLayout(ReviewPanel, BoxLayout.Y_AXIS));
-        this.reviewView = SubmitReviewUseCaseFactory.create(reviewViewModel);
-        ReviewPanel.add(reviewView);
-        ReviewPanel.revalidate();
-
 
         /*
          * action performed button for proximity search
@@ -288,6 +275,20 @@ public class GUI extends JFrame {
         });
 
 
+        submitReviewButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Clear the previous Panel
+                inputPanel.removeAll();
+                // Set up the panel for submit review use case
+                ReviewViewModel reviewViewModel = new ReviewViewModel();
+                // to fix a null exception caused by IntelliJ's GUI creator
+                inputPanel.setLayout(new BoxLayout(inputPanel, BoxLayout.Y_AXIS));
+                reviewView = SubmitReviewUseCaseFactory.create(reviewViewModel);
+                inputPanel.add(reviewView);
+                inputPanel.revalidate();
+            }
+        });
     }
 
 
