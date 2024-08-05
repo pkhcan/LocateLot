@@ -54,7 +54,7 @@ public class GUI extends JFrame {
     private JButton proximityButton;
     private JButton typeButton;
     private JPanel buttonsPanel;
-//    private JScrollPane resultsScrollPane;
+    private JScrollPane resultsScrollPane;
     private JPanel resultsButtonPanel;
     private final AutoCompletionDAO autoCompletionDAO = new AutoCompletionDAO();
 
@@ -69,7 +69,7 @@ public class GUI extends JFrame {
                 .getLocalGraphicsEnvironment()
                 .getDefaultScreenDevice();
 
-        setSize(900, 400);
+        setSize(1200, 500);
         // set location for map here?
         setLocationRelativeTo(null);
         setVisible(true);
