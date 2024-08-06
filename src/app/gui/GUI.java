@@ -11,9 +11,11 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalTime;
+import java.util.InputMismatchException;
 import java.util.List;
 
 import data_access.ParkingLotDAO;
+import data_access.ReviewDAO;
 import interface_adapter.*;
 import use_case.FilterByEOE.EOEInteractor;
 import use_case.FilterByEOF.EOFInputData;
@@ -31,14 +33,15 @@ import use_case.FilterByRadius.FilterByRadiusInputBoundary;
 import use_case.FilterByRadius.FilterByRadiusInputData;
 import use_case.FilterByRadius.FilterByRadiusInteractor;
 import use_case.FilterByRadius.FilterByRadiusOutputBoundary;
+import use_case.SubmitReview.*;
 import views.ReviewView;
-//import interface_adapter.EOFPresenter;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
+import java.util.Scanner;
 
 
 public class GUI extends JFrame {
@@ -52,6 +55,7 @@ public class GUI extends JFrame {
     private JButton proximityButton;
     private JButton typeButton;
     private JPanel buttonsPanel;
+    private JScrollPane resultsScrollPane;
     private JButton ReviewButton;
     private JPanel inputPanel;
     //    ^^ replace with the API search box and button ?
@@ -73,7 +77,7 @@ public class GUI extends JFrame {
                 .getLocalGraphicsEnvironment()
                 .getDefaultScreenDevice();
 
-        setSize(900, 400);
+        setSize(1200, 500);
         // set location for map here?
         setLocationRelativeTo(null);
         setVisible(true);
