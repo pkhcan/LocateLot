@@ -2,12 +2,13 @@ package use_case.FilterByEOE;
 
 import com.google.maps.errors.ApiException;
 import com.google.maps.model.GeocodingResult;
+
 import data_access.ParkingLotDAO;
+import data_access.GeoApiDAO;
+
 import entity.Filter;
 import entity.ParkingLot;
 import entity.EOEFilter;
-import entity.RadiusFilter;
-import data_access.GeoApiDAO;
 
 import use_case.FilterOutput.OutputBoundary;
 import use_case.FilterOutput.OutputData;
@@ -18,8 +19,6 @@ import java.util.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
-import java.util.ArrayList;
 
 /**
  * Interactor for handling Ease of Entry (EOE) input data and processing.
@@ -84,8 +83,7 @@ public class EOEInteractor implements EOEInputBoundary{
             List<ParkingLot> allParkingLots = parkingLotDAO.getParkingLots();
 
             // Use RadiusFilter to filter parking lots based on the radius
-            RadiusFilter radiusFilter = new RadiusFilter();
-            List<ParkingLot> filteredParkingLots = radiusFilter.filter(3.0, latitude, longitude, allParkingLots);
+            List<ParkingLot> filteredParkingLots = parkingLotDAO.getParkingLotsWithinRadius(latitude, longitude, allParkingLots);
 
             // Apply EOEFilter to the filtered list
             ParkingLot[] parkingLots = filteredParkingLots.toArray(new ParkingLot[0]);
