@@ -60,13 +60,11 @@ public class GUI extends JFrame {
     private JPanel inputPanel;
     //    ^^ replace with the API search box and button ?
     private String selectedAddress;
-    private JScrollPane resultsScrollPane;
     private JPanel resultsButtonPanel;
     private JButton submitReviewButton;
     private JPanel resultsTextPanel;
     private final AutoCompletionDAO autoCompletionDAO = new AutoCompletionDAO();
     private ReviewView reviewView;
-
 
     public GUI() {
 
