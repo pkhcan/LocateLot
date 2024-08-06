@@ -25,6 +25,7 @@ import use_case.FilterByPrice.FilterByPriceInputBoundary;
 import use_case.FilterByPrice.FilterByPriceInputData;
 import use_case.FilterByPrice.FilterByPriceInteractor;
 import use_case.FilterByPrice.FilterByPriceOutputBoundary;
+import interface_adapter.FilterByPriceController;
 import use_case.FilterByProximity.FilterByProximityInputBoundary;
 import use_case.FilterByProximity.FilterByProximityInputData;
 import use_case.FilterByProximity.FilterByProximityInteractor;
@@ -169,23 +170,14 @@ public class GUI extends JFrame {
             public void actionPerformed(ActionEvent e) {
 
                 String address = textFieldAddress.getText();
-                double radius = 3.0;
-                ParkingLotDAO radiusSortedList = null;
+                FilterByRadiusInputData radiusSortedList = null;
                 LocalTime currentTime = LocalTime.now();
 
-                try {
-                    radiusSortedList = new ParkingLotDAO();
-                } catch (IOException ex) {
-                    throw new RuntimeException(ex);
-                }
-                FilterByPriceInputData inputData = new FilterByPriceInputData(radiusSortedList, currentTime);
-
-                // Create the presenter
-                FilterByPriceOutputBoundary presenter = new FilterByPricePresenter(GUI.this);
-
-                // Create the interactor with the presenter
-                FilterByPriceInputBoundary interactor = null;
-                interactor = new FilterByPriceInteractor(presenter, radiusSortedList);
+                FilterByPricePresenter presenter = new FilterByPricePresenter(GUI.this);
+                FilterByPriceInteractor interactor = new FilterByPriceInteractor(presenter);
+                FilterByPriceController controller = new FilterByPriceController(interactor);
+                FilterByPriceInputData inputData = new FilterByPriceInputData(address, currentTime);
+                ;
 
                 // Execute the interactor
                 try {

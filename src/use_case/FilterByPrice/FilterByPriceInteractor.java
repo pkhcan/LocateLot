@@ -1,5 +1,7 @@
 package use_case.FilterByPrice;
 
+import com.google.maps.model.GeocodingResult;
+import data_access.GeoApiDAO;
 import data_access.ParkingLotDAO;
 import entity.ParkingLot;
 
@@ -9,17 +11,20 @@ public class FilterByPriceInteractor implements FilterByPriceInputBoundary {
     private final FilterByPriceOutputBoundary outputBoundary;
     private final ParkingLotDAO parkingLotDAO;
 
-    public FilterByPriceInteractor(FilterByPriceOutputBoundary outputBoundary, ParkingLotDAO parkingLotDAO) {
+    public FilterByPriceInteractor(FilterByPriceOutputBoundary outputBoundary) {
         this.outputBoundary = outputBoundary;
         this.parkingLotDAO = parkingLotDAO;
     }
 
     @Override
     public void execute(FilterByPriceInputData inputData) {
-        List<ParkingLot> parkingLots = parkingLotDAO.getParkingLots();
-        int userHour = inputData.time.getHour();
 
-        bubbleSort(parkingLots, userHour);
+        List<ParkingLot> parkingLots = parkingLotDAO.getParkingLots();
+        String address = inputData.getAddress();
+        GeocodingResult[] results = GeoApiDAO.getLatitudeLongitude(address);
+
+
+        bubbleSort(parkingLots, inputData.time);
 
         FilterByPriceOutputData outputData = new FilterByPriceOutputData(parkingLots);
         outputBoundary.prepareSuccessView(outputData);
