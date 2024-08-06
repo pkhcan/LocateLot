@@ -95,6 +95,12 @@ public class ParkingLot {
     public String getAddress() {return streetAddress; }
 
     /**
+     * getter method for ID of the ParkingLot
+     * @return String ID of the ParkingLot
+     */
+    public String getID() {return ID; }
+
+    /**
      * getter method for the website link of the ParkingLot
      * @return String value of the StreetAddress of the ParkingLot
      */
@@ -153,8 +159,9 @@ public class ParkingLot {
 
     @Override
     public String toString() {
-        return getAddress() + ": " + getCarParkType() + " type parking, " + getWebsiteLink() + ", " + "rate per 30min: " + getHalfHourlyRate() + ", " + "ease of entry: " + getEntryReview() ;
+        return "ID " + getID() + ": "+ getAddress() + " - " + getCarParkType() + " parking" + ", " + getHalfHourlyRate() + "$ per 30min ; " + "ease of entry: " + getEntryReview();
     }
+
     public void setCapacity(int capacity) {
         this.capacity = capacity;
     }

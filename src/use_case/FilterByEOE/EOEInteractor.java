@@ -82,18 +82,18 @@ public class EOEInteractor implements EOEInputBoundary{
 
         ParkingLotDAO parkingLotDAO = new ParkingLotDAO();
         List<ParkingLot> allParkingLots = parkingLotDAO.getParkingLots();
-        List<ParkingLot> closestParkingLots = new ArrayList<>();
+        List<ParkingLot> sortedParkingLots = new ArrayList<>();
 
         // get closest parking lots
-        while (closestParkingLots.size() < 5 && !allParkingLots.isEmpty()) {
+        while (!allParkingLots.isEmpty()) {
             ParkingLot closest = getClosestParkingLot(latLong[0], latLong[1], allParkingLots);
             if (closest != null) {
-                closestParkingLots.add(closest);
+                sortedParkingLots.add(closest);
                 allParkingLots.remove(closest);
             }
         }
 
-        ParkingLot[] parkingLots = closestParkingLots.toArray(new ParkingLot[0]);
+        ParkingLot[] parkingLots = sortedParkingLots.toArray(new ParkingLot[0]);
 
         Filter entryFilter = new EOEFilter();
         entryFilter.filter(parkingLots);
