@@ -2,11 +2,13 @@ package use_case.FilterByEOE;
 
 import com.google.maps.errors.ApiException;
 import com.google.maps.model.GeocodingResult;
+
 import data_access.ParkingLotDAO;
+import data_access.GeoApiDAO;
+
 import entity.Filter;
 import entity.ParkingLot;
 import entity.EOEFilter;
-import data_access.GeoApiDAO;
 
 import use_case.FilterOutput.OutputBoundary;
 import use_case.FilterOutput.OutputData;
@@ -17,8 +19,6 @@ import java.util.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
-import java.util.ArrayList;
 
 /**
  * Interactor for handling Ease of Entry (EOE) input data and processing.
@@ -67,71 +67,39 @@ public class EOEInteractor implements EOEInputBoundary{
                 return;
             }
 
-        try {
-            results = GeoApiDAO.getLatitudeLongitude(address);
-            if (results == null || results.length == 0) {
-                throw new RuntimeException("No geocoding results found for the address.");
+            try {
+                results = GeoApiDAO.getLatitudeLongitude(address);
+                if (results == null || results.length == 0) {
+                    throw new RuntimeException("No geocoding results found for the address.");
+                }
+            } catch (ApiException | InterruptedException e) {
+                throw new RuntimeException("Failed to get latitude and longitude for the address: " + e.getMessage(), e);
             }
-        } catch (ApiException | InterruptedException e) {
-            throw new RuntimeException("Failed to get latitude and longitude for the address: " + e.getMessage(), e);
-        }
 
-        double latitude = results[0].geometry.location.lat;
-        double longitude = results[0].geometry.location.lng;
-        double[] latLong = new double[]{latitude, longitude};
+            double latitude = results[0].geometry.location.lat;
+            double longitude = results[0].geometry.location.lng;
 
-        ParkingLotDAO parkingLotDAO = new ParkingLotDAO();
-        List<ParkingLot> allParkingLots = parkingLotDAO.getParkingLots();
-        List<ParkingLot> sortedParkingLots = new ArrayList<>();
+            ParkingLotDAO parkingLotDAO = new ParkingLotDAO();
+            List<ParkingLot> allParkingLots = parkingLotDAO.getParkingLots();
 
-        // get closest parking lots
-        while (!allParkingLots.isEmpty()) {
-            ParkingLot closest = getClosestParkingLot(latLong[0], latLong[1], allParkingLots);
-            if (closest != null) {
-                sortedParkingLots.add(closest);
-                allParkingLots.remove(closest);
-            }
-        }
+            // Use RadiusFilter to filter parking lots based on the radius
+            List<ParkingLot> filteredParkingLots = parkingLotDAO.getParkingLotsWithinRadius(latitude, longitude, allParkingLots);
 
-        ParkingLot[] parkingLots = sortedParkingLots.toArray(new ParkingLot[0]);
+            // Apply EOEFilter to the filtered list
+            ParkingLot[] parkingLots = filteredParkingLots.toArray(new ParkingLot[0]);
 
-        Filter entryFilter = new EOEFilter();
-        entryFilter.filter(parkingLots);
+            Filter entryFilter = new EOEFilter();
+            entryFilter.filter(parkingLots);
 
-        // Prepare output data
-        OutputData outputData = new OutputData(parkingLots);
+            // Prepare output data
+            OutputData outputData = new OutputData(parkingLots);
 
-        // Present output data
-        outputBoundary.present(outputData);
+            // Present output data
+            outputBoundary.present(outputData);
         } catch (Exception e) {
             logger.error("Error occurred during geocoding for address: {}", address, e);
             outputBoundary.presentError("An error occurred while trying to find the location. Please try again later.");
         }
-    }
-
-    /**
-     * Finds the closest parking lot to the given latitude and longitude.
-     *
-     * @param latitude   the latitude of the location
-     * @param longitude  the longitude of the location
-     * @param parkingLots the list of parking lots to search through
-     * @return the closest parking lot
-     */
-    private ParkingLot getClosestParkingLot(double latitude, double longitude, List<ParkingLot> parkingLots) {
-        ParkingLot closest = null;
-        double smallestDistance = Double.MAX_VALUE;
-
-        for (ParkingLot parkingLot : parkingLots) {
-            double[] latLong = parkingLot.getLatitudeLongitude();
-            double distance = Math.hypot(latLong[0] - latitude, latLong[1] - longitude);
-
-            if (distance < smallestDistance) {
-                smallestDistance = distance;
-                closest = parkingLot;
-            }
-        }
-
-        return closest;
     }
 }
 
