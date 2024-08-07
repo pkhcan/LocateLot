@@ -72,4 +72,32 @@ public class ReviewDAO implements ReviewDataAccessInterface {
             throw new SubmitReviewFailedException("Failed to write the review to the json file.");
         }
     }
+
+    public ArrayList<Integer> getReviews(int parkingLotID) throws SubmitReviewFailedException {
+        try{
+            System.out.println("noice");
+            ArrayList<Integer> acc = new ArrayList<Integer>();
+            // Create the root using the object mapper
+            JsonNode node = objectMapper.readTree(file);
+
+            // Check to see either the value is in the file or not
+            if (node.has(String.valueOf(parkingLotID))) {
+                ArrayNode parkingLotArrayNode = (ArrayNode) node.get(String.valueOf(parkingLotID));
+                if (parkingLotArrayNode != null) {
+
+                    //Iterating JSON array
+                    for (int i=0;i<parkingLotArrayNode.size();i++){
+                        //Adding each element of JSON array into ArrayList
+                        acc.add(Integer.parseInt(parkingLotArrayNode.get(i).asText()));
+                    }
+                }
+            }
+
+            return acc;
+        }
+
+        catch (IOException e){
+            throw new SubmitReviewFailedException("Failed to write the review to the json file.");
+        }
+    }
 }

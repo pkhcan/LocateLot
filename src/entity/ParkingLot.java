@@ -1,6 +1,8 @@
 package entity;
 
 
+import data_access.ReviewDAO;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -37,6 +39,15 @@ public class ParkingLot {
         this.easeOfFindingReviews = new ArrayList<>();
         this.easeOfEntryReviews = new ArrayList<>();
         this.capacity = capacity;
+
+        try {
+            this.easeOfEntryReviews =
+                    new ReviewDAO("src/external_data/Reviews.json").getReviews(Integer.parseInt(this.ID));
+        }
+        catch (Exception e) {
+            this.easeOfEntryReviews = new ArrayList<>();
+            System.out.println(e.getMessage());
+        }
     }
 
     /**
@@ -52,6 +63,25 @@ public class ParkingLot {
         this.halfHourlyRate = "";
         this.easeOfFindingReviews = new ArrayList<>();
         this.easeOfEntryReviews = new ArrayList<>();
+
+//        try {
+//            this.easeOfEntryReviews =
+//                    new ReviewDAO("src/external_data/Reviews.json").getReviews(Integer.parseInt(this.ID));
+//        }
+//        catch (Exception e) {
+//            this.easeOfEntryReviews = new ArrayList<>();
+//            System.out.println(e.getMessage());
+//        }
+    }
+
+    public void updateEntryReviews(){
+        try {
+            this.easeOfEntryReviews =
+                    new ReviewDAO("src/external_data/Reviews.json").getReviews(Integer.parseInt(this.ID));
+        }
+        catch (Exception e) {
+            this.easeOfEntryReviews = new ArrayList<>();
+        }
     }
 
     /**
@@ -159,6 +189,7 @@ public class ParkingLot {
 
     @Override
     public String toString() {
+        updateEntryReviews();
         return "ID " + getID() + ": "+ getAddress() + " - " + getCarParkType() + " parking" + ", " + getHalfHourlyRate() + "$ per 30min ; " + "ease of entry: " + getEntryReview();
     }
 
