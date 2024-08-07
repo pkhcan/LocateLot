@@ -1,51 +1,47 @@
 package use_case.FilterByPrice;
 
+import com.google.maps.errors.ApiException;
 import com.google.maps.model.GeocodingResult;
 import data_access.GeoApiDAO;
 import data_access.ParkingLotDAO;
 import entity.ParkingLot;
+import entity.PriceFilter;
 
+import java.io.IOException;
 import java.util.List;
 
 public class FilterByPriceInteractor implements FilterByPriceInputBoundary {
     private final FilterByPriceOutputBoundary outputBoundary;
-    private final ParkingLotDAO parkingLotDAO;
 
     public FilterByPriceInteractor(FilterByPriceOutputBoundary outputBoundary) {
         this.outputBoundary = outputBoundary;
-        this.parkingLotDAO = parkingLotDAO;
     }
 
     @Override
-    public void execute(FilterByPriceInputData inputData) {
+    public void execute(FilterByPriceInputData inputData) throws IOException, InterruptedException, ApiException {
 
-        List<ParkingLot> parkingLots = parkingLotDAO.getParkingLots();
+        // Get lat, long of inputted address
         String address = inputData.getAddress();
         GeocodingResult[] results = GeoApiDAO.getLatitudeLongitude(address);
 
+        double latitude = results[0].geometry.location.lat;
+        double longitude = results[0].geometry.location.lng;
 
-        bubbleSort(parkingLots, inputData.time);
+        // filter all parking lots based on default radius of 3km and the address inputted
+        ParkingLotDAO parkingLotDAO = new ParkingLotDAO();
+        List<ParkingLot> allParkingLots = parkingLotDAO.getParkingLots();
+        List<ParkingLot> parkingLots = parkingLotDAO.getParkingLotsWithinRadius(latitude, longitude, allParkingLots);
 
+        // sort the radius filtered lots by increasing price
+
+        PriceFilter priceFilter = new PriceFilter();
+        PriceFilter.bubbleSort(parkingLots, inputData.time);
+
+        // prepare output data
         FilterByPriceOutputData outputData = new FilterByPriceOutputData(parkingLots);
         outputBoundary.prepareSuccessView(outputData);
     }
 
-    private void bubbleSort(List<ParkingLot> parkingLots, int hour) {
-        int n = parkingLots.size();
-        boolean swapped;
-        for (int i = 0; i < n - 1; i++) {
-            swapped = false;
-            for (int j = 0; j < n - i - 1; j++) {
-                double price1 = Double.parseDouble(ParkingLotDAO.getParkingLotPrice(parkingLots.get(j), hour));
-                double price2 = Double.parseDouble(ParkingLotDAO.getParkingLotPrice(parkingLots.get(j + 1), hour));
-                if (price1 > price2) {
-                    ParkingLot temp = parkingLots.get(j);
-                    parkingLots.set(j, parkingLots.get(j + 1));
-                    parkingLots.set(j + 1, temp);
-                    swapped = true;
-                }
-            }
-            if (!swapped) break;
-        }
-    }
+
+
 }

@@ -1,8 +1,12 @@
 package interface_adapter;
 
+import entity.ParkingLot;
 import use_case.FilterByPrice.FilterByPriceOutputBoundary;
 import app.gui.GUI;
 import use_case.FilterByPrice.FilterByPriceOutputData;
+import use_case.FilterOutput.OutputData;
+
+import java.util.List;
 
 
 public class FilterByPricePresenter implements FilterByPriceOutputBoundary{
@@ -27,8 +31,8 @@ public class FilterByPricePresenter implements FilterByPriceOutputBoundary{
     @Override
     public void prepareSuccessView(FilterByPriceOutputData filterByPriceOutputData) {
         // update GUI
-        gui.updateParkingLotList(filterByPriceOutputData.getParkingLots()); // why is gui type ParkingLot[]
-
+        List<ParkingLot> sortedParkingLots = filterByPriceOutputData.getSortedParkingLots();
+        gui.updateParkingLotList(sortedParkingLots);
 
     }
 
@@ -39,4 +43,5 @@ public class FilterByPricePresenter implements FilterByPriceOutputBoundary{
     public void prepareFailView(String message) {
         System.out.println(message);
     }
+
 }

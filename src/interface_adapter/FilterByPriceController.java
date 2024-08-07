@@ -22,8 +22,8 @@ public class FilterByPriceController {
 
 
     // This creates the input data and passes it to the interactor
-    public void PriceFiltering(String address, LocalTime time) {
+    public void PriceFiltering(String address, LocalTime time) throws IOException, InterruptedException, ApiException {
         FilterByPriceInputData filterByPriceInputData = new FilterByPriceInputData(address, time);
-        FilterByPriceInputBoundary.execute(filterByPriceInputData);
+        filterByPriceInputBoundary.execute(filterByPriceInputData);
     }
 }
