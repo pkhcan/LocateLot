@@ -63,17 +63,11 @@ public class ParkingLot {
         this.halfHourlyRate = "";
         this.easeOfFindingReviews = new ArrayList<>();
         this.easeOfEntryReviews = new ArrayList<>();
-
-//        try {
-//            this.easeOfEntryReviews =
-//                    new ReviewDAO("src/external_data/Reviews.json").getReviews(Integer.parseInt(this.ID));
-//        }
-//        catch (Exception e) {
-//            this.easeOfEntryReviews = new ArrayList<>();
-//            System.out.println(e.getMessage());
-//        }
     }
 
+    /**
+     * Update the reviews for this instance of parking lot
+     */
     public void updateEntryReviews(){
         try {
             this.easeOfEntryReviews =
