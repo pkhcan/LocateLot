@@ -1,9 +1,9 @@
-package use_case.SubmitReview;
+package data_access;
 
 import entity.Review;
-import use_case.SubmitReview.SubmitReviewInteractor.SubmitReviewFailedException;
+import use_case.SubmitReview.SubmitReviewInputInteractor.SubmitReviewFailedException;
 
-public interface SubmitReviewDataAccessInterface{
+public interface ReviewDataAccessInterface {
 
     /**
      * Save the review for the corresponding ParkingLot to the json file.
