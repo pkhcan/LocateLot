@@ -2,17 +2,17 @@ package use_case.SubmitReview;
 
 public class SubmitReviewOutputData {
     private boolean success = false;
-    private final String parkingLotID;
+    private final String parkingLotName;
     private final String rating;
 
     /**
      * The constructor that is used when the review submission is successful.
-     * @param parkingLotID The id of the parking lot for which the submission is for
+     * @param parkingLotName The id of the parking lot for which the submission is for
      * @param rating The rating of the review
      */
-    public SubmitReviewOutputData(int parkingLotID, int rating) {
+    public SubmitReviewOutputData(String parkingLotName, int rating) {
         this.success = true;
-        this.parkingLotID = String.valueOf(parkingLotID);
+        this.parkingLotName = parkingLotName;
         this.rating = rating + "";
     }
 
@@ -20,7 +20,7 @@ public class SubmitReviewOutputData {
      * The constructor that is used when the review submission is fails.
      */
     public SubmitReviewOutputData(){
-        this.parkingLotID = "";
+        this.parkingLotName = "";
         this.rating = "";
     }
 
@@ -31,10 +31,14 @@ public class SubmitReviewOutputData {
     public String toString(){
         if (success){
             return ("Review of "+ rating +
-                    " has been saved for parking lot with id " + parkingLotID);
+                    " has been saved for parking lot with id " + parkingLotName);
         }
         else{
             return "Submission Failed";
         }
     }
+
+    public String getParkingLotName() {return parkingLotName;}
+
+    public int getRating() {return Integer.parseInt(rating);}
 }
