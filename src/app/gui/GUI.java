@@ -129,7 +129,6 @@ public class GUI extends JFrame {
             }
         });
 
-
         /*
          * radius button - opens a screen requiring user input for custom radius
          * will return parkinglots within the radius sorted by default (proximity)
@@ -314,7 +313,9 @@ public class GUI extends JFrame {
             b.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    reviewView.setParkingLot(lot);
+                    if (reviewView != null) {
+                        reviewView.setParkingLot(lot);
+                    }
                 }
             });
             resultsButtonPanel.add(b);
