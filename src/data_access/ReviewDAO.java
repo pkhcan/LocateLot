@@ -75,7 +75,6 @@ public class ReviewDAO implements ReviewDataAccessInterface {
 
     public ArrayList<Integer> getReviews(int parkingLotID) throws SubmitReviewFailedException {
         try{
-            System.out.println("noice");
             ArrayList<Integer> acc = new ArrayList<Integer>();
             // Create the root using the object mapper
             JsonNode node = objectMapper.readTree(file);
