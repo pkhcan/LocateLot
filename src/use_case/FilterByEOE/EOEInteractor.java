@@ -44,15 +44,15 @@ public class EOEInteractor implements EOEInputBoundary{
     /**
      * Executes the EOE interactor logic based on the provided input data.
      * Steps:
-     * - Retrieve filtered parking lots from {@code FilterOutputData}.
-     * - Apply {@code EOEFilter} to filter parking lots based on entry reviews.
-     * - Prepare {@code EOEOutputData} with filtered parking lots.
-     * - Present the prepared output data using {@code outputBoundary}.
+     * - Retrieve filtered parking lots from FilterOutputData
+     * - Apply EOEFilter to filter parking lots based on entry reviews.
+     * - Prepare EOEOutputData with filtered parking lots.
+     * - Present the prepared output data using outputBoundary.
      *
      * @param eoeInputData the input data containing EOE details
-     * @throws IOException              if an I/O error occurs
-     * @throws InterruptedException     if the operation is interrupted
-     * @throws ApiException             if there is an error with the GeoAPI request
+     * @throws IOException              I/O error
+     * @throws InterruptedException     operation interrupted
+     * @throws ApiException             GeoAPI request error
      */
     public void execute(EOEInputData eoeInputData) throws IOException, InterruptedException, ApiException {
         String address = eoeInputData.getAddress();
@@ -60,7 +60,7 @@ public class EOEInteractor implements EOEInputBoundary{
             logger.info("Attempting to geocode address: {}", address);
             GeocodingResult[] results = GeoApiDAO.getLatitudeLongitude(address);
 
-            // no results found scenario
+            // no results found
             if (results == null || results.length == 0) {
                 logger.warn("No geocoding results found for address: {}", address);
                 outputBoundary.presentError("No results found for the given address. Please check the address and try again.");
@@ -82,10 +82,10 @@ public class EOEInteractor implements EOEInputBoundary{
             ParkingLotDAO parkingLotDAO = new ParkingLotDAO();
             List<ParkingLot> allParkingLots = parkingLotDAO.getParkingLots();
 
-            // Use RadiusFilter to filter parking lots based on the radius
+            // RadiusFilter to filter parking lots based on the radius -- TODO edit to use radius entity method
             List<ParkingLot> filteredParkingLots = parkingLotDAO.getParkingLotsWithinRadius(latitude, longitude, allParkingLots);
 
-            // Apply EOEFilter to the filtered list
+            // EOEFilter on filtered list
             ParkingLot[] parkingLots = filteredParkingLots.toArray(new ParkingLot[0]);
 
             Filter entryFilter = new EOEFilter();

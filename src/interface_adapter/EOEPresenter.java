@@ -16,7 +16,7 @@ public class EOEPresenter implements OutputBoundary {
     private final GUI gui;
 
     /**
-     * Constructs an {@code EOEPresenter} with the specified GUI.
+     * Constructs EOEPresenter with the specified GUI.
      *
      * @param gui the GUI to which EOE output data will be presented
      */
