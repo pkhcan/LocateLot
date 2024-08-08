@@ -1,0 +1,338 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > ParkingLot</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">entity</a>
+</div>
+
+<h1>Coverage Summary for Class: ParkingLot (entity)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ParkingLot</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    62.5%
+  </span>
+  <span class="absValue">
+    (15/24)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    50%
+  </span>
+  <span class="absValue">
+    (13/26)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    61.1%
+  </span>
+  <span class="absValue">
+    (44/72)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package entity;
+&nbsp;
+&nbsp;
+&nbsp;import data_access.ReviewDAO;
+&nbsp;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.HashMap;
+&nbsp;
+&nbsp;public class ParkingLot {
+&nbsp;    private String ID;
+&nbsp;    private String streetAddress;
+&nbsp;    private String carparkType;
+&nbsp;    private String linkToWebsite;
+&nbsp;    private double[] latitudeLongitude;
+&nbsp;    private String halfHourlyRate;
+&nbsp;    private HashMap&lt;String, String&gt; timesToRates;
+&nbsp;    public ArrayList&lt;Integer&gt; easeOfFindingReviews;
+&nbsp;    public ArrayList&lt;Integer&gt; easeOfEntryReviews;
+&nbsp;    private int capacity;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * ParkingLot constructor
+&nbsp;     *
+&nbsp;     * @param ID                - the identifier for the ParkingLot object
+&nbsp;     * @param streetAddress     - the street address of the ParkingLot location
+&nbsp;     * @param carparkType       - the carpark type
+&nbsp;     * @param linkToWebsite     - the link to the website that lists/owns the ParkingLot
+&nbsp;     * @param latitudeLongitude - an array containing the latitude and longitude coordinates of the ParkingLot location
+&nbsp;     * @param halfHourlyRate    - the daily price schedule for the ParkingLot location
+&nbsp;     */
+<b class="fc">&nbsp;    public ParkingLot(String ID, String streetAddress, String linkToWebsite, double[] latitudeLongitude, String carparkType, String halfHourlyRate, HashMap&lt;String, String&gt; timesToRates, int capacity) {</b>
+<b class="fc">&nbsp;        this.ID = ID;</b>
+<b class="fc">&nbsp;        this.streetAddress = streetAddress;</b>
+<b class="fc">&nbsp;        this.linkToWebsite = linkToWebsite;</b>
+<b class="fc">&nbsp;        this.latitudeLongitude = latitudeLongitude;</b>
+<b class="fc">&nbsp;        this.carparkType = carparkType;</b>
+<b class="fc">&nbsp;        this.halfHourlyRate = halfHourlyRate;</b>
+<b class="fc">&nbsp;        this.timesToRates = timesToRates;</b>
+<b class="fc">&nbsp;        this.easeOfFindingReviews = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;        this.easeOfEntryReviews = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;        this.capacity = capacity;</b>
+&nbsp;
+&nbsp;        try {
+<b class="fc">&nbsp;            this.easeOfEntryReviews =</b>
+<b class="fc">&nbsp;                    new ReviewDAO(&quot;src/external_data/Reviews.json&quot;).getReviews(Integer.parseInt(this.ID));</b>
+&nbsp;        }
+<b class="nc">&nbsp;        catch (Exception e) {</b>
+<b class="nc">&nbsp;            this.easeOfEntryReviews = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;            System.out.println(e.getMessage());</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Contructor for ParkingLot object that only takes in one argument
+&nbsp;     * @param streetAddress - the street address of the ParkingLot location
+&nbsp;     */
+<b class="fc">&nbsp;    public ParkingLot(String streetAddress){</b>
+<b class="fc">&nbsp;        this.ID = null;</b>
+<b class="fc">&nbsp;        this.linkToWebsite = &quot;&quot;;</b>
+<b class="fc">&nbsp;        this.latitudeLongitude = new double[2];</b>
+<b class="fc">&nbsp;        this.timesToRates = new HashMap&lt;&gt;();</b>
+<b class="fc">&nbsp;        this.streetAddress = streetAddress;</b>
+<b class="fc">&nbsp;        this.halfHourlyRate = &quot;&quot;;</b>
+<b class="fc">&nbsp;        this.easeOfFindingReviews = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;        this.easeOfEntryReviews = new ArrayList&lt;&gt;();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Update the reviews for this instance of parking lot
+&nbsp;     */
+&nbsp;    public void updateEntryReviews(){
+&nbsp;        try {
+<b class="nc">&nbsp;            this.easeOfEntryReviews =</b>
+<b class="nc">&nbsp;                    new ReviewDAO(&quot;src/external_data/Reviews.json&quot;).getReviews(Integer.parseInt(this.ID));</b>
+&nbsp;        }
+<b class="nc">&nbsp;        catch (Exception e) {</b>
+<b class="nc">&nbsp;            this.easeOfEntryReviews = new ArrayList&lt;&gt;();</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * getter method for average ease of entry (EOE) review of the ParkingLot
+&nbsp;     * @return String value of the average EOE rating
+&nbsp;     */
+&nbsp;    public String getEntryReview() {
+<b class="nc">&nbsp;        if (easeOfEntryReviews.isEmpty()) {</b>
+<b class="nc">&nbsp;            return &quot;No reviews yet&quot;;</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;            int count = easeOfEntryReviews.size();</b>
+<b class="nc">&nbsp;            int sum = 0;</b>
+<b class="nc">&nbsp;            for (Integer review : easeOfEntryReviews) {</b>
+<b class="nc">&nbsp;                sum += review;</b>
+&nbsp;            }
+<b class="nc">&nbsp;            return String.valueOf((double) sum / count);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * getter method for average ease of finding (EOf) review of the ParkingLot
+&nbsp;     * @return String value of the average EOF rating
+&nbsp;     */
+&nbsp;    public String getFindingReview() {
+<b class="nc">&nbsp;        if (easeOfFindingReviews.isEmpty()) {</b>
+<b class="nc">&nbsp;            return &quot;No reviews yet&quot;;</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;            int count = easeOfFindingReviews.size();</b>
+<b class="nc">&nbsp;            int sum = 0;</b>
+<b class="nc">&nbsp;            for (Integer review : easeOfFindingReviews) {</b>
+<b class="nc">&nbsp;                sum += review;</b>
+&nbsp;            }
+<b class="nc">&nbsp;            return String.valueOf((double) sum / count);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * getter method for streetAddress of the ParkingLot
+&nbsp;     * @return String StreetAddress of the ParkingLot
+&nbsp;     */
+<b class="fc">&nbsp;    public String getAddress() {return streetAddress; }</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * getter method for ID of the ParkingLot
+&nbsp;     * @return String ID of the ParkingLot
+&nbsp;     */
+<b class="fc">&nbsp;    public String getID() {return ID; }</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * getter method for the website link of the ParkingLot
+&nbsp;     * @return String value of the StreetAddress of the ParkingLot
+&nbsp;     */
+<b class="nc">&nbsp;    public String getWebsiteLink() {return linkToWebsite; }</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * getter method for the rate schedule of the ParkingLot
+&nbsp;     * @return HashMap value of the daily rates of the ParkingLot
+&nbsp;     */
+<b class="fc">&nbsp;    public HashMap&lt;String, String&gt; getRates() {return timesToRates; }</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * getter method for the coordinates of the ParkingLot
+&nbsp;     * @return Array of float values of the latitude and longitude of the ParkingLot
+&nbsp;     */
+&nbsp;    public double[] getLatitudeLongitude() {
+<b class="nc">&nbsp;        return this.latitudeLongitude;</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    public String getCarParkType() { return this.carparkType; }</b>
+&nbsp;
+<b class="fc">&nbsp;    public String getHalfHourlyRate() { return this.halfHourlyRate; }</b>
+&nbsp;
+&nbsp;
+&nbsp;    public void setId (String id) {
+<b class="fc">&nbsp;        this.ID = id;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    public void setWebsite(String website) {
+<b class="fc">&nbsp;        this.linkToWebsite = website;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    public void setLatLong(double[] LatLong) {
+<b class="fc">&nbsp;        this.latitudeLongitude = LatLong;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    public void setAddress(String streetAddress) {
+<b class="fc">&nbsp;        this.streetAddress = streetAddress;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    public void setCarparkType(String carparkType) {
+<b class="fc">&nbsp;        this.carparkType = carparkType;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+<b class="fc">&nbsp;    public void setHalfHourlyRate(String halfHourlyRate) {this.halfHourlyRate = halfHourlyRate;}</b>
+&nbsp;
+&nbsp;
+&nbsp;    public void setTimestoRates(HashMap&lt;String, String&gt; timesToRates) {
+<b class="fc">&nbsp;        this.timesToRates = timesToRates;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public String toString() {
+<b class="nc">&nbsp;        updateEntryReviews();</b>
+<b class="nc">&nbsp;        return &quot;ID &quot; + getID() + &quot;: &quot;+ getAddress() + &quot; - &quot; + getCarParkType() + &quot; parking&quot; + &quot;, &quot; + getHalfHourlyRate() + &quot;$ per 30min ; &quot; + &quot;ease of entry: &quot; + getEntryReview();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setCapacity(int capacity) {
+<b class="fc">&nbsp;        this.capacity = capacity;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public int getCapacity() {
+<b class="nc">&nbsp;        return this.capacity;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    public String getPrice(ParkingLot parkinglot, int hour) {
+<b class="fc">&nbsp;        String halfHourRate = parkinglot.getHalfHourlyRate();</b>
+<b class="fc">&nbsp;        String dayMax = parkinglot.getRates().get(&quot;Day Maximum (7am - 6pm)&quot;);</b>
+<b class="fc">&nbsp;        String nightMax = parkinglot.getRates().get(&quot;Night Maximum (6pm - 7am)&quot;);</b>
+&nbsp;
+<b class="fc">&nbsp;        if (parkinglot.getRates().isEmpty()){</b>
+<b class="fc">&nbsp;        return halfHourRate;</b>
+&nbsp;        }
+&nbsp;
+<b class="pc">&nbsp;        else if(dayMax !=  null &amp;&amp; 7 &lt;= hour &amp;&amp; hour &lt; 18 &amp;&amp; Character.isDigit(dayMax.charAt(1))) {</b>
+<b class="fc">&nbsp;            return dayMax;</b>
+&nbsp;        }
+<b class="pc">&nbsp;        else if (nightMax != null &amp;&amp; Character.isDigit(nightMax.charAt(1)) &amp;&amp; (7 &gt; hour || hour &gt;= 18)){</b>
+<b class="fc">&nbsp;            return nightMax;</b>
+&nbsp;        }
+&nbsp;        else{
+<b class="fc">&nbsp;            return halfHourRate;</b>
+&nbsp;        }
+&nbsp;
+&nbsp;    }
+<b class="nc">&nbsp;    public String getType() { return  this.carparkType;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-08-08 17:38</div>
+</div>
+</body>
+</html>
