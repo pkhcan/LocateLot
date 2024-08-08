@@ -10,6 +10,7 @@ import entity.PriceFilter;
 import java.io.IOException;
 import java.util.List;
 
+
 public class FilterByPriceInteractor implements FilterByPriceInputBoundary {
     private final FilterByPriceOutputBoundary outputBoundary;
 
@@ -33,15 +34,14 @@ public class FilterByPriceInteractor implements FilterByPriceInputBoundary {
         List<ParkingLot> parkingLots = parkingLotDAO.getParkingLotsWithinRadius(latitude, longitude, allParkingLots);
 
         // sort the radius filtered lots by increasing price
-
+        int userHour = inputData.getTime();
         PriceFilter priceFilter = new PriceFilter();
-        PriceFilter.bubbleSort(parkingLots, inputData.time);
+        priceFilter.bubbleSort(parkingLots, userHour);
 
         // prepare output data
         FilterByPriceOutputData outputData = new FilterByPriceOutputData(parkingLots);
         outputBoundary.prepareSuccessView(outputData);
     }
-
 
 
 }

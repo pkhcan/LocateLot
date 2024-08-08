@@ -13,7 +13,7 @@ public class PriceFilter {
     }
 
 
-    public static void bubbleSort(List<ParkingLot> parkingLots, int hour) {
+    public void bubbleSort(List<ParkingLot> parkingLots, int hour) {
         int n = parkingLots.size();
         boolean swapped;
         for (int i = 0; i < n - 1; i++) {
