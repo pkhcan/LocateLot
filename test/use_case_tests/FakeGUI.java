@@ -15,6 +15,7 @@ public class FakeGUI extends GUI {
      */
     public ParkingLot[] displayedParkingLots = null;
     public List<ParkingLot> displayedParkingLotsList = null;
+    public String errorMessage = null;
 
     /**
      * Overrides method in app.gui.GUI to capture parking lots that are displayed.
@@ -29,5 +30,10 @@ public class FakeGUI extends GUI {
     @Override
     public void updateParkingLotList(List<ParkingLot> parkingLots) {
         displayedParkingLotsList = parkingLots;
+    }
+
+    @Override
+    public void showError(String errorMessage) {
+        this.errorMessage = errorMessage;
     }
 }

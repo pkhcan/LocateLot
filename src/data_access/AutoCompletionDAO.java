@@ -29,7 +29,6 @@ public class AutoCompletionDAO {
      */
     public AutocompletePrediction[] getListOfPredictions(String address) throws
             IOException, InterruptedException, ApiException {
-        System.out.println();
         PlaceAutocompleteRequest response = PlacesApi.placeAutocomplete(
                 CONTEXT,
                 address,
