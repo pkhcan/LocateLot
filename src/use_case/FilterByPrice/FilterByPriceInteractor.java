@@ -36,7 +36,7 @@ public class FilterByPriceInteractor implements FilterByPriceInputBoundary {
         // sort the radius filtered lots by increasing price
         int userHour = inputData.getTime();
         PriceFilter priceFilter = new PriceFilter();
-        priceFilter.bubbleSort(parkingLots, userHour);
+        priceFilter.sort(parkingLots, userHour);
 
         // prepare output data
         FilterByPriceOutputData outputData = new FilterByPriceOutputData(parkingLots);

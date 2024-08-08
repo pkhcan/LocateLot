@@ -87,7 +87,7 @@ public class ParkingLotDAO implements GreenPDAO {
     }
 
     private String parseHalfHourlyRate(JSONObject parkingLot) {
-        return parkingLot.get("rate_half_hour").toString();
+        return "$" + parkingLot.get("rate_half_hour").toString();
     }
 
     private String parseCarparkType(JSONObject parkingLot) {
@@ -143,16 +143,6 @@ public class ParkingLotDAO implements GreenPDAO {
     }
 
 
-    public static String getParkingLotPrice(ParkingLot parkinglot, int hour) {
-        if (parkinglot.getRates().isEmpty())
-            return parkinglot.getHalfHourlyRate();
-        else if (0700 <= hour && hour < 1800)
-            return parkinglot.getRates().get("Day Maximum (7am - 6pm)");
-        else {
-            return parkinglot.getRates().get("Night Maximum (6pm - 7am)");
-        }
-
-    }
 
     /**
      * Gets closest parking lot.
