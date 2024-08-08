@@ -15,7 +15,6 @@ public class PriceFilter {
 
 
     public List<ParkingLot> sort(List<ParkingLot> parkingLots, int hour) throws IOException {
-        ParkingLotDAO parkingLotDAO = new ParkingLotDAO();
         int n = parkingLots.size();
         boolean swapped;
         for (int i = 0; i < n - 1; i++) {
