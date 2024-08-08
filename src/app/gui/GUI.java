@@ -25,6 +25,7 @@ import use_case.FilterByPrice.FilterByPriceInputBoundary;
 import use_case.FilterByPrice.FilterByPriceInputData;
 import use_case.FilterByPrice.FilterByPriceInteractor;
 import use_case.FilterByPrice.FilterByPriceOutputBoundary;
+import interface_adapter.FilterByPriceController;
 import use_case.FilterByProximity.FilterByProximityInputBoundary;
 import use_case.FilterByProximity.FilterByProximityInputData;
 import use_case.FilterByProximity.FilterByProximityInteractor;
@@ -33,7 +34,6 @@ import use_case.FilterByRadius.FilterByRadiusInputBoundary;
 import use_case.FilterByRadius.FilterByRadiusInputData;
 import use_case.FilterByRadius.FilterByRadiusInteractor;
 import use_case.FilterByRadius.FilterByRadiusOutputBoundary;
-import use_case.SubmitReview.*;
 import views.ReviewView;
 
 import java.io.IOException;
@@ -41,7 +41,6 @@ import java.util.ArrayList;
 
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
-import java.util.Scanner;
 
 
 public class GUI extends JFrame {
@@ -173,27 +172,17 @@ public class GUI extends JFrame {
             public void actionPerformed(ActionEvent e) {
 
                 String address = textFieldAddress.getText();
-                double radius = 3.0;
-                ParkingLotDAO radiusSortedList = null;
-                LocalTime currentTime = LocalTime.now();
+                int currentTime = LocalTime.now().getHour();
 
-                try {
-                    radiusSortedList = new ParkingLotDAO();
-                } catch (IOException ex) {
-                    throw new RuntimeException(ex);
-                }
-                FilterByPriceInputData inputData = new FilterByPriceInputData(radiusSortedList, currentTime);
-
-                // Create the presenter
-                FilterByPriceOutputBoundary presenter = new FilterByPricePresenter(GUI.this);
-
-                // Create the interactor with the presenter
-                FilterByPriceInputBoundary interactor = null;
-                interactor = new FilterByPriceInteractor(presenter, radiusSortedList);
+                FilterByPricePresenter presenter = new FilterByPricePresenter(GUI.this);
+                FilterByPriceInteractor interactor = new FilterByPriceInteractor(presenter);
+                FilterByPriceController controller = new FilterByPriceController(interactor);
+                FilterByPriceInputData inputData = new FilterByPriceInputData(address, currentTime);
+                ;
 
                 // Execute the interactor
                 try {
-                    interactor.execute(inputData);
+                    controller.handlePriceFiltering(address, currentTime);
                 } catch (Exception ex) {
                     throw new RuntimeException(ex);
                 }
@@ -208,7 +197,7 @@ public class GUI extends JFrame {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Create EOEInputData with the address from the text field
+                // Create price input data with the address from the text field
                 String address = textFieldAddress.getText();
 
                 // Create the presenter
@@ -220,16 +209,14 @@ public class GUI extends JFrame {
                 // Create the controller with the interactor
                 EOEController controller = new EOEController(interactor);
 
-                // Execute the interactor via the controller - handle EOE request
+                // Execute the interactor via the controller - handle price filter request
                 try {
                     controller.handleEOE(address);
                 } catch (IOException | InterruptedException | ApiException ex) {
                     showError(ex.getMessage());
                 }
-
             }
         });
-
 
 
 
