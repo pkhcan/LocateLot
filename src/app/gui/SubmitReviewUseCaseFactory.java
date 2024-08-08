@@ -21,10 +21,11 @@ public class SubmitReviewUseCaseFactory {
 
     /**
      * Create the panel that will prompt the user to enter his/her review.
-     * @param reviewViewModel The view model that has the data and the state
      * @return a ReviewView that will display the result of a review submission or asks for input
      */
-    public static ReviewView create(ReviewViewModel reviewViewModel){
+    public static ReviewView create(){
+
+        ReviewViewModel reviewViewModel = new ReviewViewModel();
 
         ReviewDataAccessInterface reviewDataAcessObject = new ReviewDAO("src/external_data/Reviews.json");
         SubmitReviewOutputBoundary submitReviewPresenter = new SubmitReviewPresenter(reviewViewModel);
