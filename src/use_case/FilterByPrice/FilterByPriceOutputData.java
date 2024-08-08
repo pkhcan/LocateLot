@@ -5,23 +5,23 @@ import entity.ParkingLot;
 import java.util.List;
 
 public class FilterByPriceOutputData {
-    private List<ParkingLot> parkingLots;
+    private List<ParkingLot> sortedParkingLots;
 
     /**
      * Output data for filter by price use case
-     * @param parkingLots filtered
+     * @param sortedParkingLots filtered
      */
 
-    public FilterByPriceOutputData(List<ParkingLot> parkingLots) {
-        this.parkingLots = parkingLots;
+    public FilterByPriceOutputData(List<ParkingLot> sortedParkingLots) {
+        this.sortedParkingLots = sortedParkingLots;
     }
 
     /**
-     * Filter by radius output data getter method
+     * Filter by price output data getter method
      * @return filtered parking lots based on price
      */
 
-    public List<ParkingLot> getParkingLots() {
-        return this.parkingLots;
+    public List<ParkingLot> getSortedParkingLots() {
+        return this.sortedParkingLots;
     }
 }

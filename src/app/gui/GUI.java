@@ -25,6 +25,7 @@ import use_case.FilterByPrice.FilterByPriceInputBoundary;
 import use_case.FilterByPrice.FilterByPriceInputData;
 import use_case.FilterByPrice.FilterByPriceInteractor;
 import use_case.FilterByPrice.FilterByPriceOutputBoundary;
+import interface_adapter.FilterByPriceController;
 import use_case.FilterByProximity.FilterByProximityInputBoundary;
 import use_case.FilterByProximity.FilterByProximityInputData;
 import use_case.FilterByProximity.FilterByProximityInteractor;
@@ -38,6 +39,7 @@ import use_case.FilterByType.FilterByTypeInputData;
 import use_case.FilterByType.FilterByTypeInteractor;
 import use_case.FilterByType.FilterByTypeOutputBoundary;
 import use_case.SubmitReview.*;
+import views.ReviewView;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -59,12 +61,16 @@ public class GUI extends JFrame {
     private JButton typeButton;
     private JPanel buttonsPanel;
     private JScrollPane resultsScrollPane;
+    private JButton ReviewButton;
+    private JPanel inputPanel;
+    //    ^^ replace with the API search box and button ?
+    private String selectedAddress;
     private JPanel resultsButtonPanel;
     private final AutoCompletionDAO autoCompletionDAO = new AutoCompletionDAO();
     private JButton submitReviewButton;
-    private JPanel inputPanel;
-
-
+    private JPanel resultsTextPanel;
+    private final AutoCompletionDAO autoCompletionDAO = new AutoCompletionDAO();
+    private ReviewView reviewView;
 
     public GUI() {
 
@@ -99,7 +105,6 @@ public class GUI extends JFrame {
             }
         });
 
-
         /*
          * action performed button for proximity search
          * must return parking lots sorted by closest first
@@ -129,7 +134,6 @@ public class GUI extends JFrame {
                 }
             }
         });
-
 
         /*
          * radius button - opens a screen requiring user input for custom radius
@@ -175,27 +179,17 @@ public class GUI extends JFrame {
             public void actionPerformed(ActionEvent e) {
 
                 String address = textFieldAddress.getText();
-                double radius = 3.0;
-                ParkingLotDAO radiusSortedList = null;
-                LocalTime currentTime = LocalTime.now();
+                int currentTime = LocalTime.now().getHour();
 
-                try {
-                    radiusSortedList = new ParkingLotDAO();
-                } catch (IOException ex) {
-                    throw new RuntimeException(ex);
-                }
-                FilterByPriceInputData inputData = new FilterByPriceInputData(radiusSortedList, currentTime);
-
-                // Create the presenter
-                FilterByPriceOutputBoundary presenter = new FilterByPricePresenter(GUI.this);
-
-                // Create the interactor with the presenter
-                FilterByPriceInputBoundary interactor = null;
-                interactor = new FilterByPriceInteractor(presenter, radiusSortedList);
+                FilterByPricePresenter presenter = new FilterByPricePresenter(GUI.this);
+                FilterByPriceInteractor interactor = new FilterByPriceInteractor(presenter);
+                FilterByPriceController controller = new FilterByPriceController(interactor);
+                FilterByPriceInputData inputData = new FilterByPriceInputData(address, currentTime);
+                ;
 
                 // Execute the interactor
                 try {
-                    interactor.execute(inputData);
+                    controller.handlePriceFiltering(address, currentTime);
                 } catch (Exception ex) {
                     throw new RuntimeException(ex);
                 }
@@ -210,7 +204,7 @@ public class GUI extends JFrame {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Create EOEInputData with the address from the text field
+                // Create price input data with the address from the text field
                 String address = textFieldAddress.getText();
 
                 // Create the presenter
@@ -222,16 +216,14 @@ public class GUI extends JFrame {
                 // Create the controller with the interactor
                 EOEController controller = new EOEController(interactor);
 
-                // Execute the interactor via the controller - handle EOE request
+                // Execute the interactor via the controller - handle price filter request
                 try {
                     controller.handleEOE(address);
                 } catch (IOException | InterruptedException | ApiException ex) {
                     showError(ex.getMessage());
                 }
-
             }
         });
-
 
 
 
@@ -288,13 +280,28 @@ public class GUI extends JFrame {
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
                 }
-
                 // Execute the interactor
                 try {
                     interactor.execute(inputData);
                 } catch (Exception ex) {
                     throw new RuntimeException(ex);
                 }
+            }
+        });
+
+
+        submitReviewButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Clear the previous Panel
+                inputPanel.removeAll();
+                // Set up the panel for submit review use case
+                ReviewViewModel reviewViewModel = new ReviewViewModel();
+                // to fix a null exception caused by IntelliJ's GUI creator
+                inputPanel.setLayout(new BoxLayout(inputPanel, BoxLayout.Y_AXIS));
+                reviewView = SubmitReviewUseCaseFactory.create(reviewViewModel);
+                inputPanel.add(reviewView);
+                inputPanel.revalidate();
             }
         });
 
@@ -322,7 +329,9 @@ public class GUI extends JFrame {
             b.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    // add code here
+                    if (reviewView != null) {
+                        reviewView.setParkingLot(lot);
+                    }
                 }
             });
             resultsButtonPanel.add(b);
@@ -331,12 +340,6 @@ public class GUI extends JFrame {
 
             buttonsArrayList.add(b);
         }
-//        JList<String> list = new JList<>(listModel);
-//        resultsScrollPane.setViewportView(list);
-//        JPanel resultsPanel = new JPanel();
-//        resultsScrollPane.add(resultsPanel);
-//        resultsScrollPane.revalidate();
-
     }
 
     public void updateParkingLotList(List<ParkingLot> parkingLots) {
@@ -426,6 +429,14 @@ public class GUI extends JFrame {
 
                 b.setAlignmentX(Component.CENTER_ALIGNMENT);
                 b.setMaximumSize(new Dimension(Integer.MAX_VALUE, b.getMinimumSize().height));
+                b.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        selectedAddress = b.getText();
+                        textFieldAddress.setText(selectedAddress);
+                    }
+                });
+
                 buttonsPanel.add(b);
                 buttonsPanel.revalidate(); buttonsPanel.repaint();
 

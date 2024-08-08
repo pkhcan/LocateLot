@@ -195,6 +195,28 @@ public class ParkingLot {
         return this.capacity;
     }
 
+
+    public String getPrice(ParkingLot parkinglot, int hour) {
+        String halfHourRate = parkinglot.getHalfHourlyRate();
+        String dayMax = parkinglot.getRates().get("Day Maximum (7am - 6pm)");
+        String nightMax = parkinglot.getRates().get("Night Maximum (6pm - 7am)");
+
+        if (parkinglot.getRates().isEmpty()){
+        return halfHourRate;
+        }
+
+        else if(dayMax !=  null && 7 <= hour && hour < 18 && Character.isDigit(dayMax.charAt(1))) {
+            return dayMax;
+        }
+        else if (nightMax != null && Character.isDigit(nightMax.charAt(1)) && (7 > hour || hour >= 18)){
+            return nightMax;
+        }
+        else{
+            return halfHourRate;
+        }
+
+    }
     public String getType() { return  this.carparkType;
     }
+
 }

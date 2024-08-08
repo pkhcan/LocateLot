@@ -51,9 +51,7 @@ public class ParkingLotDAO implements GreenPDAO {
                 String carparkType = parseCarparkType(parkingLot);
                 HashMap<String, String> timesToRates = parseTimesToRates(parkingLot);
                 String halfHourlyRate = parseHalfHourlyRate(parkingLot);
-//                System.out.println(latLong);
-//                System.out.println(timesToRates);
-//                System.out.println(halfHourlyRate);
+
 
                 ParkingLotFactory parkingLotFactory = new ParkingLotFactory();
                 ParkingLot newParkingLot = parkingLotFactory.createParkingLot(id, website,carparkType, latLong, streetAddress, halfHourlyRate, timesToRates, capacity);
@@ -89,7 +87,7 @@ public class ParkingLotDAO implements GreenPDAO {
     }
 
     private String parseHalfHourlyRate(JSONObject parkingLot) {
-        return parkingLot.get("rate_half_hour").toString();
+        return "$" + parkingLot.get("rate_half_hour").toString();
     }
 
     private String parseCarparkType(JSONObject parkingLot) {
@@ -145,17 +143,6 @@ public class ParkingLotDAO implements GreenPDAO {
     }
 
 
-    public static String getParkingLotPrice(ParkingLot parkinglot, int hour) {
-        int milit_hour = hour + 12;
-        if (parkinglot.getRates().isEmpty())
-            return parkinglot.getHalfHourlyRate();
-        else if (0700 <= milit_hour && milit_hour < 1800)
-            return parkinglot.getRates().get("Day Maximum (7am - 6pm)");
-        else {
-            return parkinglot.getRates().get("Night Maximum (6pm - 7am)");
-        }
-
-    }
 
     /**
      * Gets closest parking lot.

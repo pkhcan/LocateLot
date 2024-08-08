@@ -1,10 +1,14 @@
 package unit_tests;
 
 import static org.junit.Assert.*;
+
+import data_access.ParkingLotDAO;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.ArrayList;
 
 import entity.ParkingLot;
@@ -12,9 +16,11 @@ import entity.ParkingLot;
 public class ParkingLotTest {
 
     private ParkingLot parkingLot;
+    private List<ParkingLot> parkingLots;
+    private ParkingLotDAO parkingLotDAO;
 
     @Before
-    public void setUp() {
+    public void setUp() throws IOException {
         String id = "1";
         String streetAddress = "123 Main St";
         String carParkType = "Garage";
@@ -25,6 +31,8 @@ public class ParkingLotTest {
         timesToRates.put("9AM-5PM", "$10");
         timesToRates.put("5PM-12AM", "$15");
         int capacity = 3;
+        parkingLotDAO = new ParkingLotDAO();
+        parkingLots = new ArrayList<>();
 
         parkingLot = new ParkingLot(id, streetAddress, linkToWebsite, latitudeLongitude, carParkType, halfHourlyRate, timesToRates, capacity);
     }
@@ -85,5 +93,34 @@ public class ParkingLotTest {
         parkingLot.setCarparkType("Surface");
         assertEquals("Surface", parkingLot.getCarParkType());
     }
+
+    @Test
+    public void testGetParkingLotPriceMorning(){
+        parkingLots.add(parkingLotDAO.getParkingLots().get(0));
+        parkingLots.add(parkingLotDAO.getParkingLots().get(1));
+        parkingLots.add(parkingLotDAO.getParkingLots().get(2));
+        parkingLots.add(parkingLotDAO.getParkingLots().get(3));
+        assert (parkingLots.getFirst().getPrice(parkingLots.getFirst(), 14).equals("$14.00"));
+
+    }
+    @Test
+    public void testGetParkingLotPriceNight() {
+        parkingLots.add(parkingLotDAO.getParkingLots().getFirst());
+        assert (parkingLots.getFirst().getPrice(parkingLots.getFirst(), 20).equals("$6.00"));
+
+    }
+
+    @Test
+    public void testGetParkingLotPriceNoPrice(){
+        parkingLots.add(parkingLotDAO.getParkingLots().get(1));
+        assert (parkingLots.getFirst().getPrice(parkingLots.getFirst(), 14).equals("$3.00"));
+    }
+
+    @Test
+    public void testGetParkingLotPriceNoTimesToRates(){
+        parkingLots.add(parkingLotDAO.getParkingLots().get(18));
+        assert parkingLots.getFirst().getPrice(parkingLots.getFirst(), 14).equals("$1.00");
+    }
+
 }
 
