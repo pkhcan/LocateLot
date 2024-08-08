@@ -1,6 +1,6 @@
 package use_case.FilterByPrice;
 
-import use_case.FilterByRadius.FilterByRadiusOutputData;
+import use_case.FilterByPrice.FilterByPriceOutputData;
 
 public interface FilterByPriceOutputBoundary {
 
