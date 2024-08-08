@@ -194,4 +194,7 @@ public class ParkingLot {
     public int getCapacity() {
         return this.capacity;
     }
+
+    public String getType() { return  this.carparkType;
+    }
 }

@@ -1,5 +1,12 @@
 package use_case.FilterByType;
 
+
 public interface FilterByTypeInputBoundary {
-    void filter(FilterByTypeData filterByTypeData);
+
+    /**
+     * When implemented, executes the interactor
+     * @param filterByTypeInputData
+     * @throws Exception
+     */
+    public void execute (FilterByTypeInputData filterByTypeInputData) throws Exception;
 }
