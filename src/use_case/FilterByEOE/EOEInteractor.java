@@ -16,9 +16,6 @@ import use_case.FilterOutput.OutputData;
 import java.io.IOException;
 import java.util.*;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 
 /**
  * Interactor for handling Ease of Entry (EOE) input data and processing.
@@ -28,7 +25,6 @@ import org.slf4j.LoggerFactory;
 public class EOEInteractor implements EOEInputBoundary{
 
     private final OutputBoundary outputBoundary;
-    private static final Logger logger = LoggerFactory.getLogger(EOEInteractor.class);
 
 
     /**
@@ -57,12 +53,10 @@ public class EOEInteractor implements EOEInputBoundary{
     public void execute(EOEInputData eoeInputData) throws IOException, InterruptedException, ApiException {
         String address = eoeInputData.getAddress();
         try {
-            logger.info("Attempting to geocode address: {}", address);
             GeocodingResult[] results = GeoApiDAO.getLatitudeLongitude(address);
 
-            // no results found
+            // No results found
             if (results == null || results.length == 0) {
-                logger.warn("No geocoding results found for address: {}", address);
                 outputBoundary.presentError("No results found for the given address. Please check the address and try again.");
                 return;
             }
@@ -97,7 +91,6 @@ public class EOEInteractor implements EOEInputBoundary{
             // Present output data
             outputBoundary.present(outputData);
         } catch (Exception e) {
-            logger.error("Error occurred during geocoding for address: {}", address, e);
             outputBoundary.presentError("An error occurred while trying to find the location. Please try again later.");
         }
     }
