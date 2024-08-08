@@ -285,7 +285,7 @@ public class GUI extends JFrame {
                 ReviewViewModel reviewViewModel = new ReviewViewModel();
                 // to fix a null exception caused by IntelliJ's GUI creator
                 inputPanel.setLayout(new BoxLayout(inputPanel, BoxLayout.Y_AXIS));
-                reviewView = SubmitReviewUseCaseFactory.create(reviewViewModel);
+                reviewView = SubmitReviewUseCaseFactory.create();
                 inputPanel.add(reviewView);
                 inputPanel.revalidate();
             }
