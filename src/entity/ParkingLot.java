@@ -205,10 +205,10 @@ public class ParkingLot {
         return halfHourRate;
         }
 
-        else if(7 <= hour && hour < 18 && Character.isDigit(dayMax.charAt(1))) {
+        else if(dayMax !=  null && 7 <= hour && hour < 18 && Character.isDigit(dayMax.charAt(1))) {
             return dayMax;
         }
-        else if (Character.isDigit(nightMax.charAt(1)) && (7 > hour || hour >= 18)){
+        else if (nightMax != null && Character.isDigit(nightMax.charAt(1)) && (7 > hour || hour >= 18)){
             return nightMax;
         }
         else{
