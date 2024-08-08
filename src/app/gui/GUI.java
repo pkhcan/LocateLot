@@ -182,7 +182,7 @@ public class GUI extends JFrame {
 
                 // Execute the interactor
                 try {
-                    interactor.execute(inputData);
+                    controller.handlePriceFiltering(address, currentTime);
                 } catch (Exception ex) {
                     throw new RuntimeException(ex);
                 }
@@ -197,7 +197,7 @@ public class GUI extends JFrame {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Create EOEInputData with the address from the text field
+                // Create price input data with the address from the text field
                 String address = textFieldAddress.getText();
 
                 // Create the presenter
@@ -209,16 +209,14 @@ public class GUI extends JFrame {
                 // Create the controller with the interactor
                 EOEController controller = new EOEController(interactor);
 
-                // Execute the interactor via the controller - handle EOE request
+                // Execute the interactor via the controller - handle price filter request
                 try {
                     controller.handleEOE(address);
                 } catch (IOException | InterruptedException | ApiException ex) {
                     showError(ex.getMessage());
                 }
-
             }
         });
-
 
 
 

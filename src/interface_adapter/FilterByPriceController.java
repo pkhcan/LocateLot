@@ -13,17 +13,17 @@ import java.io.IOException;
 
 
 public class FilterByPriceController {
-    private final FilterByPriceInputBoundary filterByPriceInputBoundary;
+    private final FilterByPriceInputBoundary interactor;
 
     //This creates the interactor
     public FilterByPriceController(FilterByPriceInputBoundary filterByPriceInteractor) {
-        this.filterByPriceInputBoundary = filterByPriceInteractor;
+        this.interactor = filterByPriceInteractor;
     }
 
 
     // This creates the input data and passes it to the interactor
-    public void PriceFiltering(String address, int time) throws IOException, InterruptedException, ApiException {
+    public void handlePriceFiltering(String address, int time) throws IOException, InterruptedException, ApiException {
         FilterByPriceInputData filterByPriceInputData = new FilterByPriceInputData(address, time);
-        filterByPriceInputBoundary.execute(filterByPriceInputData);
+        interactor.execute(filterByPriceInputData);
     }
 }
