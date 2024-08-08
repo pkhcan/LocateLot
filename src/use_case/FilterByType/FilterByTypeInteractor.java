@@ -36,10 +36,10 @@ public class FilterByTypeInteractor implements FilterByTypeInputBoundary {
     @Override
     public void execute(FilterByTypeInputData filterByTypeInputData) {
         try {
-            String type = filterByTypeInputData.getType(); // type passed to type filter entity
+//            String type = filterByTypeInputData.getType(); // type passed to type filter entity
 
             TypeFilter filter = new TypeFilter(); // new instance of type filter entity
-            filteredByType = filter.filter(type, parkingLotDAO.getParkingLots());
+            filteredByType = filter.filter(parkingLotDAO.getParkingLots());
             FilterByTypeOutputData filterByTypeOutputData = new FilterByTypeOutputData(filteredByType);
             filterByTypePresenter.prepareSuccessView(filterByTypeOutputData);
         } catch (Exception e) {
