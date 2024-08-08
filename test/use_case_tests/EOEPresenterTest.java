@@ -46,17 +46,12 @@ class EOEPresenterTest {
         EOEPresenter presenter = new EOEPresenter(fakeGUI);
         String expectedError = "An error occurred";
 
-        // capture System.out
-        final java.io.ByteArrayOutputStream outContent = new java.io.ByteArrayOutputStream();
-        System.setOut(new java.io.PrintStream(outContent));
-
         // present
         presenter.presentError(expectedError);
 
         // check
-        assertEquals(expectedError + System.lineSeparator(), outContent.toString(), "The error message should be printed to System.out.");
+        assertEquals(expectedError, fakeGUI.errorMessage, "The error message should be captured by the FakeGUI.");
 
-        // reset
-        System.setOut(System.out);
+
     }
 }

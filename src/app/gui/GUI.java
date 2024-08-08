@@ -34,6 +34,7 @@ import use_case.FilterByRadius.FilterByRadiusInputData;
 import use_case.FilterByRadius.FilterByRadiusInteractor;
 import use_case.FilterByRadius.FilterByRadiusOutputBoundary;
 import use_case.SubmitReview.*;
+import views.ReviewView;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -55,10 +56,15 @@ public class GUI extends JFrame {
     private JButton typeButton;
     private JPanel buttonsPanel;
     private JScrollPane resultsScrollPane;
+    private JButton ReviewButton;
+    private JPanel inputPanel;
+    //    ^^ replace with the API search box and button ?
+    private String selectedAddress;
     private JPanel resultsButtonPanel;
+    private JButton submitReviewButton;
+    private JPanel resultsTextPanel;
     private final AutoCompletionDAO autoCompletionDAO = new AutoCompletionDAO();
-
-
+    private ReviewView reviewView;
 
     public GUI() {
 
@@ -93,7 +99,6 @@ public class GUI extends JFrame {
             }
         });
 
-
         /*
          * action performed button for proximity search
          * must return parking lots sorted by closest first
@@ -123,7 +128,6 @@ public class GUI extends JFrame {
                 }
             }
         });
-
 
         /*
          * radius button - opens a screen requiring user input for custom radius
@@ -272,6 +276,20 @@ public class GUI extends JFrame {
         });
 
 
+        submitReviewButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Clear the previous Panel
+                inputPanel.removeAll();
+                // Set up the panel for submit review use case
+                ReviewViewModel reviewViewModel = new ReviewViewModel();
+                // to fix a null exception caused by IntelliJ's GUI creator
+                inputPanel.setLayout(new BoxLayout(inputPanel, BoxLayout.Y_AXIS));
+                reviewView = SubmitReviewUseCaseFactory.create(reviewViewModel);
+                inputPanel.add(reviewView);
+                inputPanel.revalidate();
+            }
+        });
     }
 
 
@@ -295,7 +313,9 @@ public class GUI extends JFrame {
             b.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    // add code here
+                    if (reviewView != null) {
+                        reviewView.setParkingLot(lot);
+                    }
                 }
             });
             resultsButtonPanel.add(b);
@@ -304,12 +324,6 @@ public class GUI extends JFrame {
 
             buttonsArrayList.add(b);
         }
-//        JList<String> list = new JList<>(listModel);
-//        resultsScrollPane.setViewportView(list);
-//        JPanel resultsPanel = new JPanel();
-//        resultsScrollPane.add(resultsPanel);
-//        resultsScrollPane.revalidate();
-
     }
 
     public void updateParkingLotList(List<ParkingLot> parkingLots) {
@@ -352,32 +366,6 @@ public class GUI extends JFrame {
     public static void main(String[] args) {
 
         new GUI();
-        submitReview();
-    }
-
-    /*
-    Ask the user to enter a review for a parking garage
-    */
-    private static void submitReview(){
-        try {
-            Scanner scanner = new Scanner(System.in);
-            System.out.println("\n==== Submit a Review ====\nEnter the id of the Parking Lot (has to be an integer):");
-            int parkingLotID = scanner.nextInt();
-
-            System.out.println("Enter your rating for this parking: ");
-            int rating = scanner.nextInt();
-
-            // Set up the interactor
-            SubmitReviewDataAccessInterface reviewDAO = new ReviewDAO("src/external_data/Reviews.json");
-            SubmitReviewOutputBoundary presenter = new SubmitReviewPresenter(new JLabel());
-            SubmitReviewBoundary interactor = new SubmitReviewInteractor(reviewDAO, presenter);
-            ReviewInputData inputData = new ReviewInputData(parkingLotID, rating);
-
-            // Execute the interactor
-            interactor.execute(inputData);
-        } catch (InputMismatchException ex) {
-            System.out.println(ex.getMessage());
-        }
     }
 
 
@@ -399,6 +387,14 @@ public class GUI extends JFrame {
 
                 b.setAlignmentX(Component.CENTER_ALIGNMENT);
                 b.setMaximumSize(new Dimension(Integer.MAX_VALUE, b.getMinimumSize().height));
+                b.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        selectedAddress = b.getText();
+                        textFieldAddress.setText(selectedAddress);
+                    }
+                });
+
                 buttonsPanel.add(b);
                 buttonsPanel.revalidate(); buttonsPanel.repaint();
 
