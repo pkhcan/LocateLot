@@ -69,7 +69,6 @@ public class GUI extends JFrame {
     private final AutoCompletionDAO autoCompletionDAO = new AutoCompletionDAO();
     private JButton submitReviewButton;
     private JPanel resultsTextPanel;
-    private final AutoCompletionDAO autoCompletionDAO = new AutoCompletionDAO();
     private ReviewView reviewView;
 
     public GUI() {
@@ -325,7 +324,7 @@ public class GUI extends JFrame {
                 ReviewViewModel reviewViewModel = new ReviewViewModel();
                 // to fix a null exception caused by IntelliJ's GUI creator
                 inputPanel.setLayout(new BoxLayout(inputPanel, BoxLayout.Y_AXIS));
-                reviewView = SubmitReviewUseCaseFactory.create(reviewViewModel);
+                reviewView = SubmitReviewUseCaseFactory.create();
                 inputPanel.add(reviewView);
                 inputPanel.revalidate();
             }

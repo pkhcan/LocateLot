@@ -19,6 +19,7 @@ public class ReviewView extends JPanel implements PropertyChangeListener {
     private ParkingLot selectedParkingLot;
     private JPanel inputPanel;
     private JLabel messageLabel;
+    private JButton submitButton;
 
     public ReviewView(SubmitReviewController controller, ReviewViewModel viewModel) {
 
@@ -39,10 +40,6 @@ public class ReviewView extends JPanel implements PropertyChangeListener {
         messageLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
         this.revalidate();
-    }
-
-    public void updateParkingLot(ParkingLot parkingLot) {
-        this.selectedParkingLot = parkingLot;
     }
 
     @Override
@@ -66,7 +63,6 @@ public class ReviewView extends JPanel implements PropertyChangeListener {
         // Prepare the review panel
         inputPanel.removeAll();
         inputPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
-
 
         JLabel enterRatingLabel = new JLabel("Enter your rating:");
         inputPanel.add(enterRatingLabel);
@@ -94,6 +90,8 @@ public class ReviewView extends JPanel implements PropertyChangeListener {
         });
 
         inputPanel.add(submitButton);
+        this.submitButton = submitButton;
+
         this.revalidate();
 
 
