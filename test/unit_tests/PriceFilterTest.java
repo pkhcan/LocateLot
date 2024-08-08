@@ -22,7 +22,7 @@ public class PriceFilterTest {
     ParkingLotDAO parkingLotDAO;
 
     /**
-     * Sets up mock data for radius filter tests
+     * Set up for price filter test
      *
      * @throws IOException
      */
@@ -35,7 +35,7 @@ public class PriceFilterTest {
     }
 
     /**
-     * Tests that the filter will return accurate results for radii under 1 km
+     * Tests that the filter will return accurate results for when the user uses the button in the morning
      */
     @org.junit.Test
     public void testTwoLotsPriceFilterMorningCase() throws IOException {
@@ -50,6 +50,10 @@ public class PriceFilterTest {
 
     }
 
+    /**
+     * Tests that the filter will return accurate results for when rate data is "No MAXIMUM" and returns the half-hourly
+     * rate in that case.
+     */
     @org.junit.Test
     public void testNoMaximumPriceMorningFilterCase() throws IOException {
         parkingLots.add(parkingLotDAO.getParkingLots().get(0)); // 20 Charles Street East
@@ -61,6 +65,9 @@ public class PriceFilterTest {
         assert (sortedLots.get(1).getPrice(sortedLots.get(1), 14).equals("$14.00"));
     }
 
+    /**
+     * Tests that the filter will return accurate results for when the user uses the button in the evening.
+     */
     @org.junit.Test
     public void testMultipleLotsEvening() throws IOException {
         parkingLots.add(parkingLotDAO.getParkingLots().get(0)); // 20 Charles Street East

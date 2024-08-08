@@ -174,7 +174,6 @@ public class GUI extends JFrame {
             public void actionPerformed(ActionEvent e) {
 
                 String address = textFieldAddress.getText();
-                FilterByRadiusInputData radiusSortedList = null;
                 LocalTime currentTime = LocalTime.now();
 
                 FilterByPricePresenter presenter = new FilterByPricePresenter(GUI.this);

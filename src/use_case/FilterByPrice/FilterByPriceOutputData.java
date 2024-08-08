@@ -17,7 +17,7 @@ public class FilterByPriceOutputData {
     }
 
     /**
-     * Filter by radius output data getter method
+     * Filter by price output data getter method
      * @return filtered parking lots based on price
      */
 

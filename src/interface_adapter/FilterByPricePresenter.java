@@ -4,7 +4,7 @@ import entity.ParkingLot;
 import use_case.FilterByPrice.FilterByPriceOutputBoundary;
 import app.gui.GUI;
 import use_case.FilterByPrice.FilterByPriceOutputData;
-import use_case.FilterOutput.OutputData;
+//import use_case.FilterOutput.OutputData;
 
 import java.util.List;
 

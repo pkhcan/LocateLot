@@ -1,8 +1,7 @@
-package use_case_tests;
+package use_case_tests.filter_by_price_tests;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
 
 class FilterByPriceInteractorTest {
 
