@@ -1,6 +1,10 @@
 package use_case.FilterByPrice;
 
+import com.google.maps.errors.ApiException;
+
+import java.io.IOException;
+
 public interface FilterByPriceInputBoundary {
-    public void execute(FilterByPriceInputData filterByPriceInputData);
+    void execute(FilterByPriceInputData filterByPriceInputData) throws IOException, InterruptedException, ApiException;
 
 }
