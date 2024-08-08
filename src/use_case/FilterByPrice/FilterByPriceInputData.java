@@ -14,9 +14,9 @@ public class FilterByPriceInputData {
     final String address;
     final int time;
 
-    public FilterByPriceInputData(String address, LocalTime time) {
+    public FilterByPriceInputData(String address, int time) {
         this.address = address;
-        this.time = time.getHour();
+        this.time = time;
     }
 
     public int getTime(){return this.time;}

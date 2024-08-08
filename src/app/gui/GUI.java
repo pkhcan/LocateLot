@@ -34,7 +34,6 @@ import use_case.FilterByRadius.FilterByRadiusInputBoundary;
 import use_case.FilterByRadius.FilterByRadiusInputData;
 import use_case.FilterByRadius.FilterByRadiusInteractor;
 import use_case.FilterByRadius.FilterByRadiusOutputBoundary;
-import use_case.SubmitReview.*;
 import views.ReviewView;
 
 import java.io.IOException;
@@ -42,7 +41,6 @@ import java.util.ArrayList;
 
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
-import java.util.Scanner;
 
 
 public class GUI extends JFrame {
@@ -174,7 +172,7 @@ public class GUI extends JFrame {
             public void actionPerformed(ActionEvent e) {
 
                 String address = textFieldAddress.getText();
-                LocalTime currentTime = LocalTime.now();
+                int currentTime = LocalTime.now().getHour();
 
                 FilterByPricePresenter presenter = new FilterByPricePresenter(GUI.this);
                 FilterByPriceInteractor interactor = new FilterByPriceInteractor(presenter);
