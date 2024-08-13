@@ -39,6 +39,7 @@ import use_case.FilterByType.FilterByTypeInputData;
 import use_case.FilterByType.FilterByTypeInteractor;
 import use_case.FilterByType.FilterByTypeOutputBoundary;
 import use_case.SubmitReview.*;
+import views.FilterByRadiusView;
 import views.ReviewView;
 
 import java.io.IOException;
@@ -142,57 +143,21 @@ public class GUI extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                String address = textFieldAddress.getText();
-
                 inputPanel.removeAll();
                 // to fix a null exception caused by IntelliJ's GUI creator
                 inputPanel.setLayout(new BoxLayout(inputPanel, BoxLayout.Y_AXIS));
 
-                JPanel panel = new JPanel();
-                JLabel label = new JLabel("Radius: ");
-                panel.add(label);
+                // Object creation encapsulated from UI and View logic using factory design pattern
+                FilterByRadiusUseCaseFactory filterByRadiusUseCaseFactory = new
+                        FilterByRadiusUseCaseFactory(GUI.this, textFieldAddress);
+                FilterByRadiusView filterByRadiusView = filterByRadiusUseCaseFactory.createFilterByRadiusView();
 
-                JTextField textFieldRadius = new JTextField(5);
-
-                JButton filterButton = new JButton("Filter");
-
-                filterButton.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-
-                        double radius = Double.parseDouble(textFieldRadius.getText());
-
-                        FilterByRadiusInputData inputData = new FilterByRadiusInputData(radius, address);
-
-                        // Create the presenter
-                        FilterByRadiusOutputBoundary presenter = new FilterByRadiusPresenter(GUI.this);
-
-                        // Create the interactor with the presenter
-                        FilterByRadiusInputBoundary interactor = null;
-                        try {
-                            interactor = new FilterByRadiusInteractor(presenter);
-                        } catch (IOException ex) {
-                            throw new RuntimeException(ex);
-                        }
-
-                        // Execute the interactor
-                        try {
-                            interactor.execute(inputData);
-                        } catch (Exception ex) {
-                            throw new RuntimeException(ex);
-                        }
-                    }
-                });
-
-                panel.add(textFieldRadius);
-                panel.add(filterButton);
-                inputPanel.add(panel);
+                inputPanel.add(filterByRadiusView);
 
                 inputPanel.revalidate();
             }
 
         });
-
 
         /*
          * action performed button for price
@@ -475,10 +440,17 @@ public class GUI extends JFrame {
     }
 
 
-
-
     private void createUIComponents() {
         // TODO: place custom component creation code here
+    }
+
+    /**
+     * Getter method for ... // TODO: delete
+     * @return
+     */
+
+    public JTextField getTextFieldAddress() {
+        return textFieldAddress;
     }
 
 
