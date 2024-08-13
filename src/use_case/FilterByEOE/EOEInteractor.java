@@ -76,8 +76,13 @@ public class EOEInteractor implements EOEInputBoundary{
             ParkingLotDAO parkingLotDAO = new ParkingLotDAO();
             List<ParkingLot> allParkingLots = parkingLotDAO.getParkingLots();
 
-            // RadiusFilter to filter parking lots based on the radius -- TODO edit to use radius entity method
+            // RadiusFilter to filter parking lots based on the radius
             List<ParkingLot> filteredParkingLots = parkingLotDAO.getParkingLotsWithinRadius(latitude, longitude, allParkingLots);
+
+            // Update EOE reviews
+            for (ParkingLot lot : filteredParkingLots) {
+                lot.updateEntryReviews();
+            }
 
             // EOEFilter on filtered list
             ParkingLot[] parkingLots = filteredParkingLots.toArray(new ParkingLot[0]);

@@ -69,7 +69,6 @@ public class GUI extends JFrame {
     private final AutoCompletionDAO autoCompletionDAO = new AutoCompletionDAO();
     private JButton submitReviewButton;
     private JPanel resultsTextPanel;
-    private final AutoCompletionDAO autoCompletionDAO = new AutoCompletionDAO();
     private ReviewView reviewView;
 
     public GUI() {
