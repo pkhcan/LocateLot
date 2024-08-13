@@ -4,17 +4,14 @@ import data_access.ParkingLotDAO;
 
 public class FilterByTypeInputData {
 
-    private final String type;
     private ParkingLotDAO parkingLotDAO;
     private String address;
 
     /**
      * Filter by type input data for filter by type use case.
-     * @param type user input
      * @param address user input
      */
-    public FilterByTypeInputData(String type, String address) {
-        this.type = type;
+    public FilterByTypeInputData(String address) {
         this.address = address;
     }
 
@@ -30,7 +27,7 @@ public class FilterByTypeInputData {
      * Getter method
      * @return type
      */
-    public String getType() {
-        return type;
-    }
+//    public String getType() {
+//        return type;
+//    }
 }

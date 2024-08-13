@@ -1,8 +1,11 @@
 package interface_adapter;
 
+import entity.ParkingLot;
 import use_case.FilterByType.FilterByTypeOutputBoundary;
 import app.gui.GUI;
 import use_case.FilterByType.FilterByTypeOutputData;
+
+import java.util.List;
 
 public class FilterByTypePresenter implements FilterByTypeOutputBoundary {
     /**
@@ -26,6 +29,7 @@ public class FilterByTypePresenter implements FilterByTypeOutputBoundary {
     @Override
     public void prepareSuccessView(FilterByTypeOutputData filterByTypeOutputData) {
         // update GUI
+        List<ParkingLot> sortedParkingLots = filterByTypeOutputData.getParkingLots();
         gui.updateParkingLotList(filterByTypeOutputData.getParkingLots());
     }
 

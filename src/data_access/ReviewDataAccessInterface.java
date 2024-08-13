@@ -3,6 +3,8 @@ package data_access;
 import entity.Review;
 import use_case.SubmitReview.SubmitReviewInputInteractor.SubmitReviewFailedException;
 
+import java.util.ArrayList;
+
 public interface ReviewDataAccessInterface {
 
     /**
@@ -15,4 +17,13 @@ public interface ReviewDataAccessInterface {
      *                                     fails to write the review to the json file.
      */
     void saveReview(int parkingLotID, Review review) throws SubmitReviewFailedException;
+
+    /**
+     * Get the reviews for a certain Parking Lot
+     * @param parkingLotID the id for the parking lot
+     * @return a list of Integers that are the reviews
+     * @throws SubmitReviewFailedException if a problem arises when accessing the object. The user is not notified and
+     * an empty list is returned.
+     */
+    ArrayList<Integer> getReviews(int parkingLotID) throws SubmitReviewFailedException;
 }

@@ -18,8 +18,6 @@ import java.util.HashMap;
 
 public class ReviewDAO implements ReviewDataAccessInterface {
 
-    private final HashMap<String, List<Review>> reviews = new HashMap<String, List<Review>>();
-
     private final ObjectMapper objectMapper;
 
     private final File file;
@@ -73,9 +71,16 @@ public class ReviewDAO implements ReviewDataAccessInterface {
         }
     }
 
+    /**
+     * Get the reviews for a certain Parking Lot
+     * @param parkingLotID the id for the parking lot
+     * @return a list of Integers that are the reviews
+     * @throws SubmitReviewFailedException if a problem arises when accessing the object. The user is not notified and
+     * an empty list is returned.
+     */
     public ArrayList<Integer> getReviews(int parkingLotID) throws SubmitReviewFailedException {
         try{
-            ArrayList<Integer> acc = new ArrayList<Integer>();
+            ArrayList<Integer> acc = new ArrayList<>();
             // Create the root using the object mapper
             JsonNode node = objectMapper.readTree(file);
 
@@ -96,7 +101,7 @@ public class ReviewDAO implements ReviewDataAccessInterface {
         }
 
         catch (IOException e){
-            throw new SubmitReviewFailedException("Failed to write the review to the json file.");
+            throw new SubmitReviewFailedException("Failed to read the reviews from the json file.");
         }
     }
 }

@@ -267,12 +267,10 @@ public class GUI extends JFrame {
 
                 String address = textFieldAddress.getText();
                 String type = textFieldAddress.getText();
-                FilterByTypeInputData inputData = new FilterByTypeInputData(type, address);
+                FilterByTypeInputData inputData = new FilterByTypeInputData(address);
 
-                // Create the presenter
                 FilterByTypeOutputBoundary presenter = new FilterByTypePresenter(GUI.this);
 
-                // Create the interactor with the presenter
                 FilterByTypeInputBoundary interactor = null;
                 try {
                     interactor = new FilterByTypeInteractor(presenter);
@@ -298,7 +296,7 @@ public class GUI extends JFrame {
                 ReviewViewModel reviewViewModel = new ReviewViewModel();
                 // to fix a null exception caused by IntelliJ's GUI creator
                 inputPanel.setLayout(new BoxLayout(inputPanel, BoxLayout.Y_AXIS));
-                reviewView = SubmitReviewUseCaseFactory.create(reviewViewModel);
+                reviewView = SubmitReviewUseCaseFactory.create();
                 inputPanel.add(reviewView);
                 inputPanel.revalidate();
             }
