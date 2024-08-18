@@ -1,8 +1,11 @@
 package app.gui;
 
-import com.google.maps.errors.ApiException;
 import com.google.maps.model.AutocompletePrediction;
 import data_access.AutoCompletionDAO;
+import entity.ParkingLot;
+import interface_adapter.ReviewViewModel;
+import listeners.*;
+import views.ReviewView;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -10,43 +13,8 @@ import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.time.LocalTime;
-import java.util.InputMismatchException;
-import java.util.List;
-
-import data_access.ParkingLotDAO;
-import data_access.ReviewDAO;
-import interface_adapter.*;
-import use_case.FilterByEOE.EOEInteractor;
-import use_case.FilterByEOF.EOFInputData;
-import use_case.FilterByEOF.EOFInteractor;
-import entity.ParkingLot;
-import use_case.FilterByPrice.FilterByPriceInputBoundary;
-import use_case.FilterByPrice.FilterByPriceInputData;
-import use_case.FilterByPrice.FilterByPriceInteractor;
-import use_case.FilterByPrice.FilterByPriceOutputBoundary;
-import interface_adapter.FilterByPriceController;
-import use_case.FilterByProximity.FilterByProximityInputBoundary;
-import use_case.FilterByProximity.FilterByProximityInputData;
-import use_case.FilterByProximity.FilterByProximityInteractor;
-import use_case.FilterByProximity.FilterByProximityOutputBoundary;
-import use_case.FilterByRadius.FilterByRadiusInputBoundary;
-import use_case.FilterByRadius.FilterByRadiusInputData;
-import use_case.FilterByRadius.FilterByRadiusInteractor;
-import use_case.FilterByRadius.FilterByRadiusOutputBoundary;
-import use_case.FilterByType.FilterByTypeInputBoundary;
-import use_case.FilterByType.FilterByTypeInputData;
-import use_case.FilterByType.FilterByTypeInteractor;
-import use_case.FilterByType.FilterByTypeOutputBoundary;
-import use_case.SubmitReview.*;
-import views.ReviewView;
-
-import java.io.IOException;
 import java.util.ArrayList;
-
-import java.awt.GraphicsDevice;
-import java.awt.GraphicsEnvironment;
-import java.util.Scanner;
+import java.util.List;
 
 
 public class GUI extends JFrame {
@@ -108,64 +76,13 @@ public class GUI extends JFrame {
          * action performed button for proximity search
          * must return parking lots sorted by closest first
          */
-        proximityButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String address = textFieldAddress.getText();
-                FilterByProximityInputData inputData = new FilterByProximityInputData(address);
-
-                // Create the presenter
-                FilterByProximityOutputBoundary presenter = new FilterByProximityPresenter(GUI.this);
-
-                // Create the interactor with the presenter
-                FilterByProximityInputBoundary interactor = null;
-                try {
-                    interactor = new FilterByProximityInteractor(presenter);
-                } catch (IOException ex) {
-                    throw new RuntimeException(ex);
-                }
-
-                // Execute the interactor
-                try {
-                    interactor.execute(inputData);
-                } catch (Exception ex) {
-                    throw new RuntimeException(ex);
-                }
-            }
-        });
+        proximityButton.addActionListener(new ProximityListener(this).getActionListener());
 
         /*
          * radius button - opens a screen requiring user input for custom radius
          * will return parkinglots within the radius sorted by default (proximity)
          */
-        radiusButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-                String address = textFieldAddress.getText();
-                double radius = 3.0;
-                FilterByRadiusInputData inputData = new FilterByRadiusInputData(radius, address);
-
-                // Create the presenter
-                FilterByRadiusOutputBoundary presenter = new FilterByRadiusPresenter(GUI.this);
-
-                // Create the interactor with the presenter
-                FilterByRadiusInputBoundary interactor = null;
-                try {
-                    interactor = new FilterByRadiusInteractor(presenter);
-                } catch (IOException ex) {
-                    throw new RuntimeException(ex);
-                }
-
-                // Execute the interactor
-                try {
-                    interactor.execute(inputData);
-                } catch (Exception ex) {
-                    throw new RuntimeException(ex);
-                }
-            }
-
-        });
+        radiusButton.addActionListener(new RadiusListener(this).getActionListener());
 
 
         /*
@@ -173,87 +90,19 @@ public class GUI extends JFrame {
          * returns list of parking lots within the default radius sorted from lowest to highest price
          *
          */
-        priceButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        priceButton.addActionListener(new PriceListener(this).getActionListener());
 
-                String address = textFieldAddress.getText();
-                int currentTime = LocalTime.now().getHour();
-
-                FilterByPricePresenter presenter = new FilterByPricePresenter(GUI.this);
-                FilterByPriceInteractor interactor = new FilterByPriceInteractor(presenter);
-                FilterByPriceController controller = new FilterByPriceController(interactor);
-                FilterByPriceInputData inputData = new FilterByPriceInputData(address, currentTime);
-                ;
-
-                // Execute the interactor
-                try {
-                    controller.handlePriceFiltering(address, currentTime);
-                } catch (Exception ex) {
-                    throw new RuntimeException(ex);
-                }
-            }
-        });
-
-
-        easeOfEntryButton.addActionListener(new ActionListener() {
-            /**
-             * action performed button for ease of entry reviews
-             * returns list of parking lots within the default radius sorted from best to worst (+ unrated) reviews
-             */
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // Create price input data with the address from the text field
-                String address = textFieldAddress.getText();
-
-                // Create the presenter
-                EOEPresenter presenter = new EOEPresenter(GUI.this);
-
-                // Create the interactor with the presenter
-                EOEInteractor interactor = new EOEInteractor(presenter);
-
-                // Create the controller with the interactor
-                EOEController controller = new EOEController(interactor);
-
-                // Execute the interactor via the controller - handle price filter request
-                try {
-                    controller.handleEOE(address);
-                } catch (IOException | InterruptedException | ApiException ex) {
-                    showError(ex.getMessage());
-                }
-            }
-        });
-
-
+        /**
+         * action performed button for ease of entry reviews
+         * returns list of parking lots within the default radius sorted from best to worst (+ unrated) reviews
+         */
+        easeOfEntryButton.addActionListener(new EOEListener(this).getActionListener());
 
         /*
          * action performed for availability button
          * sorts the parking lots within the default radius by availability
          */
-        availabilityButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-                String address = textFieldAddress.getText();
-                EOFInputData inputData = new EOFInputData(address);
-
-                // Create the presenter
-                EOFPresenter presenter = new EOFPresenter(GUI.this);
-
-                // Create the interactor with the presenter
-                EOFInteractor interactor = new EOFInteractor(presenter);
-
-                // Execute the interactor
-                try {
-                    interactor.execute(inputData);
-                } catch (IOException | InterruptedException | ApiException ex) {
-                    throw new RuntimeException(ex);
-                }
-//            }
-            }
-
-
-        });
+        availabilityButton.addActionListener(new AvailabilityListener(this).getActionListener());
 
 
         /*
@@ -261,31 +110,7 @@ public class GUI extends JFrame {
          * must make user choose between "surface" or "garage"
          * final results include only the chosen option
          */
-        typeButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-                String address = textFieldAddress.getText();
-                String type = textFieldAddress.getText();
-                FilterByTypeInputData inputData = new FilterByTypeInputData(address);
-
-                FilterByTypeOutputBoundary presenter = new FilterByTypePresenter(GUI.this);
-
-                FilterByTypeInputBoundary interactor = null;
-                try {
-                    interactor = new FilterByTypeInteractor(presenter);
-                } catch (IOException ex) {
-                    throw new RuntimeException(ex);
-                }
-                // Execute the interactor
-                try {
-                    interactor.execute(inputData);
-                } catch (Exception ex) {
-                    throw new RuntimeException(ex);
-                }
-            }
-        });
-
+        typeButton.addActionListener(new TypeListener(this).getActionListener());
 
         submitReviewButton.addActionListener(new ActionListener() {
             @Override
@@ -446,7 +271,12 @@ public class GUI extends JFrame {
 
     }
 
-
+    /*
+    gets the entered address
+     */
+    public String getAddress() {
+        return textFieldAddress.getText();
+    }
 
 
     private void createUIComponents() {
