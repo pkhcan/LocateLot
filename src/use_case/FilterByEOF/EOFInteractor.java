@@ -6,10 +6,12 @@ import data_access.ParkingLotDAO;
 import entity.EOFFilter;
 import entity.Filter;
 import entity.ParkingLot;
+import entity.RadiusFilter;
 import use_case.FilterOutput.OutputBoundary;
 import use_case.FilterOutput.OutputData;
 
 import java.io.IOException;
+import java.util.List;
 
 import static data_access.GeoApiDAO.getLatitudeLongitude;
 
@@ -40,14 +42,21 @@ public class EOFInteractor implements EOFInputBoundary{
     public void execute(EOFInputData eofInputData) throws IOException, InterruptedException, ApiException
     {
         ParkingLotDAO parkingLotDAO = new ParkingLotDAO();
-        ParkingLot[] parkingLots = parkingLotDAO.getParkingLots().toArray(new ParkingLot[0]);
+        //ParkingLot[] parkingLots = parkingLotDAO.getParkingLots().toArray(new ParkingLot[0]);
+        List<ParkingLot> parkingLots = parkingLotDAO.getParkingLots();
         String address = eofInputData.getAddress();
         GeocodingResult[] latLong = getLatitudeLongitude(address);
+        double latitude = latLong[0].geometry.location.lat;
+        double longitude = latLong[0].geometry.location.lng;
 
+        RadiusFilter radiusFilter = new RadiusFilter();
+        parkingLots = radiusFilter.filter(2.0, latitude, longitude, parkingLots);
+
+        ParkingLot[] parkingLotArray = parkingLots.toArray(new ParkingLot[0]);
         Filter entryFilter = new EOFFilter();
-        entryFilter.filter(parkingLots);
+        entryFilter.filter(parkingLotArray);
 
-        OutputData outputData = new OutputData(parkingLots);
+        OutputData outputData = new OutputData(parkingLotArray);
         // Present output data
         outputBoundary.present(outputData);
     }
