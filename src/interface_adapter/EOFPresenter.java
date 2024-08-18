@@ -37,10 +37,10 @@ public class EOFPresenter implements OutputBoundary {
 
     /**
      * Present the error to the GUI.
-     * @param s the error to be presented
+     * @param message the error to be presented
      */
     @Override
-    public void presentError(String s) {
-        System.out.println(s);
+    public void presentError(String message) {
+        gui.showError(message);
     }
 }
