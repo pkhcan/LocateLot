@@ -1,8 +1,11 @@
 package app.gui;
 
-import com.google.maps.errors.ApiException;
 import com.google.maps.model.AutocompletePrediction;
 import data_access.AutoCompletionDAO;
+import entity.ParkingLot;
+import interface_adapter.ReviewViewModel;
+import listeners.*;
+import views.ReviewView;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -44,10 +47,7 @@ import views.ReviewView;
 
 import java.io.IOException;
 import java.util.ArrayList;
-
-import java.awt.GraphicsDevice;
-import java.awt.GraphicsEnvironment;
-import java.util.Scanner;
+import java.util.List;
 
 
 public class GUI extends JFrame {
@@ -64,7 +64,6 @@ public class GUI extends JFrame {
     private JScrollPane resultsScrollPane;
     private JButton ReviewButton;
     private JPanel inputPanel;
-    //    ^^ replace with the API search box and button ?
     private String selectedAddress;
     private JPanel resultsButtonPanel;
     private final AutoCompletionDAO autoCompletionDAO = new AutoCompletionDAO();
@@ -109,7 +108,7 @@ public class GUI extends JFrame {
          * action performed button for proximity search
          * must return parking lots sorted by closest first
          */
-        proximityButton.addActionListener(new ActionListener() {
+        proximityButton.addActionListener(new ProximityListener(this).getActionListener()); {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String address = textFieldAddress.getText();
@@ -139,7 +138,7 @@ public class GUI extends JFrame {
          * radius button - opens a screen requiring user input for custom radius
          * will return parkinglots within the radius sorted by default (proximity)
          */
-        radiusButton.addActionListener(new ActionListener() {
+        radiusButton.addActionListener(new RadiusListener(this).getActionListener()); {
             @Override
             public void actionPerformed(ActionEvent e) {
 
@@ -164,87 +163,19 @@ public class GUI extends JFrame {
          * returns list of parking lots within the default radius sorted from lowest to highest price
          *
          */
-        priceButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        priceButton.addActionListener(new PriceListener(this).getActionListener());
 
-                String address = textFieldAddress.getText();
-                int currentTime = LocalTime.now().getHour();
-
-                FilterByPricePresenter presenter = new FilterByPricePresenter(GUI.this);
-                FilterByPriceInteractor interactor = new FilterByPriceInteractor(presenter);
-                FilterByPriceController controller = new FilterByPriceController(interactor);
-                FilterByPriceInputData inputData = new FilterByPriceInputData(address, currentTime);
-                ;
-
-                // Execute the interactor
-                try {
-                    controller.handlePriceFiltering(address, currentTime);
-                } catch (Exception ex) {
-                    throw new RuntimeException(ex);
-                }
-            }
-        });
-
-
-        easeOfEntryButton.addActionListener(new ActionListener() {
-            /**
-             * action performed button for ease of entry reviews
-             * returns list of parking lots within the default radius sorted from best to worst (+ unrated) reviews
-             */
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // Create price input data with the address from the text field
-                String address = textFieldAddress.getText();
-
-                // Create the presenter
-                EOEPresenter presenter = new EOEPresenter(GUI.this);
-
-                // Create the interactor with the presenter
-                EOEInteractor interactor = new EOEInteractor(presenter);
-
-                // Create the controller with the interactor
-                EOEController controller = new EOEController(interactor);
-
-                // Execute the interactor via the controller - handle price filter request
-                try {
-                    controller.handleEOE(address);
-                } catch (IOException | InterruptedException | ApiException ex) {
-                    showError(ex.getMessage());
-                }
-            }
-        });
-
-
+        /*
+         * action performed button for ease of entry reviews
+         * returns list of parking lots within the default radius sorted from best to worst (+ unrated) reviews
+         */
+        easeOfEntryButton.addActionListener(new EOEListener(this).getActionListener());
 
         /*
          * action performed for availability button
          * sorts the parking lots within the default radius by availability
          */
-        availabilityButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-                String address = textFieldAddress.getText();
-                EOFInputData inputData = new EOFInputData(address);
-
-                // Create the presenter
-                EOFPresenter presenter = new EOFPresenter(GUI.this);
-
-                // Create the interactor with the presenter
-                EOFInteractor interactor = new EOFInteractor(presenter);
-
-                // Execute the interactor
-                try {
-                    interactor.execute(inputData);
-                } catch (IOException | InterruptedException | ApiException ex) {
-                    throw new RuntimeException(ex);
-                }
-//            }
-            }
-
-
-        });
+        availabilityButton.addActionListener(new AvailabilityListener(this).getActionListener());
 
 
         /*
@@ -252,59 +183,26 @@ public class GUI extends JFrame {
          * must make user choose between "surface" or "garage"
          * final results include only the chosen option
          */
-        typeButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        typeButton.addActionListener(new TypeListener(this).getActionListener());
 
-                String address = textFieldAddress.getText();
-                String type = textFieldAddress.getText();
-                FilterByTypeInputData inputData = new FilterByTypeInputData(type, address);
+        /*
+         * action performed for submit review button
+         * the review view is constructed in the listener, through a factory class
+         */
+        ReviewListener reviewListener = new ReviewListener(inputPanel);
+        submitReviewButton.addActionListener(reviewListener.getActionListener());
 
-                // Create the presenter
-                FilterByTypeOutputBoundary presenter = new FilterByTypePresenter(GUI.this);
-
-                // Create the interactor with the presenter
-                FilterByTypeInputBoundary interactor = null;
-                try {
-                    interactor = new FilterByTypeInteractor(presenter);
-                } catch (IOException ex) {
-                    throw new RuntimeException(ex);
-                }
-                // Execute the interactor
-                try {
-                    interactor.execute(inputData);
-                } catch (Exception ex) {
-                    throw new RuntimeException(ex);
-                }
-            }
-        });
-
-
-        submitReviewButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // Clear the previous Panel
-                inputPanel.removeAll();
-                // Set up the panel for submit review use case
-                ReviewViewModel reviewViewModel = new ReviewViewModel();
-                // to fix a null exception caused by IntelliJ's GUI creator
-                inputPanel.setLayout(new BoxLayout(inputPanel, BoxLayout.Y_AXIS));
-                reviewView = SubmitReviewUseCaseFactory.create();
-                inputPanel.add(reviewView);
-                inputPanel.revalidate();
-            }
-        });
+        reviewView = reviewListener.getReviewView();
 
 
     }
 
-
+    /**
+     * Update the parking lots suggested
+     * @param parkingLots The list of new parking lots
+     */
     public void updateParkingLotList(ParkingLot[] parkingLots) {
         // Update the GUI with the sorted parking lots
-        // For simplicity, let's print them to the console
-//        for (ParkingLot lot : parkingLots) {
-//            System.out.println(lot);
-//        }
         resultsButtonPanel.removeAll();
         resultsButtonPanel.add(new JLabel("RESULTS"));
         DefaultListModel<String> listModel = new DefaultListModel<>();
@@ -332,13 +230,12 @@ public class GUI extends JFrame {
         }
     }
 
+    /**
+     * Update the parking lots suggested, overloading to allow a List as a parameter
+     * @param parkingLots The list of new parking lots
+     */
     public void updateParkingLotList(List<ParkingLot> parkingLots) {
 //        // Update the GUI with the sorted parking lots
-//        // For simplicity, let's print them to the console
-//        for (ParkingLot lot : parkingLots) {
-//            System.out.println(lot);
-//        }
-//    }
         resultsButtonPanel.removeAll();
         resultsButtonPanel.add(new JLabel("RESULTS"));
 
@@ -354,7 +251,7 @@ public class GUI extends JFrame {
             b.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    // add code here
+                    reviewView.setParkingLot(lot);
                 }
             });
             resultsButtonPanel.add(b);
@@ -372,32 +269,6 @@ public class GUI extends JFrame {
     public static void main(String[] args) {
 
         new GUI();
-        submitReview();
-    }
-
-    /*
-    Ask the user to enter a review for a parking garage
-    */
-    private static void submitReview(){
-//        try {
-//            Scanner scanner = new Scanner(System.in);
-//            System.out.println("\n==== Submit a Review ====\nEnter the id of the Parking Lot (has to be an integer):");
-//            int parkingLotID = scanner.nextInt();
-//
-//            System.out.println("Enter your rating for this parking: ");
-//            int rating = scanner.nextInt();
-//
-//            // Set up the interactor
-//            SubmitReviewDataAccessInterface reviewDAO = new ReviewDAO("src/external_data/Reviews.json");
-//            SubmitReviewOutputBoundary presenter = new SubmitReviewPresenter(new JLabel());
-//            SubmitReviewBoundary interactor = new SubmitReviewInteractor(reviewDAO, presenter);
-//            ReviewInputData inputData = new ReviewInputData(parkingLotID, rating);
-//
-//            // Execute the interactor
-//            interactor.execute(inputData);
-//        } catch (InputMismatchException ex) {
-//            System.out.println(ex.getMessage());
-//        }
     }
 
 
@@ -439,80 +310,10 @@ public class GUI extends JFrame {
 
     }
 
-
-    private void createUIComponents() {
-        // TODO: place custom component creation code here
-    }
-
-    /**
-     * Getter method for ... // TODO: delete
-     * @return
+    /*
+    gets the entered address
      */
-
-    public JTextField getTextFieldAddress() {
-        return textFieldAddress;
+    public String getAddress() {
+        return textFieldAddress.getText();
     }
-
-
-
-//        SwingUtilities.invokeLater(() -> {
-//            JFrame frame = new JFrame("LocateLot GUI App");
-//            frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-//            frame.setSize(850, 300);
-//
-//            CardLayout cardLayout = new CardLayout();
-//            JPanel cardPanel = new JPanel(cardLayout);
-
-//            JPanel defaultCard = createDefaultCard();
-//            JPanel getGradeCard = createGetGradeCard(frame, getGradeUseCase);
-//            JPanel logGradeCard = createLogGradeCard(frame, logGradeUseCase);
-//            JPanel formTeamCard = createFormTeamCard(frame, formTeamUseCase);
-//            JPanel joinTeamCard = createJoinTeamCard(frame, joinTeamUseCase);
-//            JPanel manageTeamCard = createManageTeamCard(frame, leaveTeamUseCase, getAverageGradeUseCase);
-
-//            cardPanel.add(defaultCard, "DefaultCard");
-//            cardPanel.add(getGradeCard, "GetGradeCard");
-//            cardPanel.add(logGradeCard, "LogGradeCard");
-//            cardPanel.add(formTeamCard, "FormTeamCard");
-//            cardPanel.add(joinTeamCard, "JoinTeamCard");
-//            cardPanel.add(manageTeamCard, "ManageTeamCard");
-
-//            JButton getGradeButton = new JButton("Get Grade");
-//            getGradeButton.addActionListener(e -> cardLayout.show(cardPanel, "GetGradeCard"));
-//
-//            JButton logGradeButton = new JButton("Log Grade");
-//            logGradeButton.addActionListener(e -> cardLayout.show(cardPanel, "LogGradeCard"));
-//
-//            JButton formTeamButton = new JButton("Form a team");
-//            formTeamButton.addActionListener(e -> cardLayout.show(cardPanel, "FormTeamCard"));
-//
-//            JButton joinTeamButton = new JButton("Join a team");
-//            joinTeamButton.addActionListener(e -> cardLayout.show(cardPanel, "JoinTeamCard"));
-//
-//            JButton manageTeamButton = new JButton("My Team");
-//            manageTeamButton.addActionListener(e -> cardLayout.show(cardPanel, "ManageTeamCard"));
-
-    // MARK HERE
-//            JButton filterButton = new JButton("Filter by");
-//            filterButton.addActionListener(e -> cardLayout.show(cardPanel, "filterOptions"));
-//
-//            JPanel buttonPanel = new JPanel();
-//            buttonPanel.add(filterButton);
-
-//            buttonPanel.add(getGradeButton);
-//            buttonPanel.add(logGradeButton);
-//            buttonPanel.add(formTeamButton);
-//            buttonPanel.add(joinTeamButton);
-//            buttonPanel.add(manageTeamButton);
-
-    // MARK HERE TOO
-//            frame.getContentPane().add(cardPanel, BorderLayout.CENTER);
-//            frame.getContentPane().add(buttonPanel, BorderLayout.SOUTH);
-//
-//            frame.setVisible(true);
-
-//        });
-//    }
-//
-//    }
 }
