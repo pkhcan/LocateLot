@@ -28,7 +28,6 @@ public class PriceListener {
                 FilterByPricePresenter presenter = new FilterByPricePresenter(gui);
                 FilterByPriceInteractor interactor = new FilterByPriceInteractor(presenter);
                 FilterByPriceController controller = new FilterByPriceController(interactor);
-                FilterByPriceInputData inputData = new FilterByPriceInputData(address, currentTime);
                 ;
 
                 // Execute the interactor

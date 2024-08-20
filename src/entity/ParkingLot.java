@@ -144,39 +144,61 @@ public class ParkingLot {
         return this.latitudeLongitude;
     }
 
+    /**
+     * getter method for the type of ParkingLot
+     * @return String value of the ParkingLot type
+     */
     public String getCarParkType() { return this.carparkType; }
 
+    /**
+     * getter method for the half-hourly rate of parkingLot
+     * @return String value of the ParkingLot rate
+     */
     public String getHalfHourlyRate() { return this.halfHourlyRate; }
 
-
+    /**
+     * setter method for ParkingLot ID
+     */
     public void setId (String id) {
         this.ID = id;
     }
 
-
+    /**
+     * setter method for ParkingLot Website
+     */
     public void setWebsite(String website) {
         this.linkToWebsite = website;
     }
 
-
+    /**
+     * setter method for ParkingLot's lattitude and longitute values
+     */
     public void setLatLong(double[] LatLong) {
         this.latitudeLongitude = LatLong;
     }
 
-
+    /**
+     * setter method for ParkingLot's Address
+     */
     public void setAddress(String streetAddress) {
         this.streetAddress = streetAddress;
     }
 
-
+    /**
+     * setter method for ParkingLot's type
+     */
     public void setCarparkType(String carparkType) {
         this.carparkType = carparkType;
     }
 
-
+    /**
+     * setter method for ParkingLot's half-hourly rate
+     */
     public void setHalfHourlyRate(String halfHourlyRate) {this.halfHourlyRate = halfHourlyRate;}
 
-
+    /**
+     * setter method for ParkingLot's hashmap of rates according to time.
+     */
     public void setTimestoRates(HashMap<String, String> timesToRates) {
         this.timesToRates = timesToRates;
     }
@@ -195,7 +217,10 @@ public class ParkingLot {
         return this.capacity;
     }
 
-
+    /**
+     * getter method for retrieving the price of the ParkingLot based on available information about the ParkingLot
+     * and the client's local time.
+     */
     public String getPrice(ParkingLot parkinglot, int hour) {
         String halfHourRate = parkinglot.getHalfHourlyRate();
         String dayMax = parkinglot.getRates().get("Day Maximum (7am - 6pm)");
@@ -216,6 +241,8 @@ public class ParkingLot {
         }
 
     }
+
+
     public String getType() { return  this.carparkType;
     }
 
