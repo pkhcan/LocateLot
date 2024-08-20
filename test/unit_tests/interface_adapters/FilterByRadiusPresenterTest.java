@@ -1,4 +1,4 @@
-package use_case_tests.filter_by_radius_tests;
+package unit_tests.interface_adapters;
 
 import data_access.ParkingLotDAO;
 import entity.ParkingLot;
@@ -6,7 +6,6 @@ import interface_adapter.FilterByRadiusPresenter;
 import interface_adapter.FilterByRadiusViewModel;
 import org.junit.jupiter.api.Test;
 import use_case.FilterByRadius.FilterByRadiusOutputData;
-import use_case_tests.FakeGUI;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -28,8 +27,7 @@ public class FilterByRadiusPresenterTest {
      */
     @Test
     public void FilterByRadiusPresenterSuccessViewTest() throws IOException {
-        // TODO: DELETE
-        // FakeGUI fakeGUI = new FakeGUI();
+
         FilterByRadiusViewModel filterByRadiusViewModel = new FilterByRadiusViewModel();
         presenter = new FilterByRadiusPresenter(filterByRadiusViewModel);
         ParkingLotDAO parkingLotDAO = new ParkingLotDAO();
@@ -39,8 +37,6 @@ public class FilterByRadiusPresenterTest {
         FilterByRadiusOutputData outputData = new FilterByRadiusOutputData(parkingLot);
         presenter.prepareSuccessView(outputData);
 
-        // TODO: DELETE
-        // assertEquals(parkingLot, fakeGUI.displayedParkingLotsList);
         assertEquals(parkingLot, filterByRadiusViewModel.getParkingLots());
 
     }
@@ -50,8 +46,7 @@ public class FilterByRadiusPresenterTest {
      */
     @Test
     public void FilterByRadiusPresenterFailViewTest() {
-        // TODO: DELETE
-        // FakeGUI fakeGUI = new FakeGUI();
+
         FilterByRadiusViewModel filterByRadiusViewModel = new FilterByRadiusViewModel();
         FilterByRadiusPresenter presenter = new FilterByRadiusPresenter(filterByRadiusViewModel);
         String expectedError = "An error occurred";
@@ -62,8 +57,6 @@ public class FilterByRadiusPresenterTest {
 
         presenter.prepareFailView(expectedError);
 
-        // TODO: DELETE
-        // assertEquals(expectedError + System.lineSeparator(), outContent.toString());
         assertEquals(expectedError, filterByRadiusViewModel.getErrorMessage());
     }
 }

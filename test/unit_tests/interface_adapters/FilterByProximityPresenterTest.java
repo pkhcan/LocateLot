@@ -1,9 +1,9 @@
-package use_case_tests;
+package unit_tests.interface_adapters;
 
 import data_access.ParkingLotDAO;
 import entity.ParkingLot;
 import interface_adapter.FilterByProximityPresenter;
-import interface_adapter.FilterByRadiusPresenter;
+import interface_adapter.FilterByProximityViewModel;
 import org.junit.jupiter.api.Test;
 import use_case.FilterByProximity.FilterByProximityOutputData;
 
@@ -21,33 +21,33 @@ public class FilterByProximityPresenterTest {
     private FilterByProximityPresenter presenter;
 
     /**
-     * Test that FilterByProximityPresenter.prepareSuccessView passes expected output to GUI.
+     * Test that filter by proximity can prepare a success view for the GUI.
      * @throws IOException
      */
     @Test
     public void FilterByProximityPresenterSuccessViewTest() throws IOException {
-        FakeGUI fakeGUI = new FakeGUI();
+
+        FilterByProximityViewModel filterByProximityViewModel = new FilterByProximityViewModel();
+        presenter = new FilterByProximityPresenter(filterByProximityViewModel);
         ParkingLotDAO parkingLotDAO = new ParkingLotDAO();
-        List<ParkingLot> parkingLots = new ArrayList<ParkingLot>();
-        parkingLots.add(parkingLotDAO.getParkingLots().get(0));
-        parkingLots.add(parkingLotDAO.getParkingLots().get(1));
-        FilterByProximityOutputData outputData = new FilterByProximityOutputData(parkingLots);
-        presenter = new FilterByProximityPresenter(fakeGUI);
+        List<ParkingLot> parkingLot = new ArrayList<>();
+        parkingLot.add(parkingLotDAO.getParkingLots().get(0));
+        parkingLot.add(parkingLotDAO.getParkingLots().get(1));
+        FilterByProximityOutputData outputData = new FilterByProximityOutputData(parkingLot);
         presenter.prepareSuccessView(outputData);
 
-        assertEquals(parkingLots, fakeGUI.displayedParkingLotsList);
-
+        assertEquals(parkingLot, filterByProximityViewModel.getParkingLots());
 
     }
 
-
     /**
-     * Test that FilterByProximityPresenter.prepareFailView displays an error message
+     * test that filter by Proximity can create a fail view and correctly output a given message
      */
     @Test
     public void FilterByProximityPresenterFailViewTest() {
-        FakeGUI fakeGUI = new FakeGUI();
-        FilterByProximityPresenter presenter = new FilterByProximityPresenter(fakeGUI);
+
+        FilterByProximityViewModel filterByProximityViewModel = new FilterByProximityViewModel();
+        FilterByProximityPresenter presenter = new FilterByProximityPresenter(filterByProximityViewModel);
         String expectedError = "An error occurred";
 
         // Capture System.out
@@ -56,6 +56,6 @@ public class FilterByProximityPresenterTest {
 
         presenter.prepareFailView(expectedError);
 
-        assertEquals(expectedError + System.lineSeparator(), outContent.toString());
+        assertEquals(expectedError, filterByProximityViewModel.getErrorMessage());
     }
 }

@@ -1,4 +1,4 @@
-package use_case_tests;
+package use_case_tests.filter_by_proximity_tests;
 
 import data_access.ParkingLotDAO;
 import entity.ParkingLot;

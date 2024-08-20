@@ -14,7 +14,7 @@ public class FilterByRadiusView extends JPanel implements PropertyChangeListener
     private GUI gui;
     private JTextField textFieldRadius;
     private JTextField textFieldAddress;
-    private JButton filterButton;
+    JButton filterButton;
 
     /**
      * FilterByRadiusView class creates radius filter view to be added to GUI.
@@ -42,7 +42,6 @@ public class FilterByRadiusView extends JPanel implements PropertyChangeListener
     private void showFilter() {
 
         filterButton = new JButton("Filter");
-
         JLabel labelRadius = new JLabel("Radius (in km): ");
 
         filterButton.addActionListener(e -> {
@@ -59,6 +58,7 @@ public class FilterByRadiusView extends JPanel implements PropertyChangeListener
         add(labelRadius);
         add(textFieldRadius);
         add(filterButton);
+
     }
 
     /**

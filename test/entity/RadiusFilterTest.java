@@ -70,7 +70,7 @@ public class RadiusFilterTest {
      * Tests that an empty list is returned if a parking lot with the exact same coordinates does not exist in our
      * dataset
      */
-    @org.junit.Test
+    @Test
     public void testRadiusFilterZeroRadius() {
         parkingLots.remove(0); // remove parking lot with exact coordinate points in test
         List<ParkingLot> filteredLots = radiusFilter.filter(0.0, 43.669282202140174,
@@ -84,7 +84,7 @@ public class RadiusFilterTest {
      * Tests that the radius filter returns all parking lots in the data set for a radius large enough to account for
      * all parking lots in the dataset
      */
-    @org.junit.Test
+    @Test
     public void testRadiusFilterLargeRadius() {
         List<ParkingLot> filteredLots = radiusFilter.filter(1000.0, 43.669282202140174,
                 -79.3852894625656, parkingLots); // 1000 km radius
@@ -96,7 +96,7 @@ public class RadiusFilterTest {
      * Tests that the radius filter will include parking lots with coordinates that are exactly a certain distance
      * away. 13 Isabella Street is exactly 0.35 km away from 20 Charles Street East.
      */
-    @org.junit.Test
+    @Test
     public void testRadiusFilterExactBoundary() {
         List<ParkingLot> filteredLots = radiusFilter.filter(0.350, 43.669282202140174,
                 -79.3852894625656, parkingLots);
@@ -108,7 +108,7 @@ public class RadiusFilterTest {
     /**
      * Test that the radius filter can handle an empty list by returning an empty list.
      */
-    @org.junit.Test
+    @Test
     public void testRadiusFilterEmptyList() {
         List<ParkingLot> emptyParkingLots = new ArrayList<>();
         List<ParkingLot> filteredLots = radiusFilter.filter(1.0, 43.669282202140174,

@@ -1,8 +1,12 @@
 package interface_adapter;
 
 import app.gui.GUI;
+import entity.ParkingLot;
 import use_case.FilterByProximity.FilterByProximityOutputBoundary;
 import use_case.FilterByProximity.FilterByProximityOutputData;
+import use_case.FilterByRadius.FilterByRadiusOutputData;
+
+import java.util.List;
 
 
 /**
@@ -11,29 +15,34 @@ import use_case.FilterByProximity.FilterByProximityOutputData;
  */
 public class FilterByProximityPresenter implements FilterByProximityOutputBoundary {
 
+    private final FilterByProximityViewModel filterByProximityViewModel;
+
     /**
-     * Constructor method
-     * @param gui GUI
+     * FilterByProximityPresenter class prepares success and fail views for the GUI.
+     * @param filterByProximityViewModel
      */
-    GUI gui;
-    public FilterByProximityPresenter(GUI gui) {
-        this.gui = gui;
+    public FilterByProximityPresenter(FilterByProximityViewModel filterByProximityViewModel) {
+        this.filterByProximityViewModel = filterByProximityViewModel;
     }
 
     /**
-     * Requests GUI to display the filtered list passed from the interactor
-     * @param filterByProximityOutputData outputdata passed from interactor
+     * Calls setParkingLots method in view model to update GUI with success view (list of parking lots)
+     * @param filterByProximityOutputData
      */
+
     @Override
     public void prepareSuccessView(FilterByProximityOutputData filterByProximityOutputData) {
-        gui.updateParkingLotList(filterByProximityOutputData.getFilteredByProximity());
+        List<ParkingLot> parkingLots = filterByProximityOutputData.getFilteredByProximity();
+        filterByProximityViewModel.setParkingLots(parkingLots);
     }
 
     /**
-     * Displays a user friendly error message
-     * @param message given from interactor
+     * Calls setErrorMessage method in view model to display an error message to the GUI.
+     * @param errorMessage
      */
-    public void prepareFailView(String message) {
-        System.out.println(message);
+
+    @Override
+    public void prepareFailView(String errorMessage) {
+        filterByProximityViewModel.setErrorMessage(errorMessage);
     }
 }

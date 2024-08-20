@@ -108,55 +108,13 @@ public class GUI extends JFrame {
          * action performed button for proximity search
          * must return parking lots sorted by closest first
          */
-        proximityButton.addActionListener(new ProximityListener(this).getActionListener()); {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String address = textFieldAddress.getText();
-                FilterByProximityInputData inputData = new FilterByProximityInputData(address);
-
-                // Create the presenter
-                FilterByProximityOutputBoundary presenter = new FilterByProximityPresenter(GUI.this);
-
-                // Create the interactor with the presenter
-                FilterByProximityInputBoundary interactor = null;
-                try {
-                    interactor = new FilterByProximityInteractor(presenter);
-                } catch (IOException ex) {
-                    throw new RuntimeException(ex);
-                }
-
-                // Execute the interactor
-                try {
-                    interactor.execute(inputData);
-                } catch (Exception ex) {
-                    throw new RuntimeException(ex);
-                }
-            }
-        });
+        proximityButton.addActionListener(new ProximityListener(inputPanel, textFieldAddress, this).getActionListener());
 
         /*
          * radius button - opens a screen requiring user input for custom radius
          * will return parkinglots within the radius sorted by default (proximity)
          */
-        radiusButton.addActionListener(new RadiusListener(this).getActionListener()); {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-                inputPanel.removeAll();
-                // to fix a null exception caused by IntelliJ's GUI creator
-                inputPanel.setLayout(new BoxLayout(inputPanel, BoxLayout.Y_AXIS));
-
-                // Object creation encapsulated from UI and View logic using factory design pattern
-                FilterByRadiusUseCaseFactory filterByRadiusUseCaseFactory = new
-                        FilterByRadiusUseCaseFactory(GUI.this, textFieldAddress);
-                FilterByRadiusView filterByRadiusView = filterByRadiusUseCaseFactory.createFilterByRadiusView();
-
-                inputPanel.add(filterByRadiusView);
-
-                inputPanel.revalidate();
-            }
-
-        });
+        radiusButton.addActionListener(new RadiusListener(inputPanel, textFieldAddress, this).getActionListener());
 
         /*
          * action performed button for price

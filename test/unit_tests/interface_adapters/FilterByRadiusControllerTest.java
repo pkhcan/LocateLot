@@ -1,4 +1,4 @@
-package use_case_tests.filter_by_radius_tests;
+package unit_tests.interface_adapters;
 
 import interface_adapter.FilterByRadiusController;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,11 +13,17 @@ import org.mockito.Mockito;
 
 import static org.mockito.Mockito.verify;
 
+/**
+ * Test for filter by radius controller class
+ */
 public class FilterByRadiusControllerTest {
 
     private FilterByRadiusController filterByRadiusController;
     private FilterByRadiusInteractor mockFilterByRadiusInteractor;
 
+    /**
+     * mock dependencies and create instance of controller
+     */
     @BeforeEach
     public void setUp() {
         // Mock the interactor
@@ -25,6 +31,10 @@ public class FilterByRadiusControllerTest {
         filterByRadiusController = new FilterByRadiusController(mockFilterByRadiusInteractor);
     }
 
+    /**
+     * Test that the controller class correctly executes interactor class
+     * @throws Exception
+     */
     @Test
     public void testExecute() throws Exception {
         double expectedRadius = 5.0;
