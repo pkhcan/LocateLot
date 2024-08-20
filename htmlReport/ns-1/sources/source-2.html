@@ -1,0 +1,145 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > SubmitReviewUseCaseFactory</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">app.gui</a>
+</div>
+
+<h1>Coverage Summary for Class: SubmitReviewUseCaseFactory (app.gui)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">SubmitReviewUseCaseFactory</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/6)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package app.gui;
+&nbsp;
+&nbsp;import data_access.ReviewDAO;
+&nbsp;import data_access.ReviewDataAccessInterface;
+&nbsp;import interface_adapter.ReviewViewModel;
+&nbsp;import interface_adapter.SubmitReviewController;
+&nbsp;import interface_adapter.SubmitReviewPresenter;
+&nbsp;import use_case.SubmitReview.SubmitReviewInputBoundary;
+&nbsp;import use_case.SubmitReview.SubmitReviewInputInteractor;
+&nbsp;import use_case.SubmitReview.SubmitReviewOutputBoundary;
+&nbsp;import views.ReviewView;
+&nbsp;
+&nbsp;import javax.swing.*;
+&nbsp;import java.io.IOException;
+&nbsp;
+&nbsp;public class SubmitReviewUseCaseFactory {
+&nbsp;    /*
+&nbsp;    To avoid instantiation.
+&nbsp;     */
+&nbsp;    private SubmitReviewUseCaseFactory() {}
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Create the panel that will prompt the user to enter his/her review.
+&nbsp;     * @return a ReviewView that will display the result of a review submission or asks for input
+&nbsp;     */
+&nbsp;    public static ReviewView create(){
+&nbsp;
+<b class="nc">&nbsp;        ReviewViewModel reviewViewModel = new ReviewViewModel();</b>
+&nbsp;
+<b class="nc">&nbsp;        ReviewDataAccessInterface reviewDataAcessObject = new ReviewDAO(&quot;src/external_data/Reviews.json&quot;);</b>
+<b class="nc">&nbsp;        SubmitReviewOutputBoundary submitReviewPresenter = new SubmitReviewPresenter(reviewViewModel);</b>
+<b class="nc">&nbsp;        SubmitReviewInputBoundary submitReviewInputBoundary = new SubmitReviewInputInteractor(</b>
+&nbsp;                reviewDataAcessObject,
+&nbsp;                submitReviewPresenter
+&nbsp;        );
+<b class="nc">&nbsp;        SubmitReviewController controller = new SubmitReviewController(submitReviewInputBoundary);</b>
+&nbsp;
+<b class="nc">&nbsp;        return new ReviewView(controller, reviewViewModel);</b>
+&nbsp;
+&nbsp;        }
+&nbsp;    }
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-08-08 17:38</div>
+</div>
+</body>
+</html>

@@ -5,6 +5,7 @@ import data_access.GreenPDAO;
 import data_access.ParkingLotDAO;
 import entity.ParkingLot;
 import entity.RadiusFilter;
+import interface_adapter.FilterByRadiusPresenter;
 import use_case.FilterByProximity.FilterByProximityInteractor;
 import data_access.GeoApiDAO;
 
@@ -19,15 +20,16 @@ import com.google.maps.model.GeocodingResult;
  */
 public class FilterByRadiusInteractor implements FilterByRadiusInputBoundary {
 
-    public GreenPDAO parkingLotDAO;
-    public GeoApiDAO geoApiDAO;
-    FilterByRadiusInputData filterByRadiusInputData;
-    FilterByRadiusOutputBoundary filterByRadiusPresenter;
-    FilterByRadiusOutputData filterByRadiusOutputData;
-    public List<ParkingLot> filteredByRadius;
+    private GreenPDAO parkingLotDAO;
+    private GeoApiDAO geoApiDAO;
+    private FilterByRadiusInputData filterByRadiusInputData;
+    private FilterByRadiusOutputBoundary filterByRadiusPresenter;
+    private FilterByRadiusOutputData filterByRadiusOutputData;
+    //private RadiusFilter filter;
+    private List<ParkingLot> filteredByRadius;
 
     /**
-     * Constructor method
+     * Constructor
      * @param filterByRadiusPresenter
      * @throws IOException
      */
@@ -38,7 +40,23 @@ public class FilterByRadiusInteractor implements FilterByRadiusInputBoundary {
         this.geoApiDAO = new GeoApiDAO();
         this.filterByRadiusPresenter = filterByRadiusPresenter;
         this.filteredByRadius = new ArrayList<>();
+        //this.filter = new RadiusFilter();
 
+    }
+
+    /**
+     * Constructor for testing purposes with mock external dependencies
+     * @param filterByRadiusPresenter
+     * @param mockGeoApiDAO
+     */
+
+    public FilterByRadiusInteractor(FilterByRadiusOutputBoundary filterByRadiusPresenter, GeoApiDAO mockGeoApiDAO) throws IOException {
+        this.filterByRadiusPresenter = filterByRadiusPresenter;
+        this.geoApiDAO = mockGeoApiDAO;
+        this.parkingLotDAO = new ParkingLotDAO();
+        this.filteredByRadius = new ArrayList<>();
+        //this.filter = new RadiusFilter();
+        // this.parkingLotDAO = mockParkingLotDAO;
     }
 
     /**
@@ -74,7 +92,8 @@ public class FilterByRadiusInteractor implements FilterByRadiusInputBoundary {
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
-            filterByRadiusPresenter.prepareFailView("Geocoding issue. Please try again later.");
+            filterByRadiusPresenter.prepareFailView("Error occurred. Please try again later. If you are trying to " +
+                    "input another radius, please click the 'Radius' button again.");
         }
     }
 }

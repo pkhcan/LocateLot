@@ -1,0 +1,131 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > SubmitReviewController</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">interface_adapter</a>
+</div>
+
+<h1>Coverage Summary for Class: SubmitReviewController (interface_adapter)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">SubmitReviewController</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (4/4)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package interface_adapter;
+&nbsp;
+&nbsp;import entity.ParkingLot;
+&nbsp;import use_case.SubmitReview.SubmitReviewInputData;
+&nbsp;import use_case.SubmitReview.SubmitReviewInputBoundary;
+&nbsp;
+&nbsp;public class SubmitReviewController {
+&nbsp;    final SubmitReviewInputBoundary submitReviewInputBoundary;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Create a new controller to submit reviews
+&nbsp;     * @param submitReviewInteractor a SubmitReviewInputBoundary that will process the user inputs
+&nbsp;     */
+<b class="fc">&nbsp;    public SubmitReviewController(SubmitReviewInputBoundary submitReviewInteractor) {</b>
+<b class="fc">&nbsp;        this.submitReviewInputBoundary = submitReviewInteractor;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Submit the review
+&nbsp;     * @param parkingLot the associated parking lot
+&nbsp;     * @param rating the new rating for the associated parking lot
+&nbsp;     */
+&nbsp;    public void submit(ParkingLot parkingLot, int rating) {
+<b class="fc">&nbsp;        SubmitReviewInputData submitReviewInputData = new SubmitReviewInputData(parkingLot, rating);</b>
+<b class="fc">&nbsp;        submitReviewInputBoundary.execute(submitReviewInputData);</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-08-08 17:38</div>
+</div>
+</body>
+</html>

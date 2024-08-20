@@ -10,7 +10,7 @@ import java.util.List;
  * RadiusFilter entity class.
  */
 
-public class RadiusFilter {
+public class RadiusFilter implements Filter {
     List<ParkingLot> filteredByRadius;
 
     public RadiusFilter() {
@@ -24,10 +24,33 @@ public class RadiusFilter {
      * @param latitude from user input for address
      * @param longitude from user input for address
      * @param parkingLots list of parking lots to be filtered -- pre-filtered based on proximity.
-     * @return
+     * @return list of parking lots that are within a given radius
      */
 
     public List<ParkingLot> filter(double radius, double latitude, double longitude, List<ParkingLot> parkingLots) {
+        filteredByRadius.clear(); // ensure filtered list is empty before beginning
+        for (ParkingLot parkingLot : parkingLots) { // Iterating through parking lots that should already be filtered based on proximity
+            double[] latLongLot = parkingLot.getLatitudeLongitude();
+            // retrieve distance in km
+            double distance = calculateDistanceDegToKM(latitude, longitude, latLongLot[0], latLongLot[1]);
+            if (distance <= radius) { // if distance in km is less than or equal to radius in km
+                filteredByRadius.add(parkingLot);
+            }
+        }
+        return filteredByRadius;
+    }
+
+    /**
+     * The filter method filters a given list of parking lots so that only parking lots within the default radius
+     * of 3 km will be included.
+     * @param latitude from user input for address
+     * @param longitude from user input for address
+     * @param parkingLots list of parking lots to be filtered -- pre-filtered based on proximity.
+     * @return list of parking lots that are within a 3km radius
+     */
+
+    public List<ParkingLot> filter(double latitude, double longitude, List<ParkingLot> parkingLots) {
+        double radius = 3.0; // setting a default radius of 3.0 km
         filteredByRadius.clear(); // ensure filtered list is empty before beginning
         for (ParkingLot parkingLot : parkingLots) { // Iterating through parking lots that should already be filtered based on proximity
             double[] latLongLot = parkingLot.getLatitudeLongitude();

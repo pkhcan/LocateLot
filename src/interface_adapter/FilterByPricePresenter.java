@@ -41,7 +41,7 @@ public class FilterByPricePresenter implements FilterByPriceOutputBoundary{
      * @param message error message
      */
     public void prepareFailView(String message) {
-        System.out.println(message);
+        gui.showError(message);
     }
 
 }

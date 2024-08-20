@@ -1,0 +1,275 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > ReviewView</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">views</a>
+</div>
+
+<h1>Coverage Summary for Class: ReviewView (views)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ReviewView</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (7/7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    75%
+  </span>
+  <span class="absValue">
+    (6/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    97.8%
+  </span>
+  <span class="absValue">
+    (44/45)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">ReviewView$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/2)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (9/9)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    75%
+  </span>
+  <span class="absValue">
+    (6/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    97.9%
+  </span>
+  <span class="absValue">
+    (46/47)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package views;
+&nbsp;
+&nbsp;import entity.ParkingLot;
+&nbsp;import interface_adapter.ReviewState;
+&nbsp;import interface_adapter.ReviewViewModel;
+&nbsp;import interface_adapter.SubmitReviewController;
+&nbsp;
+&nbsp;import javax.swing.*;
+&nbsp;import java.awt.*;
+&nbsp;import java.awt.event.ActionEvent;
+&nbsp;import java.awt.event.ActionListener;
+&nbsp;import java.beans.PropertyChangeEvent;
+&nbsp;import java.beans.PropertyChangeListener;
+&nbsp;import java.util.Objects;
+&nbsp;
+&nbsp;public class ReviewView extends JPanel implements PropertyChangeListener {
+&nbsp;    private final SubmitReviewController controller;
+&nbsp;    private final ReviewViewModel viewModel;
+&nbsp;    private ParkingLot selectedParkingLot;
+&nbsp;    private JPanel inputPanel;
+&nbsp;    private JLabel messageLabel;
+&nbsp;    private JButton submitButton;
+&nbsp;
+<b class="fc">&nbsp;    public ReviewView(SubmitReviewController controller, ReviewViewModel viewModel) {</b>
+&nbsp;
+<b class="fc">&nbsp;        this.controller = controller;</b>
+<b class="fc">&nbsp;        this.viewModel = viewModel;</b>
+<b class="fc">&nbsp;        viewModel.addPropertyChangeListener(this);</b>
+&nbsp;
+<b class="fc">&nbsp;        this.setLayout(new BorderLayout());</b>
+<b class="fc">&nbsp;        this.inputPanel = new JPanel();</b>
+<b class="fc">&nbsp;        this.add(inputPanel, BorderLayout.NORTH);</b>
+&nbsp;
+<b class="fc">&nbsp;        showAskForRating();</b>
+&nbsp;
+<b class="fc">&nbsp;        this.selectedParkingLot = null;</b>
+<b class="fc">&nbsp;        messageLabel = new JLabel();</b>
+&nbsp;
+<b class="fc">&nbsp;        this.add(messageLabel, BorderLayout.CENTER);</b>
+<b class="fc">&nbsp;        messageLabel.setHorizontalAlignment(SwingConstants.CENTER);</b>
+&nbsp;
+<b class="fc">&nbsp;        this.revalidate();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void propertyChange(PropertyChangeEvent evt) {
+<b class="fc">&nbsp;        ReviewState state = (ReviewState) evt.getNewValue();</b>
+<b class="pc">&nbsp;        if (Objects.equals(state.getState(), &quot;AskForRating&quot;)){</b>
+<b class="nc">&nbsp;            showAskForRating();</b>
+&nbsp;        }
+<b class="fc">&nbsp;        else if (Objects.equals(state.getState(), &quot;Submitted&quot;)){</b>
+<b class="fc">&nbsp;            showSubmitted(state.getParkingLot(), state.getRating());</b>
+&nbsp;        }
+<b class="fc">&nbsp;        else if (Objects.equals(state.getState(), &quot;Failed&quot;)){</b>
+<b class="fc">&nbsp;            showFailed();</b>
+&nbsp;        }
+<b class="pc">&nbsp;        else if (Objects.equals(state.getState(), &quot;Empty&quot;)){</b>
+<b class="fc">&nbsp;            showEmpty();</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    private void showAskForRating() {
+&nbsp;        // Prepare the review panel
+<b class="fc">&nbsp;        inputPanel.removeAll();</b>
+<b class="fc">&nbsp;        inputPanel.setLayout(new FlowLayout(FlowLayout.CENTER));</b>
+&nbsp;
+<b class="fc">&nbsp;        JLabel enterRatingLabel = new JLabel(&quot;Enter your rating:&quot;);</b>
+<b class="fc">&nbsp;        inputPanel.add(enterRatingLabel);</b>
+&nbsp;
+&nbsp;        // Create a slider
+<b class="fc">&nbsp;        JSlider ratingSlider = new JSlider(JSlider.HORIZONTAL, 1, 5, 1);</b>
+&nbsp;
+&nbsp;        // Customize the slider
+<b class="fc">&nbsp;        ratingSlider.setPaintTicks(true);</b>
+<b class="fc">&nbsp;        ratingSlider.setPaintTrack(true);</b>
+<b class="fc">&nbsp;        ratingSlider.setMajorTickSpacing(1);</b>
+<b class="fc">&nbsp;        ratingSlider.setSnapToTicks(true);</b>
+<b class="fc">&nbsp;        ratingSlider.setPaintLabels(true);</b>
+&nbsp;
+&nbsp;
+<b class="fc">&nbsp;        inputPanel.add(ratingSlider);</b>
+&nbsp;
+<b class="fc">&nbsp;        JButton submitButton = new JButton(&quot;Submit&quot;);</b>
+&nbsp;
+<b class="fc">&nbsp;        submitButton.addActionListener(new ActionListener() {</b>
+&nbsp;            @Override
+&nbsp;            public void actionPerformed(ActionEvent e) {
+<b class="fc">&nbsp;                controller.submit(selectedParkingLot, ratingSlider.getValue());</b>
+&nbsp;            }
+&nbsp;        });
+&nbsp;
+<b class="fc">&nbsp;        inputPanel.add(submitButton);</b>
+<b class="fc">&nbsp;        this.submitButton = submitButton;</b>
+&nbsp;
+<b class="fc">&nbsp;        this.revalidate();</b>
+&nbsp;
+&nbsp;
+&nbsp;        }
+&nbsp;
+&nbsp;    private void showSubmitted(String parkingLot, int rating){
+<b class="fc">&nbsp;        messageLabel.setText(&quot;Your review of &quot; + rating +</b>
+&nbsp;                &quot;/5 for parking lot &quot; + parkingLot + &quot; was submitted&quot;);
+&nbsp;
+<b class="fc">&nbsp;        this.revalidate();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private void showFailed(){
+<b class="fc">&nbsp;        messageLabel.setText(&quot;Something went wrong, your review was not submitted.&quot;);</b>
+<b class="fc">&nbsp;        this.revalidate();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private void showEmpty(){
+<b class="fc">&nbsp;        messageLabel.setText(&quot;You have not selected a parking lot yet.&quot;);</b>
+&nbsp;
+<b class="fc">&nbsp;        this.revalidate();</b>
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setParkingLot(ParkingLot parkingLot) {
+<b class="fc">&nbsp;        this.selectedParkingLot = parkingLot;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-08-08 17:38</div>
+</div>
+</body>
+</html>

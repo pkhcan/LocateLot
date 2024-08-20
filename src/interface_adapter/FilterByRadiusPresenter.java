@@ -1,41 +1,41 @@
 package interface_adapter;
 
+import entity.ParkingLot;
 import use_case.FilterByRadius.FilterByRadiusOutputBoundary;
-import app.gui.GUI;
+
 import use_case.FilterByRadius.FilterByRadiusOutputData;
 
+import java.util.List;
+
 public class FilterByRadiusPresenter implements FilterByRadiusOutputBoundary {
-    /**
-     * filter by radius presenter class implements filter by radius output boundary. presents data
-     * to the GUI.
-     */
-    private final GUI gui;
+    private final FilterByRadiusViewModel filterByRadiusViewModel;
 
     /**
-     * Constructor method
-     * @param gui GUI
+     * FilterByRadiusPresenter class prepares success and fail views for the GUI.
+     * @param filterByRadiusViewModel
      */
-    public FilterByRadiusPresenter(GUI gui) {
-        this.gui = gui;
+    public FilterByRadiusPresenter(FilterByRadiusViewModel filterByRadiusViewModel) {
+        this.filterByRadiusViewModel = filterByRadiusViewModel;
     }
 
     /**
-     * Passes output data (filtered list) to GUI.
-     * @param filterByRadiusOutputData contains list of parking lots filtered by radius and proximity
+     * Calls setParkingLots method in view model to update GUI with success view (list of parking lots)
+     * @param filterByRadiusOutputData
      */
+
     @Override
     public void prepareSuccessView(FilterByRadiusOutputData filterByRadiusOutputData) {
-        // update GUI
-        gui.updateParkingLotList(filterByRadiusOutputData.getParkingLots()); // why is gui type ParkingLot[]
-
-
+        List<ParkingLot> parkingLots = filterByRadiusOutputData.getParkingLots();
+        filterByRadiusViewModel.setParkingLots(parkingLots);
     }
 
     /**
-     * prints an error message when called
-     * @param message error message
+     * Calls setErrorMessage method in view model to display an error message to the GUI.
+     * @param errorMessage
      */
-    public void prepareFailView(String message) {
-        System.out.println(message);
+
+    @Override
+    public void prepareFailView(String errorMessage) {
+        filterByRadiusViewModel.setErrorMessage(errorMessage);
     }
 }

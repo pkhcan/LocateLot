@@ -1,7 +1,5 @@
 package use_case.FilterByPrice;
 
-import use_case.FilterByPrice.FilterByPriceOutputData;
-
 public interface FilterByPriceOutputBoundary {
 
     /**

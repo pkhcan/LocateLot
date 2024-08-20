@@ -13,6 +13,39 @@ import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.LocalTime;
+import java.util.InputMismatchException;
+import java.util.List;
+
+import data_access.ParkingLotDAO;
+import data_access.ReviewDAO;
+import interface_adapter.*;
+import use_case.FilterByEOE.EOEInteractor;
+import use_case.FilterByEOF.EOFInputData;
+import use_case.FilterByEOF.EOFInteractor;
+import entity.ParkingLot;
+import use_case.FilterByPrice.FilterByPriceInputBoundary;
+import use_case.FilterByPrice.FilterByPriceInputData;
+import use_case.FilterByPrice.FilterByPriceInteractor;
+import use_case.FilterByPrice.FilterByPriceOutputBoundary;
+import interface_adapter.FilterByPriceController;
+import use_case.FilterByProximity.FilterByProximityInputBoundary;
+import use_case.FilterByProximity.FilterByProximityInputData;
+import use_case.FilterByProximity.FilterByProximityInteractor;
+import use_case.FilterByProximity.FilterByProximityOutputBoundary;
+import use_case.FilterByRadius.FilterByRadiusInputBoundary;
+import use_case.FilterByRadius.FilterByRadiusInputData;
+import use_case.FilterByRadius.FilterByRadiusInteractor;
+import use_case.FilterByRadius.FilterByRadiusOutputBoundary;
+import use_case.FilterByType.FilterByTypeInputBoundary;
+import use_case.FilterByType.FilterByTypeInputData;
+import use_case.FilterByType.FilterByTypeInteractor;
+import use_case.FilterByType.FilterByTypeOutputBoundary;
+import use_case.SubmitReview.*;
+import views.FilterByRadiusView;
+import views.ReviewView;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -75,14 +108,13 @@ public class GUI extends JFrame {
          * action performed button for proximity search
          * must return parking lots sorted by closest first
          */
-        proximityButton.addActionListener(new ProximityListener(this).getActionListener());
+        proximityButton.addActionListener(new ProximityListener(inputPanel, textFieldAddress, this).getActionListener());
 
         /*
          * radius button - opens a screen requiring user input for custom radius
          * will return parkinglots within the radius sorted by default (proximity)
          */
-        radiusButton.addActionListener(new RadiusListener(this).getActionListener());
-
+        radiusButton.addActionListener(new RadiusListener(inputPanel, textFieldAddress, this).getActionListener());
 
         /*
          * action performed button for price

@@ -3,7 +3,6 @@ package unit_tests;
 import data_access.ParkingLotDAO;
 import entity.ParkingLot;
 import entity.PriceFilter;
-import entity.ProximityFilter;
 import org.junit.Before;
 import org.junit.Test;
 
