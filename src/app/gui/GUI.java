@@ -31,7 +31,6 @@ public class GUI extends JFrame {
     private JScrollPane resultsScrollPane;
     private JButton ReviewButton;
     private JPanel inputPanel;
-    //    ^^ replace with the API search box and button ?
     private String selectedAddress;
     private JPanel resultsButtonPanel;
     private final AutoCompletionDAO autoCompletionDAO = new AutoCompletionDAO();
@@ -92,7 +91,7 @@ public class GUI extends JFrame {
          */
         priceButton.addActionListener(new PriceListener(this).getActionListener());
 
-        /**
+        /*
          * action performed button for ease of entry reviews
          * returns list of parking lots within the default radius sorted from best to worst (+ unrated) reviews
          */
@@ -112,31 +111,24 @@ public class GUI extends JFrame {
          */
         typeButton.addActionListener(new TypeListener(this).getActionListener());
 
-        submitReviewButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // Clear the previous Panel
-                inputPanel.removeAll();
-                // Set up the panel for submit review use case
-                ReviewViewModel reviewViewModel = new ReviewViewModel();
-                // to fix a null exception caused by IntelliJ's GUI creator
-                inputPanel.setLayout(new BoxLayout(inputPanel, BoxLayout.Y_AXIS));
-                reviewView = SubmitReviewUseCaseFactory.create();
-                inputPanel.add(reviewView);
-                inputPanel.revalidate();
-            }
-        });
+        /*
+         * action performed for submit review button
+         * the review view is constructed in the listener, through a factory class
+         */
+        ReviewListener reviewListener = new ReviewListener(inputPanel);
+        submitReviewButton.addActionListener(reviewListener.getActionListener());
+
+        reviewView = reviewListener.getReviewView();
 
 
     }
 
-
+    /**
+     * Update the parking lots suggested
+     * @param parkingLots The list of new parking lots
+     */
     public void updateParkingLotList(ParkingLot[] parkingLots) {
         // Update the GUI with the sorted parking lots
-        // For simplicity, let's print them to the console
-//        for (ParkingLot lot : parkingLots) {
-//            System.out.println(lot);
-//        }
         resultsButtonPanel.removeAll();
         resultsButtonPanel.add(new JLabel("RESULTS"));
         DefaultListModel<String> listModel = new DefaultListModel<>();
@@ -164,13 +156,12 @@ public class GUI extends JFrame {
         }
     }
 
+    /**
+     * Update the parking lots suggested, overloading to allow a List as a parameter
+     * @param parkingLots The list of new parking lots
+     */
     public void updateParkingLotList(List<ParkingLot> parkingLots) {
 //        // Update the GUI with the sorted parking lots
-//        // For simplicity, let's print them to the console
-//        for (ParkingLot lot : parkingLots) {
-//            System.out.println(lot);
-//        }
-//    }
         resultsButtonPanel.removeAll();
         resultsButtonPanel.add(new JLabel("RESULTS"));
 
@@ -186,7 +177,7 @@ public class GUI extends JFrame {
             b.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    // add code here
+                    reviewView.setParkingLot(lot);
                 }
             });
             resultsButtonPanel.add(b);
@@ -204,32 +195,6 @@ public class GUI extends JFrame {
     public static void main(String[] args) {
 
         new GUI();
-        submitReview();
-    }
-
-    /*
-    Ask the user to enter a review for a parking garage
-    */
-    private static void submitReview(){
-//        try {
-//            Scanner scanner = new Scanner(System.in);
-//            System.out.println("\n==== Submit a Review ====\nEnter the id of the Parking Lot (has to be an integer):");
-//            int parkingLotID = scanner.nextInt();
-//
-//            System.out.println("Enter your rating for this parking: ");
-//            int rating = scanner.nextInt();
-//
-//            // Set up the interactor
-//            SubmitReviewDataAccessInterface reviewDAO = new ReviewDAO("src/external_data/Reviews.json");
-//            SubmitReviewOutputBoundary presenter = new SubmitReviewPresenter(new JLabel());
-//            SubmitReviewBoundary interactor = new SubmitReviewInteractor(reviewDAO, presenter);
-//            ReviewInputData inputData = new ReviewInputData(parkingLotID, rating);
-//
-//            // Execute the interactor
-//            interactor.execute(inputData);
-//        } catch (InputMismatchException ex) {
-//            System.out.println(ex.getMessage());
-//        }
     }
 
 
@@ -277,72 +242,4 @@ public class GUI extends JFrame {
     public String getAddress() {
         return textFieldAddress.getText();
     }
-
-
-    private void createUIComponents() {
-        // TODO: place custom component creation code here
-    }
-
-
-
-//        SwingUtilities.invokeLater(() -> {
-//            JFrame frame = new JFrame("LocateLot GUI App");
-//            frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-//            frame.setSize(850, 300);
-//
-//            CardLayout cardLayout = new CardLayout();
-//            JPanel cardPanel = new JPanel(cardLayout);
-
-//            JPanel defaultCard = createDefaultCard();
-//            JPanel getGradeCard = createGetGradeCard(frame, getGradeUseCase);
-//            JPanel logGradeCard = createLogGradeCard(frame, logGradeUseCase);
-//            JPanel formTeamCard = createFormTeamCard(frame, formTeamUseCase);
-//            JPanel joinTeamCard = createJoinTeamCard(frame, joinTeamUseCase);
-//            JPanel manageTeamCard = createManageTeamCard(frame, leaveTeamUseCase, getAverageGradeUseCase);
-
-//            cardPanel.add(defaultCard, "DefaultCard");
-//            cardPanel.add(getGradeCard, "GetGradeCard");
-//            cardPanel.add(logGradeCard, "LogGradeCard");
-//            cardPanel.add(formTeamCard, "FormTeamCard");
-//            cardPanel.add(joinTeamCard, "JoinTeamCard");
-//            cardPanel.add(manageTeamCard, "ManageTeamCard");
-
-//            JButton getGradeButton = new JButton("Get Grade");
-//            getGradeButton.addActionListener(e -> cardLayout.show(cardPanel, "GetGradeCard"));
-//
-//            JButton logGradeButton = new JButton("Log Grade");
-//            logGradeButton.addActionListener(e -> cardLayout.show(cardPanel, "LogGradeCard"));
-//
-//            JButton formTeamButton = new JButton("Form a team");
-//            formTeamButton.addActionListener(e -> cardLayout.show(cardPanel, "FormTeamCard"));
-//
-//            JButton joinTeamButton = new JButton("Join a team");
-//            joinTeamButton.addActionListener(e -> cardLayout.show(cardPanel, "JoinTeamCard"));
-//
-//            JButton manageTeamButton = new JButton("My Team");
-//            manageTeamButton.addActionListener(e -> cardLayout.show(cardPanel, "ManageTeamCard"));
-
-    // MARK HERE
-//            JButton filterButton = new JButton("Filter by");
-//            filterButton.addActionListener(e -> cardLayout.show(cardPanel, "filterOptions"));
-//
-//            JPanel buttonPanel = new JPanel();
-//            buttonPanel.add(filterButton);
-
-//            buttonPanel.add(getGradeButton);
-//            buttonPanel.add(logGradeButton);
-//            buttonPanel.add(formTeamButton);
-//            buttonPanel.add(joinTeamButton);
-//            buttonPanel.add(manageTeamButton);
-
-    // MARK HERE TOO
-//            frame.getContentPane().add(cardPanel, BorderLayout.CENTER);
-//            frame.getContentPane().add(buttonPanel, BorderLayout.SOUTH);
-//
-//            frame.setVisible(true);
-
-//        });
-//    }
-//
-//    }
 }

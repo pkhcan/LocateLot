@@ -1,13 +1,10 @@
-package use_case_tests.submit_review_tests;
+package unit_tests.interface_adapters;
 import data_access.InMemoryReviewDAO;
-import data_access.ReviewDAO;
 import data_access.ReviewDataAccessInterface;
 import entity.ParkingLot;
-import entity.Review;
 import interface_adapter.ReviewViewModel;
 import interface_adapter.SubmitReviewController;
 import interface_adapter.SubmitReviewPresenter;
-import org.junit.Before;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -22,7 +19,11 @@ import javax.swing.*;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 
+/**
+ * These test suites are end-to-end tests, as the view module involves both the start and the end of the flow of the program.
+ */
 public class ReviewViewTest {
+    // Dependencies are attributes as they are access very often in different methods
     private ReviewViewModel reviewViewModel;
     private ReviewDataAccessInterface reviewDataAccessObject;
     private SubmitReviewOutputBoundary submitReviewPresenter;
@@ -30,6 +31,9 @@ public class ReviewViewTest {
     private SubmitReviewController controller;
     private ReviewView reviewView;
 
+    /**
+     * Initialize the attributes and their dependencies
+     */
     @BeforeEach
     public void setUp() {
         reviewViewModel = new ReviewViewModel();
@@ -44,6 +48,9 @@ public class ReviewViewTest {
         reviewView = new ReviewView(controller, reviewViewModel);
     }
 
+    /**
+     * Test the view model for a scenario with a successful submission.
+     */
     @Test
     void testReviewViewSuccess() {
 
@@ -73,6 +80,9 @@ public class ReviewViewTest {
         }
     }
 
+    /**
+     * Test the view model for a scenario with a failed submission.
+     */
     @Test
     void testReviewViewFail() {
 
@@ -109,6 +119,9 @@ public class ReviewViewTest {
         }
     }
 
+    /**
+     * Test the view model for a scenario where the user has not selected a parking lot yet but clicks submit
+     */
     @Test
     void testReviewViewEmpty() {
         ReviewViewModel reviewViewModel = new ReviewViewModel();
@@ -144,6 +157,9 @@ public class ReviewViewTest {
         }
     }
 
+    /**
+     * Test that the selected parking lot for the view updates as the user selects another parking lot
+     */
     @Test
     void testSetParkingLotSuccess() {
         try {
@@ -166,8 +182,11 @@ public class ReviewViewTest {
 
     }
 
+    /**
+     * Test that the submit button works as expected.
+     */
     @Test
-    void testSubmitBu() {
+    void testSubmitButton() {
         try {
             Field selectedParkingLotField = ReviewView.class.getDeclaredField("selectedParkingLot");
             selectedParkingLotField.setAccessible(true);

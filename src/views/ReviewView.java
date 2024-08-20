@@ -42,6 +42,26 @@ public class ReviewView extends JPanel implements PropertyChangeListener {
         this.revalidate();
     }
 
+    public ReviewView(ReviewViewModel viewModel) {
+        controller = null;
+        this.viewModel = viewModel;
+        viewModel.addPropertyChangeListener(this);
+
+        this.setLayout(new BorderLayout());
+        this.inputPanel = new JPanel();
+        this.add(inputPanel, BorderLayout.NORTH);
+
+        showAskForRating();
+
+        this.selectedParkingLot = null;
+        messageLabel = new JLabel();
+
+        this.add(messageLabel, BorderLayout.CENTER);
+        messageLabel.setHorizontalAlignment(SwingConstants.CENTER);
+
+        this.revalidate();
+    }
+
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         ReviewState state = (ReviewState) evt.getNewValue();

@@ -56,8 +56,8 @@ public class SubmitReviewInputInteractor implements SubmitReviewInputBoundary {
      * Is thrown when a DAO fails to save the review for the corresponding ParkingLot.
      */
     public static class SubmitReviewFailedException extends Exception{
-        public SubmitReviewFailedException(String message) throws SubmitReviewFailedException {
-            throw new SubmitReviewFailedException(message);
+        public SubmitReviewFailedException(String message) {
+            super(message);
         }
     }
 }

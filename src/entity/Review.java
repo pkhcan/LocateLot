@@ -1,36 +1,30 @@
 package entity;
 
 public class Review {
-    /**
-     * each type is easeOfEntry ("Entry") or easeOfFinding ("Find")
-     */
-
     private int value;
-//    private String type;
 
     /**
-     * @param value
+     * Constructs a review object
+     * @param value The value for this review, which is an integer 1-5.
      */
-
-
     public Review(int value) {
         this.value = value;
     }
 
+    /**
+     * Get the rating for this Review
+     * @return
+     */
     public int getValue() {
         return this.value;
     }
 
+    /**
+     * Update the value for this review
+     * @param value the new value, which is an integer 1-5
+     */
     public void setValue(int value) {
         this.value = value;
     }
-
-//    public String getType() {
-//        return this.type;
-//    }
-
-//    public void setType(String value) {
-//        this.type = value;
-//    }
 
 }
