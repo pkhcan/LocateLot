@@ -32,6 +32,7 @@ public class FilterByPriceController {
      * Handles the filter by price use case by creating input data and passing it to the interactor.
      *
      * @param address the address for which to filter parking lots by price
+     * @param time the hour of the time in which the user submits their input
      * @throws IOException          if an I/O error occurs
      * @throws InterruptedException if the operation is interrupted
      * @throws ApiException         if an API error occurs

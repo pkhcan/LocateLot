@@ -8,10 +8,16 @@ import java.time.LocalTime;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
+/**
+ * FilterByPriceInputData testing class
+ */
 class FilterByPriceInputDataTest {
 
     FilterByPriceInputData filterByPriceInputData;
 
+    /**
+     * Test that FilterByPriceInputData is appropriately instantiated and fetches the appropriate data
+     */
     @Test
     void FilterByPriceInputDataCreationAndRetrievalTest() {
         int time = LocalTime.now().getHour();
