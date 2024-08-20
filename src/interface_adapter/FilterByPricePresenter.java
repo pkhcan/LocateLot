@@ -11,7 +11,7 @@ import java.util.List;
 
 public class FilterByPricePresenter implements FilterByPriceOutputBoundary{
     /**
-     * filter by radius presenter class implements filter by radius output boundary. presents data
+     * filter by price presenter class implements filter by price output boundary. presents data
      * to the GUI.
      */
     private final GUI gui;
