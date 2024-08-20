@@ -1,0 +1,213 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > SubmitReviewInputInteractor</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">use_case.SubmitReview</a>
+</div>
+
+<h1>Coverage Summary for Class: SubmitReviewInputInteractor (use_case.SubmitReview)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">SubmitReviewInputInteractor</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/13)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">SubmitReviewInputInteractor$SubmitReviewFailedException</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/15)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package use_case.SubmitReview;
+&nbsp;
+&nbsp;
+&nbsp;import data_access.ReviewDataAccessInterface;
+&nbsp;import entity.Review;
+&nbsp;import interface_adapter.SubmitReviewPresenter;
+&nbsp;
+&nbsp;public class SubmitReviewInputInteractor implements SubmitReviewInputBoundary {
+&nbsp;
+&nbsp;    final ReviewDataAccessInterface reviewDAO;
+&nbsp;    final SubmitReviewOutputBoundary presenter;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Construct a {@code SubmitReviewInteractor} for the specified data access object and output boundary
+&nbsp;     * @param reviewDAO The data access object that will access the data
+&nbsp;     * @param outputBoundary The output boundary to present the result of the submission
+&nbsp;     */
+&nbsp;    public SubmitReviewInputInteractor(ReviewDataAccessInterface reviewDAO,
+<b class="nc">&nbsp;                                       SubmitReviewOutputBoundary outputBoundary) {</b>
+<b class="nc">&nbsp;        this.reviewDAO = reviewDAO;</b>
+<b class="nc">&nbsp;        this.presenter = outputBoundary;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Submit the review and update the relevant presenter.
+&nbsp;     * @param submitReviewInputData The input data associated with the review to be submitted
+&nbsp;     */
+&nbsp;    public void execute(SubmitReviewInputData submitReviewInputData){
+&nbsp;        // create a new review object
+<b class="nc">&nbsp;        Review review = new Review(submitReviewInputData.getRating());</b>
+<b class="nc">&nbsp;        if (submitReviewInputData.isEmpty()){</b>
+<b class="nc">&nbsp;            presenter.showEmpty();</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        else {
+&nbsp;            try {
+&nbsp;                // Save the Review into the Reviews file
+<b class="nc">&nbsp;                reviewDAO.saveReview(Integer.parseInt(submitReviewInputData.getParkingLot().getID()),</b>
+&nbsp;                        review);
+&nbsp;
+&nbsp;                // Prepare the output
+<b class="nc">&nbsp;                SubmitReviewOutputData output = new SubmitReviewOutputData(</b>
+<b class="nc">&nbsp;                        submitReviewInputData.getParkingLot().getAddress(),</b>
+<b class="nc">&nbsp;                        submitReviewInputData.getRating());</b>
+&nbsp;
+&nbsp;                // Display the output
+<b class="nc">&nbsp;                presenter.showSubmission(output);</b>
+<b class="nc">&nbsp;            } catch (Exception e) {</b>
+&nbsp;                // Show the user that their review submission was not successful
+<b class="nc">&nbsp;                presenter.showFail();</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Is thrown when a DAO fails to save the review for the corresponding ParkingLot.
+&nbsp;     */
+&nbsp;    public static class SubmitReviewFailedException extends Exception{
+<b class="nc">&nbsp;        public SubmitReviewFailedException(String message) throws SubmitReviewFailedException {</b>
+<b class="nc">&nbsp;            throw new SubmitReviewFailedException(message);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-08-08 04:02</div>
+</div>
+</body>
+</html>

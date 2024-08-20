@@ -1,0 +1,210 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > RadiusFilter</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">entity</a>
+</div>
+
+<h1>Coverage Summary for Class: RadiusFilter (entity)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">RadiusFilter</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/25)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package entity;
+&nbsp;
+&nbsp;import data_access.ParkingLotDAO;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;/**
+&nbsp; * RadiusFilter entity class.
+&nbsp; */
+&nbsp;
+&nbsp;public class RadiusFilter implements Filter {
+&nbsp;    List&lt;ParkingLot&gt; filteredByRadius;
+&nbsp;
+<b class="nc">&nbsp;    public RadiusFilter() {</b>
+<b class="nc">&nbsp;        this.filteredByRadius = new ArrayList&lt;ParkingLot&gt;();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * The filter method filters a given list of parking lots so that only parking lots within a given radius
+&nbsp;     * will be included.
+&nbsp;     * @param radius to filter with
+&nbsp;     * @param latitude from user input for address
+&nbsp;     * @param longitude from user input for address
+&nbsp;     * @param parkingLots list of parking lots to be filtered -- pre-filtered based on proximity.
+&nbsp;     * @return list of parking lots that are within a given radius
+&nbsp;     */
+&nbsp;
+&nbsp;    public List&lt;ParkingLot&gt; filter(double radius, double latitude, double longitude, List&lt;ParkingLot&gt; parkingLots) {
+<b class="nc">&nbsp;        filteredByRadius.clear(); // ensure filtered list is empty before beginning</b>
+<b class="nc">&nbsp;        for (ParkingLot parkingLot : parkingLots) { // Iterating through parking lots that should already be filtered based on proximity</b>
+<b class="nc">&nbsp;            double[] latLongLot = parkingLot.getLatitudeLongitude();</b>
+&nbsp;            // retrieve distance in km
+<b class="nc">&nbsp;            double distance = calculateDistanceDegToKM(latitude, longitude, latLongLot[0], latLongLot[1]);</b>
+<b class="nc">&nbsp;            if (distance &lt;= radius) { // if distance in km is less than or equal to radius in km</b>
+<b class="nc">&nbsp;                filteredByRadius.add(parkingLot);</b>
+&nbsp;            }
+&nbsp;        }
+<b class="nc">&nbsp;        return filteredByRadius;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * The filter method filters a given list of parking lots so that only parking lots within the default radius
+&nbsp;     * of 3 km will be included.
+&nbsp;     * @param latitude from user input for address
+&nbsp;     * @param longitude from user input for address
+&nbsp;     * @param parkingLots list of parking lots to be filtered -- pre-filtered based on proximity.
+&nbsp;     * @return list of parking lots that are within a 3km radius
+&nbsp;     */
+&nbsp;
+&nbsp;    public List&lt;ParkingLot&gt; filter(double latitude, double longitude, List&lt;ParkingLot&gt; parkingLots) {
+<b class="nc">&nbsp;        double radius = 3.0; // setting a default radius of 3.0 km</b>
+<b class="nc">&nbsp;        filteredByRadius.clear(); // ensure filtered list is empty before beginning</b>
+<b class="nc">&nbsp;        for (ParkingLot parkingLot : parkingLots) { // Iterating through parking lots that should already be filtered based on proximity</b>
+<b class="nc">&nbsp;            double[] latLongLot = parkingLot.getLatitudeLongitude();</b>
+&nbsp;            // retrieve distance in km
+<b class="nc">&nbsp;            double distance = calculateDistanceDegToKM(latitude, longitude, latLongLot[0], latLongLot[1]);</b>
+<b class="nc">&nbsp;            if (distance &lt;= radius) { // if distance in km is less than or equal to radius in km</b>
+<b class="nc">&nbsp;                filteredByRadius.add(parkingLot);</b>
+&nbsp;            }
+&nbsp;        }
+<b class="nc">&nbsp;        return filteredByRadius;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Uses haversine formula to convert distance between two coordinate points (in degrees) to distance in km.
+&nbsp;     * Steps:
+&nbsp;     * 1. convert latitude and longitude distances in degrees to radians
+&nbsp;     * 2. compute half the chord length between the two coordinate points, &#39;a&#39;
+&nbsp;     * 3. use &#39;a&#39; to calculate the angular distance, &#39;c&#39;
+&nbsp;     * 4. Multiply the radius of the Earth (in km) by the angular distance to get the distance between 2 points in km
+&nbsp;     *
+&nbsp;     * @param lat1
+&nbsp;     * @param lng1
+&nbsp;     * @param lat2
+&nbsp;     * @param lng2
+&nbsp;     * @return distance between two coordinate points in km
+&nbsp;     */
+&nbsp;
+&nbsp;    private static double calculateDistanceDegToKM(double lat1, double lng1, double lat2, double lng2) {
+<b class="nc">&nbsp;        double earthRadiusKM = 6371.0; // radius of the earth in km</b>
+<b class="nc">&nbsp;        double latMinusLat = Math.toRadians(lat2 - lat1); // difference between two latitudes in radians</b>
+<b class="nc">&nbsp;        double lngMinusLng = Math.toRadians(lng2 - lng1); // difference between two longitudes in radians</b>
+&nbsp;
+<b class="nc">&nbsp;        double a = Math.sin(latMinusLat / 2) * Math.sin(latMinusLat / 2) +</b>
+<b class="nc">&nbsp;                Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2)) *</b>
+<b class="nc">&nbsp;                        Math.sin(lngMinusLng / 2) * Math.sin(lngMinusLng / 2);</b>
+&nbsp;
+<b class="nc">&nbsp;        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));</b>
+&nbsp;
+<b class="nc">&nbsp;        return earthRadiusKM * c; // use angular distance and earth&#39;s radius (in km) to find distance in km.</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-08-08 17:38</div>
+</div>
+</body>
+</html>

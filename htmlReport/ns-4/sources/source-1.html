@@ -1,0 +1,142 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > EOEController</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">interface_adapter</a>
+</div>
+
+<h1>Coverage Summary for Class: EOEController (interface_adapter)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">EOEController</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (4/4)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package interface_adapter;
+&nbsp;
+&nbsp;import com.google.maps.errors.ApiException;
+&nbsp;import use_case.FilterByEOE.EOEInputBoundary;
+&nbsp;import use_case.FilterByEOE.EOEInputData;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;
+&nbsp;/**
+&nbsp; * Controller for the EOE (Ease of Entry) use case.
+&nbsp; * Acts as an intermediary between the user interface and the EOE use case interactor.
+&nbsp; */
+&nbsp;public class EOEController {
+&nbsp;
+&nbsp;    private final EOEInputBoundary interactor;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructs an {@code EOEController} with the specified interactor.
+&nbsp;     *
+&nbsp;     * @param interactor the interactor for handling EOE use case
+&nbsp;     */
+<b class="fc">&nbsp;    public EOEController(EOEInputBoundary interactor) {</b>
+<b class="fc">&nbsp;        this.interactor = interactor;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Handles the EOE use case by creating input data and passing it to the interactor.
+&nbsp;     *
+&nbsp;     * @param address the address for which to filter parking lots by EOE
+&nbsp;     * @throws IOException          if an I/O error occurs
+&nbsp;     * @throws InterruptedException if the operation is interrupted
+&nbsp;     * @throws ApiException         if an API error occurs
+&nbsp;     */
+&nbsp;    public void handleEOE(String address) throws IOException, InterruptedException, ApiException {
+<b class="fc">&nbsp;        EOEInputData inputData = new EOEInputData(address);</b>
+<b class="fc">&nbsp;        interactor.execute(inputData);</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-08-08 17:38</div>
+</div>
+</body>
+</html>

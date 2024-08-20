@@ -2,6 +2,8 @@ package use_case.FilterByRadius;
 
 import data_access.ParkingLotDAO;
 
+import java.util.Objects;
+
 public class FilterByRadiusInputData {
 
     private final double radius;
@@ -10,7 +12,8 @@ public class FilterByRadiusInputData {
 
     /**
      * Filter by radius input data for filter by radius use case.
-     * @param radius user input
+     *
+     * @param radius  user input
      * @param address user input
      */
 
@@ -20,8 +23,7 @@ public class FilterByRadiusInputData {
          */
         if (radius != 0) {
             this.radius = radius;
-        }
-        else {
+        } else {
             this.radius = 3;
         }
 
@@ -30,6 +32,7 @@ public class FilterByRadiusInputData {
 
     /**
      * Getter method
+     *
      * @return address
      */
     public String getAddress() {
@@ -38,9 +41,11 @@ public class FilterByRadiusInputData {
 
     /**
      * Getter method
-     * @return address
+     *
+     * @return radius
      */
     public double getRadius() {
         return radius;
     }
 }
+

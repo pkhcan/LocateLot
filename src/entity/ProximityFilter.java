@@ -9,7 +9,7 @@ public class ProximityFilter {
     }
 
     /**
-     *
+     * filters parking lots based on proximity
      * @param latitude current latitude
      * @param longitude current longitude
      * @param parkingLots list of parking lots to be filtered

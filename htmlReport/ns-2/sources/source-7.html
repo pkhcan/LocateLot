@@ -1,0 +1,97 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > ReviewDataAccessInterface</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">data_access</a>
+</div>
+
+<h1>Coverage Summary for Class: ReviewDataAccessInterface (data_access)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">ReviewDataAccessInterface</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package data_access;
+&nbsp;
+&nbsp;import entity.Review;
+&nbsp;import use_case.SubmitReview.SubmitReviewInputInteractor.SubmitReviewFailedException;
+&nbsp;
+&nbsp;import java.util.ArrayList;
+&nbsp;
+&nbsp;public interface ReviewDataAccessInterface {
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Save the review for the corresponding ParkingLot to the json file.
+&nbsp;     * The constructor signature is not included in the interface to adhere to the ISP by allowing different
+&nbsp;     * initializations of the concrete DAO.
+&nbsp;     * @param parkingLotID The id of the ParkingLot
+&nbsp;     * @param review The review object
+&nbsp;     * @throws SubmitReviewFailedException An exception relevant to the use case interactor, is thrown when the DAO
+&nbsp;     *                                     fails to write the review to the json file.
+&nbsp;     */
+&nbsp;    void saveReview(int parkingLotID, Review review) throws SubmitReviewFailedException;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Get the reviews for a certain Parking Lot
+&nbsp;     * @param parkingLotID the id for the parking lot
+&nbsp;     * @return a list of Integers that are the reviews
+&nbsp;     * @throws SubmitReviewFailedException if a problem arises when accessing the object. The user is not notified and
+&nbsp;     * an empty list is returned.
+&nbsp;     */
+&nbsp;    ArrayList&lt;Integer&gt; getReviews(int parkingLotID) throws SubmitReviewFailedException;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-08-08 17:38</div>
+</div>
+</body>
+</html>

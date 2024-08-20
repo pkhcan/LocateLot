@@ -1,49 +1,57 @@
 package listeners;
 
+import app.gui.FilterByRadiusUseCaseFactory;
 import app.gui.GUI;
 import interface_adapter.FilterByRadiusPresenter;
 import use_case.FilterByRadius.FilterByRadiusInputBoundary;
 import use_case.FilterByRadius.FilterByRadiusInputData;
 import use_case.FilterByRadius.FilterByRadiusInteractor;
 import use_case.FilterByRadius.FilterByRadiusOutputBoundary;
+import views.FilterByRadiusView;
 
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
 public class RadiusListener {
-    GUI gui;
+    private JPanel inputPanel;
+    private GUI gui;
+    private JTextField textFieldAddress;
 
-    public RadiusListener(GUI gui) {
+    /**
+     * Listener object for the radius filter
+     * @param inputPanel
+     * @param textFieldAddress
+     * @param gui
+     */
+    public RadiusListener(JPanel inputPanel, JTextField textFieldAddress, GUI gui) {
+        this.inputPanel = inputPanel;
+        this.textFieldAddress = textFieldAddress;
         this.gui = gui;
     }
 
+    /**
+     * Returns a new action listener
+     * @return
+     */
     public ActionListener getActionListener() {
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                String address = gui.getAddress();
-                double radius = 3.0;
-                FilterByRadiusInputData inputData = new FilterByRadiusInputData(radius, address);
+                inputPanel.removeAll();
+                // to fix a null exception caused by IntelliJ's GUI creator
+                inputPanel.setLayout(new BoxLayout(inputPanel, BoxLayout.Y_AXIS));
 
-                // Create the presenter
-                FilterByRadiusOutputBoundary presenter = new FilterByRadiusPresenter(gui);
+                // Object creation encapsulated from UI and View logic using factory design pattern
+                FilterByRadiusUseCaseFactory filterByRadiusUseCaseFactory = new
+                        FilterByRadiusUseCaseFactory(gui, textFieldAddress);
+                FilterByRadiusView filterByRadiusView = filterByRadiusUseCaseFactory.createFilterByRadiusView();
 
-                // Create the interactor with the presenter
-                FilterByRadiusInputBoundary interactor = null;
-                try {
-                    interactor = new FilterByRadiusInteractor(presenter);
-                } catch (IOException ex) {
-                    throw new RuntimeException(ex);
-                }
+                inputPanel.add(filterByRadiusView);
 
-                // Execute the interactor
-                try {
-                    interactor.execute(inputData);
-                } catch (Exception ex) {
-                    throw new RuntimeException(ex);
-                }
+                inputPanel.revalidate();
             }
 
         };

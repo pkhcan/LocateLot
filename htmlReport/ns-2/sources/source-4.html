@@ -1,0 +1,378 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > ParkingLotDAO</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">data_access</a>
+</div>
+
+<h1>Coverage Summary for Class: ParkingLotDAO (data_access)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ParkingLotDAO</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    61.1%
+  </span>
+  <span class="absValue">
+    (11/18)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    35.7%
+  </span>
+  <span class="absValue">
+    (10/28)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    48.9%
+  </span>
+  <span class="absValue">
+    (44/90)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package data_access;
+&nbsp;
+&nbsp;import com.google.maps.model.GeocodingResult;
+&nbsp;import entity.ParkingLot;
+&nbsp;import entity.ParkingLotFactory;
+&nbsp;import org.json.simple.JSONArray;
+&nbsp;import org.json.simple.JSONObject;
+&nbsp;import org.json.simple.parser.JSONParser;
+&nbsp;
+&nbsp;import java.io.FileNotFoundException;
+&nbsp;import java.io.FileReader;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.Arrays;
+&nbsp;import java.util.HashMap;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;/**
+&nbsp; * The type Parking lot dao.
+&nbsp; */
+&nbsp;public class ParkingLotDAO implements GreenPDAO {
+&nbsp;
+&nbsp;    private ArrayList&lt;ParkingLot&gt; parkingLots;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Instantiates a new Parking lot dao.
+&nbsp;     *
+&nbsp;     * @throws IOException the io exception
+&nbsp;     */
+<b class="fc">&nbsp;    public ParkingLotDAO() throws IOException {</b>
+<b class="fc">&nbsp;        this.parkingLots = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;        parseFile();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private void parseFile() throws IOException {
+&nbsp;        try {
+<b class="fc">&nbsp;            JSONParser parser = new JSONParser();</b>
+<b class="fc">&nbsp;            FileReader reader = new FileReader(&quot;src/external_data/GreenPSourceData.json&quot;);</b>
+<b class="fc">&nbsp;            Object obj = parser.parse(reader);</b>
+<b class="fc">&nbsp;            JSONObject jsonObject = (JSONObject) obj;</b>
+<b class="fc">&nbsp;            final JSONArray jsonArray = (JSONArray) jsonObject.get(&quot;carparks&quot;);</b>
+&nbsp;
+<b class="fc">&nbsp;            for (int i = 0; i &lt; jsonArray.size(); i++) {</b>
+<b class="fc">&nbsp;                JSONObject parkingLot = (JSONObject) jsonArray.get(i);</b>
+&nbsp;
+<b class="fc">&nbsp;                String id = parseId(parkingLot);</b>
+<b class="fc">&nbsp;                String website = parseWebsite(parkingLot);</b>
+<b class="fc">&nbsp;                double[] latLong = parseLatLong(parkingLot);</b>
+<b class="fc">&nbsp;                int capacity = parseCapacity(parkingLot);</b>
+<b class="fc">&nbsp;                String streetAddress = parseStreetAddress(parkingLot);</b>
+<b class="fc">&nbsp;                String carparkType = parseCarparkType(parkingLot);</b>
+<b class="fc">&nbsp;                HashMap&lt;String, String&gt; timesToRates = parseTimesToRates(parkingLot);</b>
+<b class="fc">&nbsp;                String halfHourlyRate = parseHalfHourlyRate(parkingLot);</b>
+&nbsp;
+&nbsp;
+<b class="fc">&nbsp;                ParkingLotFactory parkingLotFactory = new ParkingLotFactory();</b>
+<b class="fc">&nbsp;                ParkingLot newParkingLot = parkingLotFactory.createParkingLot(id, website,carparkType, latLong, streetAddress, halfHourlyRate, timesToRates, capacity);</b>
+<b class="fc">&nbsp;                parkingLots.add(newParkingLot);</b>
+&nbsp;            }
+&nbsp;
+<b class="nc">&nbsp;        } catch (FileNotFoundException e) {</b>
+<b class="nc">&nbsp;            throw new FileNotFoundException(e.getMessage());</b>
+<b class="nc">&nbsp;        } catch (org.json.simple.parser.ParseException e) {</b>
+<b class="nc">&nbsp;            throw new RuntimeException(e);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    private String parseId(JSONObject parkingLot) {
+<b class="fc">&nbsp;        return parkingLot.get(&quot;id&quot;).toString();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    private String parseWebsite(JSONObject parkingLot) {
+<b class="fc">&nbsp;        return parkingLot.get(&quot;slug&quot;).toString();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private double[] parseLatLong(JSONObject parkingLot) {
+<b class="fc">&nbsp;        return new double[]{</b>
+<b class="fc">&nbsp;                Double.parseDouble(parkingLot.get(&quot;lat&quot;).toString()),</b>
+<b class="fc">&nbsp;                Double.parseDouble(parkingLot.get(&quot;lng&quot;).toString())</b>
+&nbsp;        };
+&nbsp;    }
+&nbsp;
+&nbsp;    private String parseStreetAddress(JSONObject parkingLot) {
+<b class="fc">&nbsp;        return parkingLot.get(&quot;address&quot;).toString();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private String parseHalfHourlyRate(JSONObject parkingLot) {
+<b class="fc">&nbsp;        return &quot;$&quot; + parkingLot.get(&quot;rate_half_hour&quot;).toString();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private String parseCarparkType(JSONObject parkingLot) {
+<b class="fc">&nbsp;        return parkingLot.get(&quot;carpark_type_str&quot;).toString();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private int parseCapacity(JSONObject parkingLot) {
+&nbsp;        try {
+<b class="fc">&nbsp;            return Integer.parseInt(parkingLot.get(&quot;capacity&quot;).toString());</b>
+&nbsp;        }
+<b class="nc">&nbsp;        catch(Exception ex) {</b>
+<b class="nc">&nbsp;            return 0;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    private HashMap&lt;String, String&gt; parseTimesToRates(JSONObject parkingLot) {
+<b class="fc">&nbsp;        HashMap&lt;String, String&gt; timesToRates = new HashMap&lt;&gt;();</b>
+<b class="fc">&nbsp;        JSONObject rateDetails = (JSONObject) parkingLot.get(&quot;rate_details&quot;);</b>
+<b class="fc">&nbsp;        JSONArray periods = (JSONArray) rateDetails.get(&quot;periods&quot;);</b>
+<b class="fc">&nbsp;        for (int j = 0; j &lt; periods.size(); j++) {</b>
+<b class="fc">&nbsp;            JSONObject period = (JSONObject) periods.get(j);</b>
+<b class="fc">&nbsp;            JSONArray rates = (JSONArray) period.get(&quot;rates&quot;);</b>
+&nbsp;
+<b class="fc">&nbsp;            for (int k = 0; k &lt; rates.size(); k++) {</b>
+<b class="fc">&nbsp;                JSONObject rate = (JSONObject) rates.get(k);</b>
+<b class="fc">&nbsp;                String when = rate.get(&quot;when&quot;).toString();</b>
+<b class="fc">&nbsp;                String rateValue = rate.get(&quot;rate&quot;).toString();</b>
+&nbsp;
+<b class="fc">&nbsp;                if (&quot;Day Maximum (7am - 6pm)&quot;.equals(when) || &quot;Night Maximum (6pm - 7am)&quot;.equals(when)) {</b>
+<b class="fc">&nbsp;                    timesToRates.put(when, rateValue);</b>
+&nbsp;                }
+&nbsp;            }
+&nbsp;        }
+<b class="fc">&nbsp;        return timesToRates;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public ArrayList&lt;ParkingLot&gt; getParkingLots() {
+<b class="fc">&nbsp;        return this.parkingLots;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public ArrayList&lt;ParkingLot&gt; getParkingLotsPrice(double price) {
+&nbsp;        // TODO: Implement method (should iterate through parkingLots)
+<b class="nc">&nbsp;        return null;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public ArrayList&lt;ParkingLot&gt; getParkingLotsRadius(float radius) {
+&nbsp;        // TODO: Implement method (should iterate through parkingLots)
+<b class="nc">&nbsp;        return null;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Gets closest parking lot.
+&nbsp;     *
+&nbsp;     * @param latitude  the latitude
+&nbsp;     * @param longitude the longitude
+&nbsp;     * @return the closest parking lot
+&nbsp;     */
+&nbsp;    public ParkingLot getClosestParkingLot(double latitude, double longitude) {
+<b class="nc">&nbsp;        if (this.parkingLots == null || this.parkingLots.isEmpty()) return null;</b>
+<b class="nc">&nbsp;        ParkingLot closest = null;</b>
+<b class="nc">&nbsp;        double smallestDistance = Double.MAX_VALUE;</b>
+&nbsp;
+<b class="nc">&nbsp;        for (ParkingLot parkingLot : this.parkingLots) {</b>
+<b class="nc">&nbsp;            double[] latLong = parkingLot.getLatitudeLongitude();</b>
+<b class="nc">&nbsp;            double distance = Math.hypot(latLong[0] - latitude, latLong[1] - longitude);</b>
+&nbsp;
+<b class="nc">&nbsp;            if (distance &lt; smallestDistance) {</b>
+<b class="nc">&nbsp;                smallestDistance = distance;</b>
+<b class="nc">&nbsp;                closest = parkingLot;</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        return closest;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Gets closest parking lot.
+&nbsp;     *
+&nbsp;     * @param address the address
+&nbsp;     * @return the closest parking lot
+&nbsp;     */
+&nbsp;    public ParkingLot getClosestParkingLot(String address) {
+&nbsp;        try {
+<b class="nc">&nbsp;            GeocodingResult[] result = GeoApiDAO.getLatitudeLongitude(address);</b>
+<b class="nc">&nbsp;            return getClosestParkingLot(result[0].geometry.location.lat, result[0].geometry.location.lng);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        catch (Exception e) {</b>
+<b class="nc">&nbsp;            System.out.println(&quot;Error getting closest parking lot&quot;);</b>
+<b class="nc">&nbsp;            System.out.println(e.getMessage());</b>
+<b class="nc">&nbsp;            return null;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Returns filtered list of closest parking lots
+&nbsp;     *
+&nbsp;     * @param latitude current latitude
+&nbsp;     * @param longitude current longitude
+&nbsp;     * @param parkingLots list of parking lots to filter based on proximity
+&nbsp;     * @return list of parking lots in order of closest to farthest
+&nbsp;     */
+&nbsp;
+&nbsp;    public ArrayList&lt;ParkingLot&gt; getClosestParkingLots(double latitude, double longitude, List&lt;ParkingLot&gt; parkingLots) {
+<b class="nc">&nbsp;        if (parkingLots == null || parkingLots.isEmpty()) return null;</b>
+&nbsp;
+<b class="nc">&nbsp;        List&lt;ParkingLot&gt; closestParkingLots = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;        while (!parkingLots.isEmpty()) {</b>
+<b class="nc">&nbsp;            ParkingLot closest = getClosestParkingLot(latitude, longitude);</b>
+<b class="nc">&nbsp;            parkingLots.remove(closest);</b>
+<b class="nc">&nbsp;            closestParkingLots.add(closest);</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        return (ArrayList&lt;ParkingLot&gt;) closestParkingLots;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Fetches list of parking lots within a default (3km) radius
+&nbsp;     *
+&nbsp;     * @param latitude
+&nbsp;     * @param longitude
+&nbsp;     * @param parkingLots list of parking lots to sort through
+&nbsp;     * @return list of parking lots within default radius
+&nbsp;     */
+&nbsp;    public ArrayList&lt;ParkingLot&gt; getParkingLotsWithinRadius(double latitude, double longitude,
+&nbsp;                                                            List&lt;ParkingLot&gt; parkingLots) {
+<b class="nc">&nbsp;        double radius = 3;</b>
+<b class="nc">&nbsp;        ArrayList&lt;ParkingLot&gt; parkingLotsWithinRadius = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;        for (ParkingLot parkingLot : parkingLots) {</b>
+<b class="nc">&nbsp;            double distance = calculateDistanceDegToKM(latitude, longitude,</b>
+<b class="nc">&nbsp;                    parkingLot.getLatitudeLongitude()[0], parkingLot.getLatitudeLongitude()[1]);</b>
+<b class="nc">&nbsp;            if (distance &lt;= radius) parkingLotsWithinRadius.add(parkingLot);</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        return parkingLotsWithinRadius;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Uses haversine formula to convert distance between two coordinate points (in degrees) to distance in km.
+&nbsp;     * Steps:
+&nbsp;     * 1. convert latitude and longitude distances in degrees to radians
+&nbsp;     * 2. compute &#39;a&#39;: half the chord length between the two coordinate points
+&nbsp;     * 3. use &#39;a&#39; to calculate the angular distance, &#39;c&#39;.
+&nbsp;     * 4. Multiply the radius of the Earth (in km) by the angular distance to get the distance between 2 points in km.
+&nbsp;     * @param lat1
+&nbsp;     * @param lng1
+&nbsp;     * @param lat2
+&nbsp;     * @param lng2
+&nbsp;     * @return distance between two coordinate points in km
+&nbsp;     */
+&nbsp;    private static double calculateDistanceDegToKM(double lat1, double lng1, double lat2, double lng2) {
+<b class="nc">&nbsp;        double earthRadiusKM = 6371.0; // radius of the earth in km</b>
+<b class="nc">&nbsp;        double latMinusLat = Math.toRadians(lat2 - lat1); // difference between two latitudes in radians</b>
+<b class="nc">&nbsp;        double lngMinusLng = Math.toRadians(lng2 - lng1); // difference between two longitudes in radians</b>
+&nbsp;
+&nbsp;        // using haversine formula to find angular distance from coordinate points in degrees
+<b class="nc">&nbsp;        double a = Math.sin(lngMinusLng / 2) * Math.sin(latMinusLat / 2) +</b>
+<b class="nc">&nbsp;                Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2)) *</b>
+<b class="nc">&nbsp;                        Math.sin(lngMinusLng / 2) * Math.sin(lngMinusLng / 2);</b>
+&nbsp;
+<b class="nc">&nbsp;        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));</b>
+&nbsp;
+<b class="nc">&nbsp;        return earthRadiusKM * c; // use angular distance and earth&#39;s radius (in km) to find distance in km.</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-08-08 17:38</div>
+</div>
+</body>
+</html>
